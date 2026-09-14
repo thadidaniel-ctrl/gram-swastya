@@ -1,0 +1,258 @@
+{
+  "interactions": [
+    {
+      "medicine1": "warfarin",
+      "medicine2": "aspirin",
+      "severity": "major",
+      "description": "Increased risk of bleeding when taken together",
+      "mechanism": "Both drugs inhibit platelet aggregation and affect coagulation cascade",
+      "management": "Monitor INR closely; consider alternative analgesic like paracetamol",
+      "references": ["FDA Drug Interaction Database", "Clinical Pharmacology"]
+    },
+    {
+      "medicine1": "warfarin",
+      "medicine2": "ibuprofen",
+      "severity": "major",
+      "description": "Increased bleeding risk and reduced warfarin efficacy",
+      "mechanism": "NSAIDs displace warfarin from protein binding and inhibit platelet function",
+      "management": "Avoid combination; use paracetamol for pain; monitor INR if unavoidable",
+      "references": ["FDA Drug Interaction Database"]
+    },
+    {
+      "medicine1": "metformin",
+      "medicine2": "furosemide",
+      "severity": "moderate",
+      "description": "May increase risk of lactic acidosis",
+      "mechanism": "Loop diuretics can cause renal impairment reducing metformin clearance",
+      "management": "Monitor renal function; adjust metformin dose if needed",
+      "references": ["Diabetes Care Guidelines"]
+    },
+    {
+      "medicine1": "digoxin",
+      "medicine2": "furosemide",
+      "severity": "major",
+      "description": "Hypokalemia from furosemide increases digoxin toxicity risk",
+      "mechanism": "Low potassium enhances digoxin binding to Na+/K+-ATPase",
+      "management": "Monitor potassium levels; supplement potassium; monitor digoxin levels",
+      "references": ["Cardiology Guidelines"]
+    },
+    {
+      "medicine1": "lisinopril",
+      "medicine2": "potassium_chloride",
+      "severity": "major",
+      "description": "Risk of severe hyperkalemia",
+      "mechanism": "ACE inhibitors reduce aldosterone, potassium supplements increase K+",
+      "management": "Monitor serum potassium regularly; avoid combination if possible",
+      "references": ["KDIGO Guidelines"]
+    },
+    {
+      "medicine1": "simvastatin",
+      "medicine2": "amlodipine",
+      "severity": "moderate",
+      "description": "Increased simvastatin levels and myopathy risk",
+      "mechanism": "Amlodipine weakly inhibits CYP3A4 metabolism of simvastatin",
+      "management": "Limit simvastatin to 20mg daily; monitor for muscle symptoms",
+      "references": ["FDA Statin Safety Communication"]
+    },
+    {
+      "medicine1": "clarithromycin",
+      "medicine2": "simvastatin",
+      "severity": "contraindicated",
+      "description": "Severe rhabdomyolysis risk due to massive simvastatin level increase",
+      "mechanism": "Clarithromycin is a potent CYP3A4 inhibitor",
+      "management": "Contraindicated; use alternative antibiotic or stop statin during treatment",
+      "references": ["FDA Contraindication Warning"]
+    },
+    {
+      "medicine1": "metronidazole",
+      "medicine2": "alcohol",
+      "severity": "major",
+      "description": "Disulfiram-like reaction: nausea, vomiting, flushing, headache",
+      "mechanism": "Metronidazole inhibits aldehyde dehydrogenase",
+      "management": "Avoid alcohol during treatment and 48 hours after last dose",
+      "references": ["Antibiotic Guidelines"]
+    },
+    {
+      "medicine1": "phenytoin",
+      "medicine2": "folic_acid",
+      "severity": "moderate",
+      "description": "Phenytoin may reduce folic acid levels",
+      "mechanism": "Enzyme induction increases folate metabolism",
+      "management": "Monitor folate levels; supplement if needed",
+      "references": ["Neurology Guidelines"]
+    },
+    {
+      "medicine1": "rifampicin",
+      "medicine2": "oral_contraceptive",
+      "severity": "major",
+      "description": "Reduced contraceptive efficacy - risk of unintended pregnancy",
+      "mechanism": "Rifampicin strongly induces CYP3A4 metabolizing estrogen/progestin",
+      "management": "Use alternative non-hormonal contraception during and 4 weeks after rifampicin",
+      "references": ["WHO Contraception Guidelines"]
+    },
+    {
+      "medicine1": "methotrexate",
+      "medicine2": "trimethoprim",
+      "severity": "major",
+      "description": "Increased methotrexate toxicity - bone marrow suppression",
+      "mechanism": "Trimethoprim inhibits renal tubular secretion of methotrexate",
+      "management": "Avoid combination; monitor CBC, renal and hepatic function if unavoidable",
+      "references": ["Oncology/Rheumatology Guidelines"]
+    },
+    {
+      "medicine1": "lithium",
+      "medicine2": "ibuprofen",
+      "severity": "major",
+      "description": "Increased lithium levels and toxicity risk",
+      "mechanism": "NSAIDs reduce renal lithium clearance",
+      "management": "Monitor lithium levels closely; consider alternative analgesic",
+      "references": ["Psychiatry Guidelines"]
+    },
+    {
+      "medicine1": "amlodipine",
+      "medicine2": "grapefruit",
+      "severity": "moderate",
+      "description": "Increased amlodipine levels and hypotension risk",
+      "mechanism": "Grapefruit inhibits CYP3A4 intestinal metabolism",
+      "management": "Avoid large amounts of grapefruit; monitor blood pressure",
+      "references": ["Clinical Pharmacology"]
+    },
+    {
+      "medicine1": "levothyroxine",
+      "medicine2": "calcium_carbonate",
+      "severity": "moderate",
+      "description": "Reduced levothyroxine absorption",
+      "mechanism": "Calcium binds thyroxine in GI tract",
+      "management": "Separate administration by at least 4 hours",
+      "references": ["Endocrine Guidelines"]
+    },
+    {
+      "medicine1": "ciprofloxacin",
+      "medicine2": "antacids",
+      "severity": "moderate",
+      "description": "Reduced ciprofloxacin absorption",
+      "mechanism": "Divalent cations (Mg, Al, Ca) chelate fluoroquinolones",
+      "management": "Separate by 2 hours before or 6 hours after antacids",
+      "references": ["Antibiotic Guidelines"]
+    },
+    {
+      "medicine1": "isosorbide_mononitrate",
+      "medicine2": "sildenafil",
+      "severity": "contraindicated",
+      "description": "Severe hypotension, cardiovascular collapse risk",
+      "mechanism": "Both cause potent vasodilation via cGMP pathway",
+      "management": "Absolutely contraindicated; wait 24h after nitrate before PDE5 inhibitor",
+      "references": ["Cardiology Guidelines", "FDA Black Box Warning"]
+    },
+    {
+      "medicine1": "spironolactone",
+      "medicine2": "potassium_chloride",
+      "severity": "major",
+      "description": "Severe hyperkalemia risk",
+      "mechanism": "Potassium-sparing diuretic + potassium supplement",
+      "management": "Avoid combination; monitor potassium if unavoidable",
+      "references": ["Nephrology Guidelines"]
+    },
+    {
+      "medicine1": "allopurinol",
+      "medicine2": "azathioprine",
+      "severity": "major",
+      "description": "Severe bone marrow suppression",
+      "mechanism": "Allopurinol inhibits xanthine oxidase which metabolizes azathioprine",
+      "management": "Reduce azathioprine dose to 25-33%; monitor CBC weekly initially",
+      "references": ["Rheumatology/Transplant Guidelines"]
+    },
+    {
+      "medicine1": "fluoxetine",
+      "medicine2": "tramadol",
+      "severity": "major",
+      "description": "Serotonin syndrome risk",
+      "mechanism": "Both increase serotonin - SSRI + SNRI-like effect of tramadol",
+      "management": "Avoid combination; monitor for confusion, hyperreflexia, fever",
+      "references": ["Psychiatry/Pain Guidelines"]
+    },
+    {
+      "medicine1": "methotrexate",
+      "medicine2": "nsaids",
+      "severity": "moderate",
+      "description": "Increased methotrexate levels and toxicity",
+      "mechanism": "NSAIDs compete for renal tubular secretion",
+      "management": "Monitor CBC, renal and hepatic function; avoid high-dose NSAIDs",
+      "references": ["Rheumatology Guidelines"]
+    },
+    {
+      "medicine1": "ace_inhibitor",
+      "medicine2": "nsaids",
+      "severity": "moderate",
+      "description": "Reduced antihypertensive effect and renal impairment risk",
+      "mechanism": "NSAIDs inhibit prostaglandin-mediated vasodilation",
+      "management": "Monitor blood pressure and renal function; consider alternative analgesic",
+      "references": ["Hypertension Guidelines"]
+    }
+  ],
+  "substitutions": [
+    {
+      "original": "amoxicillin",
+      "substitutes": [
+        {"name": "amoxicillin_clavulanate", "generic": "Amoxicillin-Clavulanate", "strength": "625mg", "reason": "Broader spectrum", "price_diff": 15},
+        {"name": "cefixime", "generic": "Cefixime", "strength": "200mg", "reason": "Once daily dosing", "price_diff": 20}
+      ]
+    },
+    {
+      "original": "azithromycin",
+      "substitutes": [
+        {"name": "clarithromycin", "generic": "Clarithromycin", "strength": "500mg", "reason": "Similar macrolide", "price_diff": 10},
+        {"name": "doxycycline", "generic": "Doxycycline", "strength": "100mg", "reason": "Alternative class", "price_diff": -5}
+      ]
+    },
+    {
+      "original": "metformin",
+      "substitutes": [
+        {"name": "metformin_xr", "generic": "Metformin XR", "strength": "500mg", "reason": "Better GI tolerance", "price_diff": 25},
+        {"name": "glimepiride", "generic": "Glimepiride", "strength": "2mg", "reason": "Different mechanism", "price_diff": 5}
+      ]
+    },
+    {
+      "original": "atorvastatin",
+      "substitutes": [
+        {"name": "rosuvastatin", "generic": "Rosuvastatin", "strength": "10mg", "reason": "More potent, fewer interactions", "price_diff": 30},
+        {"name": "simvastatin", "generic": "Simvastatin", "strength": "20mg", "reason": "Cost effective", "price_diff": -20}
+      ]
+    },
+    {
+      "original": "lisinopril",
+      "substitutes": [
+        {"name": "enalapril", "generic": "Enalapril", "strength": "5mg", "reason": "Similar ACE inhibitor", "price_diff": -5},
+        {"name": "telmisartan", "generic": "Telmisartan", "strength": "40mg", "reason": "ARB alternative", "price_diff": 40}
+      ]
+    },
+    {
+      "original": "amlodipine",
+      "substitutes": [
+        {"name": "nifedipine", "generic": "Nifedipine ER", "strength": "30mg", "reason": "Similar CCB", "price_diff": -10},
+        {"name": "felodipine", "generic": "Felodipine ER", "strength": "5mg", "reason": "Once daily CCB", "price_diff": 15}
+      ]
+    },
+    {
+      "original": "omeprazole",
+      "substitutes": [
+        {"name": "pantoprazole", "generic": "Pantoprazole", "strength": "40mg", "reason": "Similar PPI, less CYP interaction", "price_diff": 5},
+        {"name": "esomeprazole", "generic": "Esomeprazole", "strength": "40mg", "reason": "S-isomer, slightly more potent", "price_diff": 20}
+      ]
+    },
+    {
+      "original": "paracetamol",
+      "substitutes": [
+        {"name": "ibuprofen", "generic": "Ibuprofen", "strength": "400mg", "reason": "Anti-inflammatory added", "price_diff": 2},
+        {"name": "diclofenac", "generic": "Diclofenac", "strength": "50mg", "reason": "Stronger NSAID", "price_diff": 5}
+      ]
+    },
+    {
+      "original": "insulin_glargine",
+      "substitutes": [
+        {"name": "insulin_degludec", "generic": "Insulin Degludec", "strength": "100U/ml", "reason": "Longer duration, flexible timing", "price_diff": 50},
+        {"name": "insulin_detemir", "generic": "Insulin Detemir", "strength": "100U/ml", "reason": "Alternative basal insulin", "price_diff": 30}
+      ]
+    }
+  ]
+}

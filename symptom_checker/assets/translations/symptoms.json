@@ -1,0 +1,244 @@
+{
+  "symptoms": [
+    {
+      "id": "fever",
+      "icon": "thermometer",
+      "category": "general",
+      "translations": {
+        "en": "Fever",
+        "hi": "बुखार",
+        "te": "జ్వరం",
+        "ta": "காய்ச்சல்",
+        "mr": "ताप"
+      }
+    },
+    {
+      "id": "cough",
+      "icon": "cough",
+      "category": "respiratory",
+      "translations": {
+        "en": "Cough",
+        "hi": "खांसी",
+        "te": "దగ్గు",
+        "ta": "இருமல்",
+        "mr": "कफ"
+      }
+    },
+    {
+      "id": "difficulty_breathing",
+      "icon": "lungs",
+      "category": "respiratory",
+      "translations": {
+        "en": "Difficulty Breathing",
+        "hi": "सांस लेने में तकलीफ",
+        "te": "శ్వాసం తప్పడం",
+        "ta": "சுவாச கஷ்டம்",
+        "mr": "श्वास कष्ट"
+      }
+    },
+    {
+      "id": "chest_pain",
+      "icon": "heart",
+      "category": "cardiovascular",
+      "translations": {
+        "en": "Chest Pain",
+        "hi": "सीने में दर्द",
+        "te": "నẹడు నొప్పి",
+        "ta": "மார்பு வலி",
+        "mr": "छाती दुखणे"
+      }
+    },
+    {
+      "id": "headache",
+      "icon": "headache",
+      "category": "neurological",
+      "translations": {
+        "en": "Headache",
+        "hi": "सिरदर्द",
+        "te": "తలనొప్పి",
+        "ta": "தலையvali",
+        "mr": "डोकेदुखी"
+      }
+    },
+    {
+      "id": "dizziness",
+      "icon": "dizzy",
+      "category": "neurological",
+      "translations": {
+        "en": "Dizziness",
+        "hi": "चक्कर आना",
+        "te": "తలయటలుడు",
+        "ta": "தலைசுற்றுதல்",
+        "mr": "घडघड"
+      }
+    },
+    {
+      "id": "abdominal_pain",
+      "icon": "stomach",
+      "category": "gastrointestinal",
+      "translations": {
+        "en": "Abdominal Pain",
+        "hi": "पेट दर्द",
+        "te": "కడుపు నొప్పి",
+        "ta": "வயிற்று வலி",
+        "mr": "पोटदुखी"
+      }
+    },
+    {
+      "id": "diarrhea",
+      "icon": "diarrhea",
+      "category": "gastrointestinal",
+      "translations": {
+        "en": "Diarrhea",
+        "hi": "दस्त",
+        "te": "అతిసారం",
+        "ta": "பேர் கழிக்காமை",
+        "mr": "दस्त"
+      }
+    },
+    {
+      "id": "vomiting",
+      "icon": "vomiting",
+      "category": "gastrointestinal",
+      "translations": {
+        "en": "Vomiting",
+        "hi": "उल्टी",
+        "te": "వాంతి",
+        "ta": "வாந்தி",
+        "mr": "वमन"
+      }
+    },
+    {
+      "id": "rash",
+      "icon": "rash",
+      "category": "dermatological",
+      "translations": {
+        "en": "Skin Rash",
+        "hi": "चकत्ते",
+        "te": "చర్మవికారం",
+        "ta": "தோல்விறைப்பு",
+        "mr": "त्वचा विकार"
+      }
+    },
+    {
+      "id": "joint_pain",
+      "icon": "joint",
+      "category": "musculoskeletal",
+      "translations": {
+        "en": "Joint Pain",
+        "hi": "जोड़ों में दर्द",
+        "te": "సంధి నొప్పి",
+        "ta": "மூட்டு வலி",
+        "mr": "संधीदुखी"
+      }
+    },
+    {
+      "id": "fatigue",
+      "icon": "fatigue",
+      "category": "general",
+      "translations": {
+        "en": "Fatigue",
+        "hi": "थकान",
+        "te": "క్లామం",
+        "ta": "சோர்வு",
+        "mr": "थकवा"
+      }
+    },
+    {
+      "id": "sore_throat",
+      "icon": "throat",
+      "category": "ent",
+      "translations": {
+        "en": "Sore Throat",
+        "hi": "गले में खराश",
+        "te": "గలా నొప్పి",
+        "ta": "தொண்டை வலி",
+        "mr": "घसा दुखणे"
+      }
+    },
+    {
+      "id": "ear_pain",
+      "icon": "ear",
+      "category": "ent",
+      "translations": {
+        "en": "Ear Pain",
+        "hi": "कान में दर्द",
+        "te": "చెవి నొప్పి",
+        "ta": "காது வலி",
+        "mr": "कानदुखी"
+      }
+    },
+    {
+      "id": "eye_redness",
+      "icon": "eye",
+      "category": "ent",
+      "translations": {
+        "en": "Eye Redness",
+        "hi": "आंख लाल होना",
+        "te": "కంటి ఎరుపు",
+        "ta": "கண் செருக்கு",
+        "mr": "डोळे लाल"
+      }
+    },
+    {
+      "id": "urinary_burning",
+      "icon": "urine",
+      "category": "urological",
+      "translations": {
+        "en": "Burning Urination",
+        "hi": "पेशाब में जलन",
+        "te": "మూత్రంలో జలనం",
+        "ta": "சிறுநீர் எரிச்சல்",
+        "mr": "मूत्रजळणे"
+      }
+    },
+    {
+      "id": "swelling_legs",
+      "icon": "swelling",
+      "category": "general",
+      "translations": {
+        "en": "Leg Swelling",
+        "hi": "पैर में सूजन",
+        "te": "కాళ్ళు వellanడి",
+        "ta": "கால் வறandi",
+        "mr": "पायांची सूज"
+      }
+    },
+    {
+      "id": "weight_loss",
+      "icon": "weight_loss",
+      "category": "general",
+      "translations": {
+        "en": "Unexplained Weight Loss",
+        "hi": "बिना कारण वजन कम होना",
+        "te": "কারణం లేకుండా బరువు తగ్గడం",
+        "ta": "காரணமில்லாமல் எடை குறைதல்",
+        "mr": "कारणशिवाय वजन कमी"
+      }
+    },
+    {
+      "id": "night_sweats",
+      "icon": "sweat",
+      "category": "general",
+      "translations": {
+        "en": "Night Sweats",
+        "hi": "रात में पसीना",
+        "te": "రాత్రిiteral విసరం",
+        "ta": "இரவு வியர்வை",
+        "mr": "रात्री स्वेद"
+      }
+    },
+    {
+      "id": "palpitations",
+      "icon": "heartbeat",
+      "category": "cardiovascular",
+      "translations": {
+        "en": "Palpitations",
+        "hi": "धड़कन महसूस होना",
+        "te": "హృదయ ధ المملكة",
+        "ta": "இதய துடிப்பு",
+        "mr": "हृदयस्पंदन"
+      }
+    }
+  ]
+}

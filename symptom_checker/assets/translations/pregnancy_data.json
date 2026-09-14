@@ -1,0 +1,296 @@
+{
+  "prenatal_schedule": [
+    {
+      "week": 8,
+      "notes": "First prenatal visit - confirm pregnancy, dating scan",
+      "investigations": ["CBC", "Blood Group & Rh", "HIV", "Syphilis", "Hepatitis B", "Urine Routine", "Blood Sugar"],
+      "medications": ["Folic Acid 5mg", "Iron-Folic Acid"]
+    },
+    {
+      "week": 12,
+      "notes": "NT Scan + Double Marker test",
+      "investigations": ["NT Scan", "Double Marker", "Urine Routine"],
+      "medications": ["Iron-Folic Acid", "Calcium"]
+    },
+    {
+      "week": 16,
+      "notes": "Second trimester screening",
+      "investigations": ["Triple/Quadruple Marker", "Urine Routine"],
+      "medications": ["Iron-Folic Acid", "Calcium"]
+    },
+    {
+      "week": 20,
+      "notes": "Anomaly Scan (TIFFA)",
+      "investigations": ["Anomaly Scan", "Urine Routine", "Hb"],
+      "medications": ["Iron-Folic Acid", "Calcium"]
+    },
+    {
+      "week": 24,
+      "notes": "Glucose Tolerance Test",
+      "investigations": ["GTT (75g)", "Urine Routine", "Hb"],
+      "medications": ["Iron-Folic Acid", "Calcium"]
+    },
+    {
+      "week": 28,
+      "notes": "Third trimester begins - Rh Anti-D if Rh negative",
+      "investigations": ["Hb", "Urine Routine", "Blood Group (if Rh-)"],
+      "medications": ["Iron-Folic Acid", "Calcium", "Anti-D (if Rh-)"]
+    },
+    {
+      "week": 32,
+      "notes": "Growth scan if indicated",
+      "investigations": ["Growth Scan (if needed)", "Hb", "Urine Routine"],
+      "medications": ["Iron-Folic Acid", "Calcium"]
+    },
+    {
+      "week": 36,
+      "notes": "Weekly visits start - GBS screening",
+      "investigations": ["GBS Swab", "Hb", "Urine Routine", "Presentation"],
+      "medications": ["Iron-Folic Acid", "Calcium"]
+    },
+    {
+      "week": 38,
+      "notes": "Pre-delivery check",
+      "investigations": ["Hb", "Urine Routine", "Presentation", "Fetal Heart"],
+      "medications": []
+    },
+    {
+      "week": 40,
+      "notes": "EDD - Induction if not delivered",
+      "investigations": ["NST", "AFI", "Presentation"],
+      "medications": []
+    }
+  ],
+  "danger_signs": [
+    {
+      "id": "vaginal_bleeding",
+      "sign": "Vaginal Bleeding",
+      "description": "Any bleeding from vagina during pregnancy",
+      "action": "Go to hospital IMMEDIATELY. Do not wait. Could be placental abruption, placenta previa, or miscarriage."
+    },
+    {
+      "id": "severe_headache",
+      "sign": "Severe Headache",
+      "description": "Persistent severe headache not relieved by rest/paracetamol",
+      "action": "Check BP immediately. Could be preeclampsia. Go to hospital if BP > 140/90."
+    },
+    {
+      "id": "blurred_vision",
+      "sign": "Blurred Vision / Flashing Lights",
+      "description": "Visual disturbances, seeing spots or flashes",
+      "action": "Emergency sign of preeclampsia/eclampsia. Go to hospital NOW."
+    },
+    {
+      "id": "epigastric_pain",
+      "sign": "Upper Abdominal Pain",
+      "description": "Severe pain in upper abdomen (epigastric), especially right side",
+      "action": "Could be HELLP syndrome or preeclampsia. Seek emergency care."
+    },
+    {
+      "id": "reduced_fetal_movement",
+      "sign": "Reduced Fetal Movements",
+      "description": "Baby moving less than usual or no movements for >2 hours",
+      "action": "Lie on left side, count movements. If <10 in 2 hours, go to hospital immediately."
+    },
+    {
+      "id": "water_breaking",
+      "sign": "Water Breaking (Leaking Fluid)",
+      "description": "Clear or colored fluid leaking from vagina",
+      "action": "Note color and time. Go to hospital immediately. Risk of infection."
+    },
+    {
+      "id": "severe_vomiting",
+      "sign": "Severe Vomiting (Cannot Keep Anything Down)",
+      "description": "Vomiting everything, unable to eat/drink for 24 hours",
+      "action": "Risk of dehydration and ketosis. Need IV fluids. Go to hospital."
+    },
+    {
+      "id": "fever",
+      "sign": "High Fever (>38°C / 100.4°F)",
+      "description": "Fever with or without other symptoms",
+      "action": "Could indicate infection (chorioamnionitis, UTI, etc.). Seek medical care."
+    },
+    {
+      "id": "swelling",
+      "sign": "Sudden Swelling of Face/Hands/Feet",
+      "description": "Rapid swelling, especially face and hands, not relieved by rest",
+      "action": "Check BP. Could be preeclampsia. Contact doctor immediately."
+    },
+    {
+      "id": "contractions_before_37",
+      "sign": "Regular Contractions Before 37 Weeks",
+      "description": "Tightening of abdomen every 10 minutes or more frequently before 37 weeks",
+      "action": "Preterm labor sign. Go to hospital immediately for tocolytics."
+    },
+    {
+      "id": "severe_itching",
+      "sign": "Severe Itching (Especially Palms/Soles)",
+      "description": "Intense itching without rash, worse at night",
+      "action": "Could be cholestasis of pregnancy. Need liver function tests and bile acids."
+    },
+    {
+      "id": "dizziness_fainting",
+      "sign": "Dizziness / Fainting",
+      "description": "Feeling faint, dizzy, or actually fainting",
+      "action": "Could be anemia, low BP, or heart issue. Check Hb and BP. Seek care."
+    }
+  ],
+  "first_trimester_symptoms": [
+    "Nausea and vomiting (morning sickness)",
+    "Fatigue and tiredness",
+    "Breast tenderness",
+    "Frequent urination",
+    "Mood swings",
+    "Food aversions/cravings",
+    "Mild cramping",
+    "Spotting (implantation bleeding)",
+    "Constipation",
+    "Heartburn"
+  ],
+  "first_trimester_precautions": [
+    "Take folic acid 5mg daily",
+    "Avoid alcohol, smoking, tobacco",
+    "Limit caffeine <200mg/day",
+    "Avoid raw/undercooked meat, eggs, fish",
+    "Avoid unpasteurized dairy",
+    "No self-medication - consult doctor",
+    "Avoid hot tubs, saunas",
+    "Stay hydrated",
+    "Eat small frequent meals",
+    "Get adequate rest"
+  ],
+  "second_trimester_symptoms": [
+    "Growing belly and weight gain",
+    "Fetal movements (quickening)",
+    "Backache",
+    "Leg cramps",
+    "Heartburn/indigestion",
+    "Constipation",
+    "Varicose veins",
+    "Stretch marks",
+    "Skin changes (linea nigra, melasma)",
+    "Nasal congestion",
+    "Increased appetite"
+  ],
+  "second_trimester_precautions": [
+    "Continue iron-folic acid and calcium",
+    "Start pelvic floor exercises",
+    "Sleep on left side",
+    "Wear comfortable shoes",
+    "Use moisturizer for stretch marks",
+    "Avoid lying flat on back",
+    "Regular walking/exercise",
+    "Monitor fetal movements daily",
+    "Attend all prenatal visits",
+    "Get Tdap vaccine (27-36 weeks)"
+  ],
+  "third_trimester_symptoms": [
+    "Shortness of breath",
+    "Frequent urination returns",
+    "Braxton Hicks contractions",
+    "Swelling (feet/ankles)",
+    "Insomnia",
+    "Heartburn worsens",
+    "Hemorrhoids",
+    "Leaking colostrum",
+    "Pelvic pressure",
+    "Nesting instinct"
+  ],
+  "third_trimester_precautions": [
+    "Weekly visits after 36 weeks",
+    "Count fetal movements daily (kick count)",
+    "Prepare hospital bag by 36 weeks",
+    "Finalize birth plan",
+    "Arrange transport to hospital",
+    "Identify blood donor",
+    "Learn labor signs",
+    "Practice breathing techniques",
+    "Avoid long travel after 36 weeks",
+    "Monitor for danger signs"
+  ],
+  "child_milestones": [
+    {"name": "Social Smile", "category": "social", "age_months": 2},
+    {"name": "Holds Head Up", "category": "motor", "age_months": 3},
+    {"name": "Coos and Gurgles", "category": "language", "age_months": 3},
+    {"name": "Rolls Over", "category": "motor", "age_months": 5},
+    {"name": "Reaches for Objects", "category": "motor", "age_months": 5},
+    {"name": "Laughs Out Loud", "category": "social", "age_months": 5},
+    {"name": "Sits Without Support", "category": "motor", "age_months": 7},
+    {"name": "Babbles (ba, da, ma)", "category": "language", "age_months": 7},
+    {"name": "Stranger Anxiety", "category": "social", "age_months": 8},
+    {"name": "Crawls", "category": "motor", "age_months": 9},
+    {"name": "Waves Bye-bye", "category": "social", "age_months": 9},
+    {"name": "Says Mama/Dada (specific)", "category": "language", "age_months": 10},
+    {"name": "Pulls to Stand", "category": "motor", "age_months": 10},
+    {"name": "First Steps", "category": "motor", "age_months": 12},
+    {"name": "Says 2-3 Words", "category": "language", "age_months": 12},
+    {"name": "Follows Simple Commands", "category": "cognitive", "age_months": 14},
+    {"name": "Points to Body Parts", "category": "cognitive", "age_months": 16},
+    {"name": "Runs", "category": "motor", "age_months": 18},
+    {"name": "Says 10+ Words", "category": "language", "age_months": 18},
+    {"name": "Parallel Play", "category": "social", "age_months": 24},
+    {"name": "Kicks Ball", "category": "motor", "age_months": 24},
+    {"name": "2-Word Sentences", "category": "language", "age_months": 24},
+    {"name": "Jumps", "category": "motor", "age_months": 30},
+    {"name": "Knows Name/Age/Sex", "category": "cognitive", "age_months": 36},
+    {"name": "Pedals Tricycle", "category": "motor", "age_months": 36},
+    {"name": "Tells Simple Story", "category": "language", "age_months": 48},
+    {"name": "Hops on One Foot", "category": "motor", "age_months": 48},
+    {"name": "Cooperative Play", "category": "social", "age_months": 48},
+    {"name": "Draws Person (3 parts)", "category": "cognitive", "age_months": 60},
+    {"name": "Counts to 10", "category": "cognitive", "age_months": 60}
+  ],
+  "vaccination_schedule": [
+    {"name": "BCG", "code": "BCG", "dose": 1, "at_birth": true},
+    {"name": "Hepatitis B", "code": "HEP_B", "dose": 1, "at_birth": true},
+    {"name": "OPV (Oral Polio)", "code": "OPV", "dose": 0, "at_birth": true},
+    {"name": "OPV", "code": "OPV", "dose": 1, "age_weeks": 6},
+    {"name": "Pentavalent (DPT+HepB+Hib)", "code": "PENTA", "dose": 1, "age_weeks": 6},
+    {"name": "Rotavirus", "code": "ROTA", "dose": 1, "age_weeks": 6},
+    {"name": "PCV (Pneumococcal)", "code": "PCV", "dose": 1, "age_weeks": 6},
+    {"name": "IPV (Inactivated Polio)", "code": "IPV", "dose": 1, "age_weeks": 14},
+    {"name": "OPV", "code": "OPV", "dose": 2, "age_weeks": 10},
+    {"name": "Pentavalent", "code": "PENTA", "dose": 2, "age_weeks": 10},
+    {"name": "Rotavirus", "code": "ROTA", "dose": 2, "age_weeks": 10},
+    {"name": "PCV", "code": "PCV", "dose": 2, "age_weeks": 14},
+    {"name": "OPV", "code": "OPV", "dose": 3, "age_weeks": 14},
+    {"name": "Pentavalent", "code": "PENTA", "dose": 3, "age_weeks": 14},
+    {"name": "Rotavirus", "code": "ROTA", "dose": 3, "age_weeks": 14},
+    {"name": "IPV", "code": "IPV", "dose": 2, "age_weeks": 14},
+    {"name": "Measles-Rubella", "code": "MR", "dose": 1, "age_months": 9},
+    {"name": "JE (Japanese Encephalitis)", "code": "JE", "dose": 1, "age_months": 9},
+    {"name": "Vitamin A", "code": "VIT_A", "dose": 1, "age_months": 9},
+    {"name": "DPT Booster", "code": "DPT_B", "dose": 1, "age_months": 16},
+    {"name": "OPV Booster", "code": "OPV_B", "dose": 1, "age_months": 16},
+    {"name": "Measles-Rubella", "code": "MR", "dose": 2, "age_months": 16},
+    {"name": "Vitamin A", "code": "VIT_A", "dose": 2, "age_months": 18},
+    {"name": "DPT Booster", "code": "DPT_B", "dose": 2, "age_months": 60},
+    {"name": "OPV Booster", "code": "OPV_B", "dose": 2, "age_months": 60}
+  ],
+  "birth_plan_items": [
+    "Clean clothes for mother and baby",
+    "Sanitary pads (maternity pads)",
+    "Baby clothes and blankets",
+    "Important documents (ID, insurance, MCP card)",
+    "Money for emergencies / UPI ready",
+    "Phone and charger",
+    "Snacks and water for labor",
+    "Transport arranged (ambulance/vehicle)",
+    "Blood donor identified (name + phone)",
+    "Emergency contact numbers saved",
+    "Hospital registration done",
+    "Birth companion identified"
+  ],
+  "week_by_week": [
+    {"week": 4, "size": "Poppy seed", "weight": "<1g", "development": "Implantation complete, embryo forming", "en": "Baby is size of a poppy seed. Neural tube forming.", "hi": "बच्चा खसखस के बीज जितना बड़ा। न्यूरल ट्यूब बन रही है।", "te": "పిల్ల గసగస విత్తనquel беларускі. నյూరల్ ట్యూబ్ ఏర్పడుతోంది.", "ta": "குழந்தை போப்பி விதை அளவு. நரம்பு தூது உருவாகுகிறது.", "mr": "बालक खसखस बीज जितका. नाडी नलिका निर्माण होत आहे."},
+    {"week": 8, "size": "Raspberry", "weight": "1g", "development": "All major organs forming, heart beating", "en": "Baby is raspberry-sized. Heart beating 150-170 bpm. Arms, legs, fingers forming.", "hi": "बच्चा रास्पबेरी जितना। दिल 150-170 बार धड़कता है। हाथ, पैर, उंगलियां बन रही हैं।", "te": "పిల్ల రాస్ప్‌బెర్రీ அளவు. హృదయం 150-170BPM వేగంలో ధ المملكة. చేతులు, ਕాలు, విరళ్లు ఏర్పడుతున్నాయి.", "ta": "குழந்தை ராஸ்பெர்ரி அளவு. இதயம் 150-170 bpm வேகத்தில் துடிக்கிறது. கைகள், கால்கள், விரல்கள் உருவாகுகின்றன.", "mr": "बालक रास्पबेरी जितका. हृदय 150-170 vela धडते. हात, पाय, बोट निर्माण होत आहेत."},
+    {"week": 12, "size": "Lime", "weight": "14g", "development": "Fetus formed, reflexes developing", "en": "Baby is lime-sized. All organs formed. Can make fists, suck thumb. Reflexes present.", "hi": "बच्चा नींबू जितना। सारे अंग बन गए। मुट्ठी बना सकता है, अंगूठा चूस सकता है।", "te": "పిల్ల லైమ్ அளவు. அனைத்து அங்கങ്ങളും உருவாக்கப்பட்டுள்ளன. முட்டி மட்டும், விரல் சுப்பி.", "ta": "குழந்தை லைம் அளவு. எல்லா அங்கങ്ങളും உருவாக்கப்பட்டுள்ளன. முட்டி முடிக்கலாம், விரல் சூது.", "mr": "बालक लिंबू जितका. सर्व अवयव तयार. मुठ्ठी बांधू शकतो, अंगठा घालू शकतो."},
+    {"week": 16, "size": "Avocado", "weight": "100g", "development": "Gender visible, hearing developing", "en": "Baby is avocado-sized. Can hear sounds. Gender visible on ultrasound. Moving actively.", "hi": "बच्चा एवोकाडो जितना। आवाजें सुन सकता है। अल्ट्रासाउंड में लिंग दिखता है।", "te": "పిల్ల అవோకాడో ölçüsü. ధ్వనులు వినచ్చు. أل्ट్రాసౌండ్‌లో లింగం కనిపిస్తుంది.", "ta": "குழந்தை அவோக்காடோ அளவு. ஒலிகள் கேட்கலாம். அல்ட்ராசவுண்டில் பாலினம் தெரியும்.", "mr": "बालक अवोकॅडो जितका. आवाज ऐकू शकतो. अल्ट्रासाउंडमध्ये लिंग दिसते."},
+    {"week": 20, "size": "Banana", "weight": "300g", "development": "Vernix caseosa, hair, eyebrows", "en": "Baby is banana-sized. Covered in vernix. Hair, eyebrows, lashes growing. You feel kicks!", "hi": "बच्चा केला जितना। वेरनिक्स से ढका। बाल, भौहें, पलकें बढ़ रही हैं। लात महसूस होती है!", "te": "పిల్ల అరటిపండు ölçüsü. వేర్నిక్స్ ద్వారా կroupes. మెడలు, ভ্রুలు, కంటి మెడలు పెరుగుతున్నాయి. కిక్ విప్ప revanth!", "ta": "குழந்தை வாழைப்பழம் அளவு. வெரனிக்சால் சூழitur. முடி, Vorder், கண் முடி வளர்கின்றன. கிக் உணர்த்தலாம்!", "mr": "बालक केळी जितका. वेरनिक्साने आच्छादित. केस, भ्रू, डोळे केस वाढत आहेत. किक अनुभव होते!"},
+    {"week": 24, "size": "Ear of Corn", "weight": "600g", "development": "Lungs developing surfactant, taste buds", "en": "Baby is corn-sized. Lungs making surfactant. Taste buds working. Can hear your voice clearly.", "hi": "बच्चा मक्का जितना। फेफड़े सरफैक्टेंट बना रहे। स्वाद कलिकाएं काम कर रही। आवाज साफ सुनता है।", "te": "పిల్ల మొక్కజొన్న 評価. స్వాసకోషాలు సర్ఫాక్టెంట్ తయారు చేస్తున్నాయి. రుచి కలికలు పని చేస్తున్నాయి. నీవు మాట్లాడటం స్పష్టంగా వినబడుతుంది.", "ta": "குழந்தை சோளம் அளவு. சுவாசக் கோஷங்கள் சர்பாக்டண்ட் உருவாக்குகின்றன. ரசனை கட்டிகள் வேலை செய்கின்றன. உங்கள் குரல் தெளிவாக கேட்கலாம்.", "mr": "बालक मका जितका. फुफ्फुस सरफॅक्टंट तयार करतात. रसना कणिका कार्य करतात. आवाज स्पष्ट ऐकते."},
+    {"week": 28, "size": "Eggplant", "weight": "1kg", "development": "Eyes open, REM sleep, brain developing", "en": "Baby is eggplant-sized. Eyes open and close. REM sleep cycles. Brain rapidly developing.", "hi": "बच्चा बैंगन जितना। आंखें खुलती-बंद होती हैं। REM नींद। दिमाग तेजी से विकसित।", "te": "పిల్ల వంకాయ அளவు. కళ్ళు తెరుస్తాయి, మూడతాయి. REM నిద్రా చక్రాలు. మెదడు వేగంగా বিকసిస్తోంది.", "ta": "குழந்தை கத்திரிக்காய் அளவு. கண்கள் திறந்து மூடுகின்றன. REM தூக்கु சுழற்சி. மூளை வேகமாக வளர்கிறது.", "mr": "बालक वांगे जितका. डोळे उघडते, झाकतात. REM झोप. मेंदू वेगाने विकसित होत आहे."},
+    {"week": 32, "size": "Squash", "weight": "1.7kg", "development": "Bones hardening, lungs maturing", "en": "Baby is squash-sized. Bones hardening (skull soft). Lungs nearly mature. Practicing breathing.", "hi": "बच्चा कद्दू जितना। हड्डियां सख्त (खोपड़ी नरम)। फेफड़े लगभग परिपक्व। सांस लेने का अभ्यास।", "te": "పిల్ల కుడుము அளவు. ఎలుకాలు కడుపవుతున్నాయి (తల ఎలుక మೃదు). స్వాసకోషాలు దాదimeq పూర్తి. శ్వాస jap-जप.", "ta": "குழந்தை பூசணி அளவு. எலும்புகள் வainties (தலை எலும்பு மிருது). சுவாசக் கோஷங்கள் த Ziza பரிபக्वம். சுவாசிக்கப் பயிற்சி.", "mr": "बालक भोपळा जितका. हाडे कडक (डोके नरम). फुफ्फुस जवळजवळ परिपक्व. श्वास घेण्याची प्रयत्न."},
+    {"week": 36, "size": "Honeydew Melon", "weight": "2.5kg", "development": "Head engaged, ready for birth", "en": "Baby is honeydew-sized. Head may engage in pelvis. Lungs mature. Gaining 200g/week.", "hi": "बच्चा हनीड्यू तरबूज जितना। सिर श्रोणि में बैठ सकता है। फेफड़े परिपक्व। हफ्ते में 200ग्राम बढ़ रहा।", "te": "పిల్ల హనీడ్యూ పుచ్చకాయ ölçüsü. తల શ्रोણಿಯಲ್ಲಿ الشرعية. స్వాసకోషాలు పూర్తి. వారానికి 200 గ్రాము పెరుగుతుందని.", "ta": "குழந்தை ஹனிமெலன் அளவு. தலை நடுக்குள் உட்காரலாம். சுவாசக் கோஷங்கள் பரிபக்வம். வாரத்திற்கு 200கிராம் அதிகரித்து.", "mr": "बालक हनीड्यू तरबूज जितका. डोके श्रोणीमध्ये बसू शकतो. फुफ्फुस परिपक्व. आठवड्यात 200 ग्रॅम वाढते."},
+    {"week": 40, "size": "Watermelon", "weight": "3.3kg", "development": "Full term, ready to meet you!", "en": "Baby is watermelon-sized. Full term! All systems ready. Average 3-3.5kg. Ready to be born!", "hi": "बच्चा तरबूज जितना। पूर्ण अवधि! सब तैयार। औसत 3-3.5किलो। जन्म के लिए तैयार!", "te": "పిల్ల పుచ్చకాయ ölçు. పూర్తి కాలం! ఏవి సిద్దం. సగటు 3-3.5కেজీ. జననాలకు సిద్ధం!", "ta": "குழந்தை தர்பூசணி அளவு. முழு காலம்! எல்லாம் தயார். சராசரி 3-3.5கி.கி. பிறப்பதற்கு தயார்!", "mr": "बालक तरबूज जितका. पूर्ण काळ! सर्व तयार. सरासरी 3-3.5किलो. जन्मासाठी तयार!"}
+  ]
+}

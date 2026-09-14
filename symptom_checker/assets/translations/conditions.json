@@ -1,0 +1,351 @@
+{
+  "conditions": [
+    {
+      "id": "common_cold",
+      "name": "Common Cold",
+      "severity": "low",
+      "category": "respiratory",
+      "translations": {
+        "en": "Common Cold",
+        "hi": "सामान्य सर्दी",
+        "te": "సాధారణ చల్లి",
+        "ta": "பொதுவான சரடி",
+        "mr": "सामान्य थंड"
+      },
+      "symptoms": ["cough", "sore_throat", "fatigue", "fever"],
+      "recommendation": "home_care",
+      "home_care": [
+        "Rest and drink plenty of fluids",
+        "Gargle with warm salt water",
+        "Use honey for cough (not for children under 1 year)"
+      ],
+      "red_flags": ["difficulty_breathing", "chest_pain", "fever > 3 days"]
+    },
+    {
+      "id": "influenza",
+      "name": "Influenza (Flu)",
+      "severity": "medium",
+      "category": "respiratory",
+      "translations": {
+        "en": "Influenza (Flu)",
+        "hi": "फ्लू",
+        "te": "ఫ్లు",
+        "ta": "ஃபிளு",
+        "mr": "फ्लू"
+      },
+      "symptoms": ["fever", "cough", "headache", "fatigue", "joint_pain"],
+      "recommendation": "clinic",
+      "home_care": [
+        "Rest and isolate",
+        "Drink fluids",
+        "Paracetamol for fever"
+      ],
+      "red_flags": ["difficulty_breathing", "chest_pain", "confusion", "fever > 5 days"]
+    },
+    {
+      "id": "covid19",
+      "name": "COVID-19",
+      "severity": "high",
+      "category": "respiratory",
+      "translations": {
+        "en": "COVID-19",
+        "hi": "कोविड-19",
+        "te": "కోవిడ్-19",
+        "ta": "கோவிட்-19",
+        "mr": "कोविड-19"
+      },
+      "symptoms": ["fever", "cough", "difficulty_breathing", "fatigue", "sore_throat"],
+      "recommendation": "clinic",
+      "home_care": [
+        "Isolate immediately",
+        "Monitor oxygen levels",
+        "Contact health worker"
+      ],
+      "red_flags": ["difficulty_breathing", "chest_pain", "confusion", "blue lips", "oxygen < 94%"]
+    },
+    {
+      "id": "pneumonia",
+      "name": "Pneumonia",
+      "severity": "high",
+      "category": "respiratory",
+      "translations": {
+        "en": "Pneumonia",
+        "hi": "निमोनिया",
+        "te": "న్యుమோనియా",
+        "ta": "நியூமோனியா",
+        "mr": "न्युमोनिया"
+      },
+      "symptoms": ["fever", "cough", "difficulty_breathing", "chest_pain"],
+      "recommendation": "emergency",
+      "home_care": [],
+      "red_flags": ["difficulty_breathing", "chest_pain", "high fever", "confusion"]
+    },
+    {
+      "id": "gastroenteritis",
+      "name": "Gastroenteritis (Stomach Flu)",
+      "severity": "medium",
+      "category": "gastrointestinal",
+      "translations": {
+        "en": "Gastroenteritis",
+        "hi": "पेट का संक्रमण",
+        "te": "గ్యాస్ట్రోఎంటెరైటిస్",
+        "ta": "வயிற்று நோய்",
+        "mr": "पोटाचा संक्रमण"
+      },
+      "symptoms": ["diarrhea", "vomiting", "abdominal_pain", "fever"],
+      "recommendation": "clinic",
+      "home_care": [
+        "ORS solution frequently",
+        "Small sips of water",
+        "Bland diet (rice, banana)"
+      ],
+      "red_flags": ["blood in stool", "severe dehydration", "vomiting > 24h", "high fever"]
+    },
+    {
+      "id": "dengue",
+      "name": "Dengue Fever",
+      "severity": "high",
+      "category": "vector_borne",
+      "translations": {
+        "en": "Dengue Fever",
+        "hi": "डेंगू बुखार",
+        "te": "డెంగూ జ్వరం",
+        "ta": "டெங்கு காய்ச்சல்",
+        "mr": "डेंगू ताप"
+      },
+      "symptoms": ["fever", "headache", "joint_pain", "rash", "eye_redness"],
+      "recommendation": "clinic",
+      "home_care": [
+        "Paracetamol only (NO ibuprofen/aspirin)",
+        "Plenty of fluids",
+        "Monitor for bleeding"
+      ],
+      "red_flags": ["bleeding gums/nose", "severe abdominal pain", "vomiting blood", "difficulty breathing"]
+    },
+    {
+      "id": "malaria",
+      "name": "Malaria",
+      "severity": "high",
+      "category": "vector_borne",
+      "translations": {
+        "en": "Malaria",
+        "hi": "मलेरिया",
+        "te": "మలేరియా",
+        "ta": "மலேரியா",
+        "mr": "मलेरिया"
+      },
+      "symptoms": ["fever", "chills", "headache", "joint_pain", "fatigue", "night_sweats"],
+      "recommendation": "clinic",
+      "home_care": [
+        "Get blood test immediately",
+        "Paracetamol for fever",
+        "Complete full treatment course"
+      ],
+      "red_flags": ["severe anemia", "cerebral symptoms", "kidney failure", "pregnant women"]
+    },
+    {
+      "id": "typhoid",
+      "name": "Typhoid Fever",
+      "severity": "high",
+      "category": "infectious",
+      "translations": {
+        "en": "Typhoid Fever",
+        "hi": "टाइफाइड",
+        "te": "టೈఫాయిడ్",
+        "ta": "டைஃபாயிட்",
+        "mr": "टायफॉइड"
+      },
+      "symptoms": ["fever", "abdominal_pain", "headache", "fatigue", "weight_loss"],
+      "recommendation": "clinic",
+      "home_care": [
+        "Antibiotics as prescribed",
+        "Safe water and food",
+        "Follow up for carriers"
+      ],
+      "red_flags": ["intestinal perforation", "severe confusion", "bleeding"]
+    },
+    {
+      "id": "urinary_tract_infection",
+      "name": "Urinary Tract Infection",
+      "severity": "medium",
+      "category": "urological",
+      "translations": {
+        "en": "Urinary Tract Infection",
+        "hi": "मूत्र मार्ग संक्रमण",
+        "te": "మూత్రమార్గ Symptoms",
+        "ta": "சிறுநீர்நிலை நோய்",
+        "mr": "मूत्रमार्ग संक्रमण"
+      },
+      "symptoms": ["urinary_burning", "fever", "abdominal_pain"],
+      "recommendation": "clinic",
+      "home_care": [
+        "Drink plenty of water",
+        "Complete antibiotic course",
+        "Maintain hygiene"
+      ],
+      "red_flags": ["flank pain", "high fever", "blood in urine", "pregnant"]
+    },
+    {
+      "id": "hypertension",
+      "name": "High Blood Pressure",
+      "severity": "medium",
+      "category": "cardiovascular",
+      "translations": {
+        "en": "Hypertension",
+        "hi": "उच्च रक्तचाप",
+        "te": "హైఆర్ బీపీ",
+        "ta": "உயர் இரத்த அழுத்தம்",
+        "mr": "उच्च रक्तदाब"
+      },
+      "symptoms": ["headache", "dizziness", "palpitations", "chest_pain"],
+      "recommendation": "clinic",
+      "home_care": [
+        "Reduce salt intake",
+        "Regular exercise",
+        "Take medication regularly",
+        "Monitor BP weekly"
+      ],
+      "red_flags": ["severe headache", "chest pain", "vision changes", "confusion"]
+    },
+    {
+      "id": "diabetes",
+      "name": "Diabetes",
+      "severity": "high",
+      "category": "endocrine",
+      "translations": {
+        "en": "Diabetes",
+        "hi": "मधुमेह",
+        "te": "డయాబెటిస్",
+        "ta": "நீரிழிவு நோய்",
+        "mr": "मधुमेह"
+      },
+      "symptoms": ["fatigue", "weight_loss", "frequent_urination", "thirst"],
+      "recommendation": "clinic",
+      "home_care": [
+        "Check blood sugar regularly",
+        "Follow diabetic diet",
+        "Take medication as prescribed",
+        "Foot care daily"
+      ],
+      "red_flags": ["very high/low sugar", "ketones in urine", "foot ulcers", "confusion"]
+    },
+    {
+      "id": "anemia",
+      "name": "Anemia",
+      "severity": "medium",
+      "category": "blood",
+      "translations": {
+        "en": "Anemia",
+        "hi": "खून की कमी",
+        "te": "అనీమియా",
+        "ta": "ரத்தஅதிக fossem",
+        "mr": "रक्ताल्पता"
+      },
+      "symptoms": ["fatigue", "dizziness", "palpitations", "pale_skin"],
+      "recommendation": "clinic",
+      "home_care": [
+        "Iron-rich foods (spinach, jaggery)",
+        "Iron supplements if prescribed",
+        "Treat underlying cause"
+      ],
+      "red_flags": ["severe shortness of breath", "chest pain", "fainting"]
+    },
+    {
+      "id": "asthma",
+      "name": "Asthma",
+      "severity": "medium",
+      "category": "respiratory",
+      "translations": {
+        "en": "Asthma",
+        "hi": "दमा",
+        "te": "అస్తమా",
+        "ta": "அஸ்துமா",
+        "mr": "अस्थमा"
+      },
+      "symptoms": ["difficulty_breathing", "cough", "chest_pain", "wheezing"],
+      "recommendation": "clinic",
+      "home_care": [
+        "Use inhaler as prescribed",
+        "Avoid triggers (dust, smoke)",
+        "Keep rescue inhaler handy"
+      ],
+      "red_flags": ["severe breathlessness", "unable to speak", "blue lips", "inhaler not helping"]
+    },
+    {
+      "id": "migraine",
+      "name": "Migraine",
+      "severity": "low",
+      "category": "neurological",
+      "translations": {
+        "en": "Migraine",
+        "hi": "माइग्रेन",
+        "te": "మైగ్రామైన్",
+        "ta": "மைக்ரெயின்",
+        "mr": "माइग्रेन"
+      },
+      "symptoms": ["headache", "nausea", "light_sensitivity"],
+      "recommendation": "home_care",
+      "home_care": [
+        "Rest in dark, quiet room",
+        "Cold compress on forehead",
+        "Avoid triggers"
+      ],
+      "red_flags": ["sudden severe headache", "vision loss", "weakness", "fever with headache"]
+    },
+    {
+      "id": "skin_infection",
+      "name": "Skin Infection",
+      "severity": "low",
+      "category": "dermatological",
+      "translations": {
+        "en": "Skin Infection",
+        "hi": "त्वचा संक्रमण",
+        "te": "చర్మ Symptoms",
+        "ta": "தோல் நோய்",
+        "mr": "त्वचा संक्रमण"
+      },
+      "symptoms": ["rash", "fever"],
+      "recommendation": "home_care",
+      "home_care": [
+        "Keep area clean and dry",
+        "Apply prescribed cream",
+        "Avoid scratching"
+      ],
+      "red_flags": ["spreading redness", "pus", "fever", "pain worsening"]
+    },
+    {
+      "id": "heart_attack",
+      "name": "Heart Attack",
+      "severity": "critical",
+      "category": "cardiovascular",
+      "translations": {
+        "en": "Heart Attack",
+        "hi": "दिल का दौरा",
+        "te": "హార్ట్ అటక్",
+        "ta": "இதயத் தாக்குதல்",
+        "mr": "हृदयाघात"
+      },
+      "symptoms": ["chest_pain", "difficulty_breathing", "palpitations", "sweating", "nausea"],
+      "recommendation": "emergency",
+      "home_care": [],
+      "red_flags": ["chest pain > 10 min", "radiating to arm/jaw", "cold sweat", "fainting"]
+    },
+    {
+      "id": "stroke",
+      "name": "Stroke",
+      "severity": "critical",
+      "category": "neurological",
+      "translations": {
+        "en": "Stroke",
+        "hi": "लकवा",
+        "te": "స్త్రోక్",
+        "ta": "ஸ்ட்ரோக்",
+        "mr": "स्ट्रोक"
+      },
+      "symptoms": ["face_drooping", "arm_weakness", "speech_difficulty", "sudden_headache"],
+      "recommendation": "emergency",
+      "home_care": [],
+      "red_flags": ["FAST signs", "sudden onset", "loss of consciousness"]
+    }
+  ]
+}
