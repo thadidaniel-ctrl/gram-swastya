@@ -2,8 +2,10 @@ import React, { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { usePatientAuth } from '../../contexts/PatientAuthContext';
 import { useAuth } from '../../contexts/AuthContext';
+import { useTranslation } from 'react-i18next';
 
 export default function PatientSignup() {
+  const { t } = useTranslation(['auth', 'common']);
   const navigate = useNavigate();
   const { register, isLoading, error, clearError } = usePatientAuth();
   const { loginPatient } = useAuth();
@@ -136,7 +138,7 @@ export default function PatientSignup() {
                   />
                 </div>
                 <div className="form-group">
-                  <label>Phone Number *</label>
+                  <label>{t('auth.phoneNumber')} *</label>
                   <input
                     type="tel"
                     name="phone"
@@ -171,7 +173,7 @@ export default function PatientSignup() {
                 </div>
               </div>
               <div className="form-group">
-                <label>Email Address</label>
+                <label>{t('common.email')}</label>
                 <input
                   type="email"
                   name="email"
@@ -216,7 +218,7 @@ export default function PatientSignup() {
                   onChange={handleChange}
                   placeholder="Confirm your password"
                   required
-                </div>
+                />
                 {formData.confirmPassword && formData.password !== formData.confirmPassword && (
                   <span className="error-text">Passwords do not match</span>
                 )}
@@ -286,12 +288,12 @@ export default function PatientSignup() {
           <div className="form-navigation">
             {step > 1 && (
               <button type="button" className="btn btn-secondary" onClick={() => setStep(step - 1)}>
-                Back
+                {t('common.back')}
               </button>
             )}
             {step < 3 ? (
               <button type="submit" className="btn btn-primary" disabled={isLoading || !validateStep()}>
-                Next
+                {t('common.next')}
               </button>
             ) : (
               <button type="submit" className="btn btn-primary" disabled={isLoading}>
@@ -302,7 +304,7 @@ export default function PatientSignup() {
         </form>
 
         <div className="auth-footer">
-          <p>Already have an account? <Link to="/login">Login</Link></p>
+          <p>Already have an account? <Link to="/login">{t('auth.login')}</Link></p>
         </div>
       </div>
     </div>

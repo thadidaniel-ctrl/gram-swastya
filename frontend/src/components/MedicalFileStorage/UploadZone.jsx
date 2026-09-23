@@ -1,6 +1,6 @@
 import React, { useState, useCallback, useRef } from 'react';
 import { fileStorageAPI } from '../../services/fileStorageAPI';
-import styles from './FileStorageStyles.module.css';
+import { useTranslation } from 'react-i18next';
 
 const CATEGORY_OPTIONS = [
   { value: 'Lab Report', label: 'Lab Report' },
@@ -32,11 +32,12 @@ export default function UploadZone({
   isOpen = true,
   onClose 
 }) {
+  const { t } = useTranslation('files');
   const [isDragging, setIsDragging] = useState(false);
   const [uploading, setUploading] = useState(false);
-  const [progress, setProgress] = useState({});
+  const [, setProgress] = useState({});
   const [formData, setFormData] = useState({
-    category: 'other',
+    category: 'Other',
     tags: '',
     description: '',
     folderId: selectedFolderId || '',
@@ -46,7 +47,7 @@ export default function UploadZone({
   const fileInputRef = useRef(null);
   const [selectedFiles, setSelectedFiles] = useState([]);
 
-  const validateFile = (file) => {
+  const validateFile = useCallback((file) => {
     if (file.size > MAX_FILE_SIZE) {
       return `File "${file.name}" exceeds 50MB limit`;
     }
@@ -54,9 +55,9 @@ export default function UploadZone({
       return `File "${file.name}" has unsupported type: ${file.type}`;
     }
     return null;
-  };
+  }, []);
 
-  const handleFiles = (files) => {
+  const handleFiles = useCallback((files) => {
     const validFiles = [];
     const newErrors = {};
 
@@ -76,7 +77,7 @@ export default function UploadZone({
     if (validFiles.length > 0) {
       setSelectedFiles(prev => [...prev, ...validFiles]);
     }
-  };
+  }, [validateFile]);
 
   const handleDragOver = useCallback((e) => {
     e.preventDefault();
@@ -126,19 +127,22 @@ export default function UploadZone({
     selectedFiles.forEach((_, i) => newProgress[i] = 0);
     setProgress(newProgress);
 
+    let progressInterval = null;
     try {
       const formDataUpload = new FormData();
       selectedFiles.forEach(file => formDataUpload.append('files', file));
       formDataUpload.append('category', formData.category);
       formDataUpload.append('tags', formData.tags);
       formDataUpload.append('description', formData.description);
-      formDataUpload.append('folderId', formData.folderId || '');
+      if (formData.folderId) {
+        formDataUpload.append('folderId', formData.folderId);
+      }
       if (formData.documentDate) {
         formDataUpload.append('documentDate', formData.documentDate);
       }
 
       // Simulate progress for UX (real progress would need XMLHttpRequest)
-      const progressInterval = setInterval(() => {
+      progressInterval = setInterval(() => {
         setProgress(prev => {
           const updated = { ...prev };
           let allComplete = true;
@@ -155,15 +159,15 @@ export default function UploadZone({
 
       const response = await fileStorageAPI.uploadFiles(formDataUpload);
 
-      clearInterval(progressInterval);
+      if (progressInterval) clearInterval(progressInterval);
       setProgress({});
       setSelectedFiles([]);
       setFormData({ ...formData, tags: '', description: '', documentDate: '' });
       setErrors({});
-      
+
       onUploadComplete?.(response.data);
     } catch (error) {
-      clearInterval(progressInterval);
+      if (progressInterval) clearInterval(progressInterval);
       setProgress({});
       setErrors({ upload: error.message || 'Upload failed' });
     } finally {
@@ -174,11 +178,11 @@ export default function UploadZone({
   if (!isOpen) return null;
 
   return (
-    <div className={styles.panel}>
-      <div className={styles.panelHeader}>
-        <h2 className={styles.panelTitle}>📤 Upload Medical Files</h2>
+    <div className="card">
+      <div className="flex items-center justify-between p-4 border-b border-light">
+        <h2 className="text-lg font-semibold text-primary">{t('files.uploadTitle')}</h2>
         <button 
-          className={styles.btnIcon}
+          className="btn btn-icon"
           onClick={onClose}
           aria-label="Close upload panel"
         >
@@ -186,9 +190,11 @@ export default function UploadZone({
         </button>
       </div>
 
-      <div className={styles.panelBody}>
+      <div className="p-4">
         <div 
-          className={`${styles.dropzone} ${isDragging ? styles.dropzoneActive : ''}`}
+          className={`border-2 border-dashed rounded-lg p-8 text-center transition-colors cursor-pointer ${
+            isDragging ? 'border-primary bg-primary-50' : 'border-neutral-300 hover:border-primary'
+          }`}
           onDragOver={handleDragOver}
           onDragLeave={handleDragLeave}
           onDrop={handleDrop}
@@ -206,35 +212,35 @@ export default function UploadZone({
             style={{ display: 'none' }}
             disabled={uploading}
           />
-          <div className={styles.dropzoneIcon}>
+          <div className="text-4xl mb-2">
             {isDragging ? '📥' : '📁'}
           </div>
-          <p className={styles.dropzoneText}>
-            {isDragging ? 'Drop files here' : 'Drag & drop files here, or click to browse'}
+          <p className="text-lg font-medium text-primary mb-1">
+            {isDragging ? 'Drop files here' : t('files.dragDrop')}
           </p>
-          <p className={styles.dropzoneHint}>
+          <p className="text-sm text-muted">
             Supports: PDF, JPG, PNG, WebP, TIFF, DOC, DOCX, TXT, ZIP (max 50MB each)
           </p>
         </div>
 
         {selectedFiles.length > 0 && (
-          <div className={styles.mt4}>
-            <h3 className={styles.label}>Selected Files ({selectedFiles.length})</h3>
-            <div className={styles.fileList}>
+          <div className="mt-4">
+            <h3 className="label">Selected Files ({selectedFiles.length})</h3>
+            <div className="space-y-2">
               {selectedFiles.map((file, index) => (
-                <div key={index} className={styles.fileItem}>
-                  <div className={styles.fileIcon} style={{ background: getFileColor(file.type) }}>
+                <div key={index} className="flex items-center gap-3 p-3 border border-light rounded-lg">
+                  <div className="flex items-center justify-center w-10 h-10 rounded-lg" style={{ background: getFileColor(file.type) }}>
                     {getFileIcon(file.type)}
                   </div>
-                  <div className={styles.fileInfo}>
-                    <p className={styles.fileName}>{file.name}</p>
-                    <p className={styles.fileMeta}>
-                      {formatFileSize(file.size)} • {file.type || 'Unknown type'}
-                      {errors[file.name] && <span className={styles.textError}> - {errors[file.name]}</span>}
+                  <div className="flex-1 min-w-0">
+                    <p className="font-medium truncate">{file.name}</p>
+                    <p className="text-sm text-muted flex items-center gap-2">
+                      <span>{formatFileSize(file.size)} • {file.type || 'Unknown type'}</span>
+                      {errors[file.name] && <span className="text-error"> - {errors[file.name]}</span>}
                     </p>
                   </div>
                   <button
-                    className={styles.btnIcon}
+                    className="btn btn-icon"
                     onClick={() => removeFile(index)}
                     disabled={uploading}
                     aria-label={`Remove ${file.name}`}
@@ -248,13 +254,13 @@ export default function UploadZone({
         )}
 
         {selectedFiles.length > 0 && (
-          <div className={styles.mt4}>
-            <h3 className={styles.label}>File Details (applied to all)</h3>
-            <div className={styles.flex} style={{ gap: '16px', flexWrap: 'wrap' }}>
+          <div className="mt-4">
+            <h3 className="label">File Details (applied to all)</h3>
+            <div className="flex gap-4 flex-wrap">
               <div style={{ flex: 1, minWidth: '200px' }}>
-                <label className={styles.label}>Category</label>
+                <label className="label">Category</label>
                 <select
-                  className={`${styles.select} ${styles.input}`}
+                  className="select input"
                   value={formData.category}
                   onChange={(e) => setFormData({ ...formData, category: e.target.value })}
                   disabled={uploading}
@@ -266,9 +272,9 @@ export default function UploadZone({
               </div>
 
               <div style={{ flex: 1, minWidth: '200px' }}>
-                <label className={styles.label}>Folder</label>
+                <label className="label">Folder</label>
                 <select
-                  className={`${styles.select} ${styles.input}`}
+                  className="select input"
                   value={formData.folderId}
                   onChange={(e) => setFormData({ ...formData, folderId: e.target.value })}
                   disabled={uploading}
@@ -283,10 +289,10 @@ export default function UploadZone({
               </div>
 
               <div style={{ flex: 1, minWidth: '200px' }}>
-                <label className={styles.label}>Document Date</label>
+                <label className="label">{t('files.documentDate')}</label>
                 <input
                   type="date"
-                  className={styles.input}
+                  className="input"
                   value={formData.documentDate}
                   onChange={(e) => setFormData({ ...formData, documentDate: e.target.value })}
                   disabled={uploading}
@@ -295,12 +301,12 @@ export default function UploadZone({
               </div>
             </div>
 
-            <div className={styles.mt4} style={{ display: 'flex', gap: '16px', flexWrap: 'wrap' }}>
+            <div className="mt-4" style={{ display: 'flex', gap: '16px', flexWrap: 'wrap' }}>
               <div style={{ flex: 1, minWidth: '200px' }}>
-                <label className={styles.label}>Tags (comma separated)</label>
+                <label className="label">Tags (comma separated)</label>
                 <input
                   type="text"
-                  className={styles.input}
+                  className="input"
                   placeholder="e.g., diabetes, follow-up, urgent"
                   value={formData.tags}
                   onChange={(e) => setFormData({ ...formData, tags: e.target.value })}
@@ -309,10 +315,10 @@ export default function UploadZone({
               </div>
             </div>
 
-            <div className={styles.mt4}>
-              <label className={styles.label}>Description</label>
+            <div className="mt-4">
+              <label className="label">{t('common.description')}</label>
               <textarea
-                className={styles.input}
+                className="input"
                 rows={3}
                 placeholder="Optional description..."
                 value={formData.description}
@@ -322,19 +328,19 @@ export default function UploadZone({
             </div>
 
             {errors.upload && (
-              <div className={`${styles.mt4} ${styles.textError}`}>{errors.upload}</div>
+              <div className="mt-4 text-error">{errors.upload}</div>
             )}
 
-            <div className={styles.mt4} style={{ display: 'flex', gap: '12px', justifyContent: 'flex-end' }}>
+            <div className="mt-4 flex gap-3 justify-end">
               <button
-                className={styles.btn}
+                className="btn"
                 onClick={onClose}
                 disabled={uploading}
               >
-                Cancel
+                {t('common.cancel')}
               </button>
               <button
-                className={`${styles.btn} ${styles.btnPrimary}`}
+                className="btn btn-primary"
                 onClick={uploadFiles}
                 disabled={uploading || selectedFiles.length === 0}
               >

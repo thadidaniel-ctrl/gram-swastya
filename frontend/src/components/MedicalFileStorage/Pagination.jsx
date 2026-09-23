@@ -11,13 +11,12 @@ export default function Pagination({
   maxVisiblePages = 5,
   className = '',
 }) {
-  if (totalPages <= 1) return null;
-
+  const { t } = useTranslation('files');
   const pages = React.useMemo(() => {
     const result = [];
     const half = Math.floor(maxVisiblePages / 2);
     let start = Math.max(1, currentPage - half);
-    let end = Math.min(totalPages, start + maxVisiblePages - 1);
+    const end = Math.min(totalPages, start + maxVisiblePages - 1);
 
     if (end - start + 1 < maxVisiblePages) {
       start = Math.max(1, end - maxVisiblePages + 1);
@@ -56,6 +55,8 @@ export default function Pagination({
     }
   };
 
+  if (totalPages <= 1) return null;
+
   return (
     <div className={`${styles.pagination} ${className}`} role="navigation" aria-label="Pagination">
       <div className={styles.paginationInfo}>
@@ -83,7 +84,7 @@ export default function Pagination({
           ‹
         </button>
 
-        {pages.map((page, index) => (
+        {pages.map(page => (
           <button
             key={page}
             className={`${styles.paginationBtn} ${styles.paginationBtnPage} ${page === currentPage ? styles.paginationBtnActive : ''}`}

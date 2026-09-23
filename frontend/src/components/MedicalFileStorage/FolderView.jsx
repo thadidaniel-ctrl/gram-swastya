@@ -15,13 +15,17 @@ export default function FolderView({
   const [editingFolder, setEditingFolder] = useState(null);
   const [editName, setEditName] = useState('');
 
-  const rootFolders = useMemo(() => 
-    folders.filter(f => !f.parent).sort((a, b) => (a.sortOrder || 0) - (b.sortOrder || 0)),
+  const getParentId = (f) => f?.parentFolderId ?? f?.parent ?? f?.parentId ?? null;
+  const rootFolders = useMemo(() =>
+    folders.filter(f => !getParentId(f)).sort((a, b) => (a.sortOrder || 0) - (b.sortOrder || 0)),
     [folders]
   );
 
-  const getChildren = (parentId) => 
-    folders.filter(f => f.parent === parentId).sort((a, b) => (a.sortOrder || 0) - (b.sortOrder || 0));
+  const getChildren = (parentId) =>
+    folders.filter(f => {
+      const pid = getParentId(f);
+      return pid !== null && pid !== undefined && String(pid) === String(parentId);
+    }).sort((a, b) => (a.sortOrder || 0) - (b.sortOrder || 0));
 
   const getDescendantIds = (folderId) => {
     const children = getChildren(folderId);
@@ -205,7 +209,7 @@ export default function FolderView({
   const handleCreateSubfolder = (parentId) => {
     const name = prompt('Enter subfolder name:');
     if (name?.trim()) {
-      onCreateFolder?.({ name: name.trim(), parentId });
+      onCreateFolder?.({ folderName: name.trim(), parentFolderId: parentId });
     }
   };
 

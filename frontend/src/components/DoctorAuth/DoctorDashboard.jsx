@@ -1,20 +1,75 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
+import { Link } from 'react-router-dom';
 import { useAuth } from '../../contexts/AuthContext';
 import { api } from '../../services/api';
+import { useToast } from '../../contexts/ToastContext';
+import { SkeletonList } from '../../components/Common/SkeletonLoader';
+import { EmptyState } from '../../components/Common/EmptyState';
+import { useTranslation } from 'react-i18next';
 
 export default function DoctorDashboard() {
+  const { t } = useTranslation(['doctor', 'common']);
   const { doctor, logoutDoctor } = useAuth();
+  const { showToast } = useToast();
   const [dashboard, setDashboard] = useState(null);
   const [patients, setPatients] = useState([]);
   const [appointments, setAppointments] = useState([]);
+  const [sharedFiles, setSharedFiles] = useState([]);
+  const [sharedFilesLoading, setSharedFilesLoading] = useState(true);
+  const [sharedFilesError] = useState(null);
   const [loading, setLoading] = useState(true);
-  const [activeTab, setActiveTab] = useState('overview');
 
   useEffect(() => {
     fetchData();
-  }, []);
+    fetchSharedFiles();
+  }, [fetchData, fetchSharedFiles]);
 
-  const fetchData = async () => {
+  const fetchSharedFiles = useCallback(async () => {
+    try {
+      const res = await api.getDoctorSharedFiles({ limit: 20 });
+      if (res.success) setSharedFiles(res.files || []);
+    } catch (error) {
+      showToast('Could not load shared files', 'error');
+    } finally {
+      setSharedFilesLoading(false);
+    }
+  }, [showToast]);
+
+  const openSharedFile = async (file, mode) => {
+    try {
+      const res = mode === 'download'
+        ? await api.getDoctorSharedFileDownload(file.id)
+        : await api.getDoctorSharedFilePreview(file.id);
+      window.open(res.data.url, '_blank', 'noopener,noreferrer');
+    } catch (error) {
+      showToast(`Failed to ${mode} file. Please try again.`, 'error');
+    }
+  };
+
+  const formatBytes = (bytes) => {
+    if (!bytes) return '-';
+    if (bytes < 1024) return bytes + ' B';
+    if (bytes < 1024 * 1024) return (bytes / 1024).toFixed(1) + ' KB';
+    if (bytes < 1024 * 1024 * 1024) return (bytes / (1024 * 1024)).toFixed(1) + ' MB';
+    return (bytes / (1024 * 1024 * 1024)).toFixed(2) + ' GB';
+  };
+
+  const isExpiringSoon = (expiresAt) => {
+    if (!expiresAt) return false;
+    return (new Date(expiresAt).getTime() - Date.now()) <= 3 * 24 * 60 * 60 * 1000;
+  };
+
+  const formatExpiry = (expiresAt) => {
+    if (!expiresAt) return 'No expiry';
+    const date = new Date(expiresAt);
+    const days = Math.ceil((date.getTime() - Date.now()) / (1000 * 60 * 60 * 24));
+    const label = date.toLocaleDateString('en-IN', { day: '2-digit', month: 'short', year: 'numeric' });
+    if (days < 0) return `Expired ${label}`;
+    if (days === 0) return `Expires today`;
+    return `Expires ${label} (${days}d)`;
+  };
+
+  const fetchData = useCallback(async () => {
     try {
       const [dashRes, patientsRes, apptsRes] = await Promise.all([
         api.getDoctorDashboard(),
@@ -26,11 +81,11 @@ export default function DoctorDashboard() {
       if (patientsRes.success) setPatients(patientsRes.patients);
       if (apptsRes.success) setAppointments(apptsRes.appointments);
     } catch (error) {
-      console.error('Failed to fetch dashboard:', error);
+      showToast('Failed to load dashboard data', 'error');
     } finally {
       setLoading(false);
     }
-  };
+  }, [showToast]);
 
   const todayAppointments = appointments.filter(a => {
     const apptDate = new Date(a.scheduledAt);
@@ -52,7 +107,7 @@ export default function DoctorDashboard() {
           <h1>Dr. {doctor?.profile?.firstName} {doctor?.profile?.lastName}</h1>
           <p>{doctor?.profile?.specialization} • {doctor?.clinic?.name || 'Practice'}</p>
         </div>
-        <button onClick={logoutDoctor} className="btn btn-outline">Logout</button>
+        <button onClick={logoutDoctor} className="btn btn-outline">{t('nav.logout')}</button>
       </div>
 
       <div className="stats-grid">
@@ -72,15 +127,17 @@ export default function DoctorDashboard() {
       <div className="dashboard-grid">
         <div className="dashboard-card full-width">
           <div className="card-header">
-            <h3>📅 Today's Appointments</h3>
+            <h2>📅 Today's Appointments</h2>
             <Link to="/doctor/appointments" className="btn-link">View All</Link>
           </div>
           {loading ? (
-            <div className="loading-placeholder">Loading...</div>
+            <SkeletonList count={3} itemHeight="90px" />
           ) : todayAppointments.length === 0 ? (
-            <div className="empty-state">
-              <p>No appointments scheduled for today</p>
-            </div>
+            <EmptyState
+              icon="📅"
+              title="No appointments today"
+              description="You have no appointments scheduled for today."
+            />
           ) : (
             <div className="appointment-list">
               {todayAppointments.map(a => (
@@ -105,11 +162,15 @@ export default function DoctorDashboard() {
 
         <div className="dashboard-card">
           <div className="card-header">
-            <h3>👥 Recent Patients</h3>
+            <h2>👥 Recent Patients</h2>
             <Link to="/doctor/patients" className="btn-link">View All</Link>
           </div>
           {patients.length === 0 ? (
-            <div className="empty-state"><p>No patients yet</p></div>
+            <EmptyState
+              icon="👥"
+              title="No patients yet"
+              description="You haven't been assigned any patients yet."
+            />
           ) : (
             <ul className="item-list">
               {patients.slice(0, 5).map(p => (
@@ -129,7 +190,7 @@ export default function DoctorDashboard() {
 
         <div className="dashboard-card">
           <div className="card-header">
-            <h3>⚡ Quick Actions</h3>
+            <h2>⚡ Quick Actions</h2>
           </div>
           <div className="quick-actions">
             <button className="action-btn">
@@ -149,6 +210,60 @@ export default function DoctorDashboard() {
               <span>Reports</span>
             </button>
           </div>
+        </div>
+
+        <div className="dashboard-card full-width">
+          <div className="card-header">
+            <h2>{t('doctor.sharedFiles')}</h2>
+            <span className="dashboard-files-count">
+              {sharedFiles.length} file{sharedFiles.length !== 1 ? 's' : ''}
+            </span>
+          </div>
+
+          {sharedFilesError ? (
+            <div className="empty-state">
+              <p>⚠️ {sharedFilesError}</p>
+            </div>
+          ) : sharedFilesLoading ? (
+            <SkeletonList count={3} itemHeight="70px" />
+          ) : sharedFiles.length === 0 ? (
+            <EmptyState
+              icon="📎"
+              title="No files shared with you"
+              description="When patients share files with you, they'll appear here."
+            />
+          ) : (
+            <div className="shared-files-list">
+              {sharedFiles.map(file => (
+                <div key={file.id} className="shared-file-item">
+                  <div className="shared-file-icon">📄</div>
+                  <div className="shared-file-main">
+                    <span className="shared-file-name">{file.fileName}</span>
+                    <span className="shared-file-meta">
+                      {file.category} • {formatBytes(file.fileSize)} • from {file.patient?.name || 'Patient'}
+                    </span>
+                    <span className={`shared-file-expiry ${file.expiresAt && isExpiringSoon(file.expiresAt) ? 'warn' : ''}`}>
+                      {file.expiresAt ? (new Date(file.expiresAt).getTime() < Date.now() ? '⛔ ' : '⏳ ') : '∞ '}{formatExpiry(file.expiresAt)}
+                    </span>
+                  </div>
+                  <div className="shared-file-actions">
+                    <button
+                      className="btn btn-primary btn-sm"
+                      onClick={() => openSharedFile(file, 'preview')}
+                    >
+                      Open
+                    </button>
+                    <button
+                      className="btn btn-secondary btn-sm"
+                      onClick={() => openSharedFile(file, 'download')}
+                    >
+{t('common.download')}
+                    </button>
+                  </div>
+                </div>
+              ))}
+            </div>
+          )}
         </div>
       </div>
     </div>

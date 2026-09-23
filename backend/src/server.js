@@ -5,18 +5,20 @@ const helmet = require('helmet');
 const compression = require('compression');
 const morgan = require('morgan');
 const rateLimit = require('express-rate-limit');
+const mongoSanitize = require('express-mongo-sanitize');
+const xss = require('xss-clean');
 
 const config = require('./config');
 const connectDB = require('./config/database');
 const routes = require('./routes');
-const { authenticate } = require('./middleware/auth');
 const logger = require('./utils/logger');
 const voiceCache = require('./services/voiceCache');
 const pushNotificationService = require('./services/pushNotificationService');
+const webPushService = require('./services/webPushService');
 const medicineReminder = require('./services/medicineReminder');
 const fileCleanupService = require('./services/fileCleanupService');
 const redis = require('./config/redis');
-const { Patient, Doctor, Facility, Ambulance } = require('./models');
+const { observability, getMetrics } = require('./middleware/observability');
 
 const app = express();
 
@@ -33,25 +35,43 @@ app.use(compression());
 app.use(express.json({ limit: '10mb' }));
 app.use(express.urlencoded({ extended: true, limit: '10mb' }));
 
+app.use(mongoSanitize());
+app.use(xss());
+
 app.use(
   morgan('combined', {
     stream: { write: msg => logger.info(msg.trim()) },
   })
 );
 
+// Global rate limit: generous for file-heavy flows
 const limiter = rateLimit({
   windowMs: config.rateLimit.windowMs,
-  max: config.rateLimit.max,
+  max: config.rateLimit.max || 300,
   message: { success: false, message: 'Too many requests, please try again later' },
   standardHeaders: true,
   legacyHeaders: false,
 });
 app.use(limiter);
 
+// Stricter limit for credential/OTP and broadcast endpoints
+const authLimiter = rateLimit({
+  windowMs: 15 * 60 * 1000,
+  max: 20,
+  message: { success: false, message: 'Too many auth attempts, please try again later' },
+  standardHeaders: true,
+  legacyHeaders: false,
+});
+app.use('/api/patient/auth', authLimiter);
+app.use('/api/doctor/auth', authLimiter);
+app.use('/api/notify', authLimiter);
+
 app.use((req, res, next) => {
   req.requestId = require('crypto').randomUUID();
   next();
 });
+
+app.use(observability);
 
 app.use('/api', routes);
 
@@ -64,6 +84,10 @@ app.get('/api/health', (req, res) => {
   });
 });
 
+app.get('/api/metrics', (req, res) => {
+  res.json({ success: true, metrics: getMetrics() });
+});
+
 app.use((req, res) => {
   res.status(404).json({
     success: false,
@@ -71,7 +95,7 @@ app.use((req, res) => {
   });
 });
 
-app.use((err, req, res, next) => {
+app.use((err, req, res, _next) => {
   logger.error('Unhandled error:', {
     error: err.message,
     stack: err.stack,
@@ -96,6 +120,7 @@ const startServer = async () => {
     await redis.initRedis();
     voiceCache.initRedis();
     pushNotificationService.initFirebase(config);
+    webPushService.initWebPush(config);
     medicineReminder.startMedicineReminderCron();
     fileCleanupService.startCleanupScheduler();
 

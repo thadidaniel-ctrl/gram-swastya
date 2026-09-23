@@ -1,4 +1,5 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
+import { useTranslation } from 'react-i18next';
 import { useAuth } from '../../contexts/AuthContext';
 import { api } from '../../services/api';
 
@@ -13,6 +14,7 @@ const TABS = [
 ];
 
 export default function HealthRecords() {
+  const { t } = useTranslation('common');
   const { patient } = useAuth();
   const [activeTab, setActiveTab] = useState('overview');
   const [healthData, setHealthData] = useState(null);
@@ -21,9 +23,9 @@ export default function HealthRecords() {
 
   useEffect(() => {
     fetchRecords();
-  }, []);
+  }, [fetchRecords]);
 
-  const fetchRecords = async () => {
+  const fetchRecords = useCallback(async () => {
     try {
       const response = await api.getHealthRecords(patient?.id);
       setHealthData(response);
@@ -32,7 +34,7 @@ export default function HealthRecords() {
     } finally {
       setLoading(false);
     }
-  };
+  }, [patient?.id]);
 
   const renderTabContent = () => {
     if (!healthData) return null;
@@ -253,7 +255,7 @@ export default function HealthRecords() {
 
       <div className="records-content">
         {loading ? (
-          <div className="loading">Loading health records...</div>
+          <div className="loading">{t('common.loading')}</div>
         ) : (
           renderTabContent()
         )}

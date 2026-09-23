@@ -1,8 +1,10 @@
 import React from 'react';
+import { useTranslation } from 'react-i18next';
 import { Navigate, useLocation } from 'react-router-dom';
 import { useAuth } from '../../contexts/AuthContext';
 
-export default function ProtectedRoute({ children, userType, user }) {
+export default function ProtectedRoute({ children, userType }) {
+  const { t } = useTranslation('common');
   const location = useLocation();
   const auth = useAuth();
 
@@ -13,7 +15,7 @@ export default function ProtectedRoute({ children, userType, user }) {
     return (
       <div className="loading-screen">
         <div className="spinner"></div>
-        <p>Loading...</p>
+        <p>{t('common.loading')}</p>
       </div>
     );
   }

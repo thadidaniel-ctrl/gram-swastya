@@ -1,4 +1,5 @@
 import React from 'react';
+import { useTranslation } from 'react-i18next';
 import styles from './FileStorageStyles.module.css';
 
 export default function BulkActions({
@@ -9,6 +10,7 @@ export default function BulkActions({
   onClearSelection,
   loading = false,
 }) {
+  const { t } = useTranslation('files');
   if (selectedCount === 0) return null;
 
   return (
@@ -34,7 +36,7 @@ export default function BulkActions({
             disabled={loading}
             title="Share with doctors"
           >
-            🔗 Share
+            🔗 {t('files.share')}
           </button>
           
           <button

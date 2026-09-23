@@ -2,19 +2,24 @@ import React, { useState, useEffect, useCallback } from 'react';
 import { fileStorageAPI } from '../../services/fileStorageAPI';
 import { useAuth } from '../../contexts/AuthContext';
 import { useFileStorageSync } from '../../hooks/useFileStorageSync';
+import { useToast } from '../../contexts/ToastContext';
+import { useTranslation } from 'react-i18next';
 import UploadZone from './UploadZone';
 import FileList from './FileList';
 import FolderView from './FolderView';
 import AdvancedSearch from './AdvancedSearch';
 import FilePreview from './FilePreview';
 import ShareModal from './ShareModal';
+import EditFileModal from './EditFileModal';
+import BulkOperationModal from './BulkOperationModal';
 import Pagination from './Pagination';
 import FolderManager from './FolderManager';
-import styles from './FileStorageStyles.module.css';
 
 export default function FileStorageHub() {
+  const { t } = useTranslation();
   const { patient } = useAuth();
-  const { isOnline, cachedFiles, lastSync, syncing, cacheFiles, syncFiles } = useFileStorageSync(patient?.id);
+  const { isOnline, cachedFiles, lastSync, cacheFiles } = useFileStorageSync(patient?.id);
+  const { showToast } = useToast();
   
   // State
   const [files, setFiles] = useState([]);
@@ -30,49 +35,61 @@ export default function FileStorageHub() {
   const [showUpload, setShowUpload] = useState(false);
   const [previewFile, setPreviewFile] = useState(null);
   const [shareFile, setShareFile] = useState(null);
+  const [editingFile, setEditingFile] = useState(null);
+  const [bulkOp, setBulkOp] = useState(null); // { type: 'move' | 'share', fileIds: [] }
   const [searchFilters, setSearchFilters] = useState({});
+  
+  // Mobile sidebar state
+  const [sidebarOpen, setSidebarOpen] = useState(false);
   
   // Pagination State
   const [currentPage, setCurrentPage] = useState(1);
   const [pageSize, setPageSize] = useState(10);
   const [totalPages, setTotalPages] = useState(1);
-  const [totalFiles, setTotalFiles] = useState(0);
+  const [, setTotalFiles] = useState(0);
+
+  const cachedFilesRef = React.useRef(cachedFiles);
+  cachedFilesRef.current = cachedFiles;
 
   // Fetch data
   const fetchData = useCallback(async () => {
     setLoading(true);
     try {
       const [filesRes, foldersRes, statsRes] = await Promise.all([
-        fileStorageAPI.getFiles({ 
+        fileStorageAPI.getFiles({
           folderId: selectedFolderId || undefined,
           page: currentPage,
           limit: pageSize,
-          ...searchFilters 
+          ...searchFilters
         }),
         fileStorageAPI.getFolders({ tree: 'true' }),
         fileStorageAPI.getFileStats(),
       ]);
 
       const freshFiles = filesRes.files || filesRes.data || [];
-      setFiles(freshFiles);
+      setFiles(Array.isArray(freshFiles) ? freshFiles : []);
       setFolders(foldersRes.folders || foldersRes.data || []);
       setStats(statsRes.data || statsRes);
       setTags(statsRes.tags || statsRes.meta?.tags || []);
       setTotalPages(filesRes.meta?.totalPages || filesRes.pagination?.pages || 1);
       setTotalFiles(filesRes.meta?.total || filesRes.pagination?.total || 0);
-      
-      // Cache files for offline access
-      if (freshFiles.length > 0) {
-        await cacheFiles(freshFiles);
+
+      // Cache files for offline access (fire-and-forget to avoid fetch loop)
+      if (Array.isArray(freshFiles) && freshFiles.length > 0) {
+        cacheFiles(freshFiles).catch(() => {});
       }
     } catch (error) {
-      console.error('Failed to load file storage data:', error);
-      // Try to load from cache if online fetch fails
-      // The cached files will already be loaded via the hook
+      showToast('Failed to load file storage data', 'error');
+      // Offline: fall back to cached files so rural users still see their records
+      const fallback = cachedFilesRef.current;
+      if (fallback?.length) {
+        setFiles(fallback);
+        setTotalFiles(fallback.length);
+      }
     } finally {
       setLoading(false);
     }
-  }, [patient?.id, selectedFolderId, currentPage, pageSize, searchFilters, cacheFiles]);
+  }, [selectedFolderId, currentPage, pageSize, searchFilters, cacheFiles, showToast]);
 
   // Load cached files on mount
   useEffect(() => {
@@ -86,21 +103,22 @@ export default function FileStorageHub() {
     setCurrentPage(1);
   }, [searchFilters]);
 
-  // Filter files based on selected folder and search
-  const filteredFiles = files.filter(file => {
-    if (selectedFolderId === null) {
-      return file.folder === null || !file.folder;
-    }
-    return file.folder === selectedFolderId;
-  });
+  // Backend already filters by folderId + paginates; render the page as-is.
+  const filteredFiles = files;
 
   const handleUploadComplete = (newFiles) => {
-    setFiles(prev => [...newFiles, ...prev]);
+    const arr = Array.isArray(newFiles) ? newFiles : newFiles ? [newFiles] : [];
+    if (!arr.length) {
+      setShowUpload(false);
+      fetchData();
+      return;
+    }
+    setFiles(prev => [...arr, ...prev]);
     if (stats) {
       setStats(prev => ({
         ...prev,
-        totalFiles: prev.totalFiles + newFiles.length,
-        totalSize: prev.totalSize + newFiles.reduce((sum, f) => sum + f.fileSize, 0),
+        totalFiles: (prev.totalFiles || 0) + arr.length,
+        totalSize: (prev.totalSize || 0) + arr.reduce((sum, f) => sum + (f.fileSize || 0), 0),
       }));
     }
     setShowUpload(false);
@@ -136,8 +154,13 @@ export default function FileStorageHub() {
   };
 
   const handleEdit = (file) => {
-    // Could open an edit modal - for now just log
-    console.log('Edit file:', file);
+    setEditingFile(file);
+  };
+
+  const handleEditSave = async (updates) => {
+    await fileStorageAPI.updateFile(editingFile.id, updates);
+    setEditingFile(null);
+    fetchData();
   };
 
   const handleBulkDelete = async (fileIds) => {
@@ -152,6 +175,22 @@ export default function FileStorageHub() {
     }
   };
 
+  const handleBulkMove = (fileIds) => {
+    setBulkOp({ type: 'move', fileIds: [...fileIds] });
+  };
+
+  const handleBulkShare = (fileIds) => {
+    setBulkOp({ type: 'share', fileIds: [...fileIds] });
+  };
+
+  const handleBulkOpConfirm = () => {
+    const count = bulkOp?.fileIds?.length || 0;
+    setBulkOp(null);
+    setSelectedFiles([]);
+    fetchData();
+    if (count > 0) alert(`Done! Updated ${count} file${count !== 1 ? 's' : ''}.`);
+  };
+
   const handleRestore = async (file) => {
     try {
       await fileStorageAPI.restoreFile(file.id);
@@ -160,16 +199,6 @@ export default function FileStorageHub() {
     } catch (error) {
       alert('Failed to restore: ' + error.message);
     }
-  };
-
-  const handleBulkShare = async (fileIds) => {
-    // TODO: Implement bulk share modal
-    alert('Bulk share not yet implemented');
-  };
-
-  const handleBulkMove = async (fileIds) => {
-    // TODO: Implement bulk move modal
-    alert('Bulk move not yet implemented');
   };
 
   const handleSelectFolder = (folderId) => {
@@ -224,13 +253,13 @@ export default function FileStorageHub() {
   };
 
   return (
-    <div className={styles.panel} style={{ height: '100vh', display: 'flex', flexDirection: 'column' }}>
+    <div className="card" style={{ height: '100vh', display: 'flex', flexDirection: 'column' }}>
       {/* Offline Banner */}
       {!isOnline && (
-        <div className={styles.offlineBanner}>
+        <div className="alert alert-warning">
           <span>📴 You're offline. Showing cached files. Changes will sync when online.</span>
           {lastSync && (
-            <span className={styles.offlineBannerSync}>
+            <span className="badge badge-warning">
               Last synced: {lastSync.toLocaleTimeString()}
             </span>
           )}
@@ -238,26 +267,47 @@ export default function FileStorageHub() {
       )}
 
       {/* Header */}
-      <div className={styles.panelHeader}>
-        <h2 className={styles.panelTitle}>📁 Medical File Storage</h2>
-        <div style={{ display: 'flex', gap: '12px', alignItems: 'center' }}>
-          <span className={styles.textSm} style={{ color: '#6b7280' }}>
+      <div className="flex items-center justify-between p-4 border-b border-light flex-wrap gap-3">
+        <div className="flex items-center gap-3">
+          {/* Mobile sidebar toggle */}
+          <button 
+            className="md:hidden btn btn-icon btn-secondary"
+            onClick={() => setSidebarOpen(!sidebarOpen)}
+            aria-label={sidebarOpen ? 'Close sidebar' : 'Open sidebar'}
+            aria-expanded={sidebarOpen}
+          >
+            {sidebarOpen ? '✕' : '☰'}
+          </button>
+          <h2 className="text-xl font-semibold text-primary flex items-center gap-2">📁 {t('files.title')}</h2>
+        </div>
+        <div className="flex items-center gap-3">
+          <span className="text-sm text-muted">
             {stats ? `${stats.totalFiles} files • ${formatBytes(stats.totalSize)}` : 'Loading...'}
           </span>
           <button 
-            className={`${styles.btn} ${styles.btnPrimary}`}
+            className="btn btn-primary"
             onClick={() => setShowUpload(true)}
             disabled={!isOnline}
           >
-            + Upload Files
+            {t('files.uploadFiles')}
           </button>
         </div>
       </div>
 
       {/* Main Content */}
-      <div className={styles.panelBody} style={{ flex: 1, padding: 0, display: 'flex', overflow: 'hidden' }}>
+      <div className="flex-1 p-0 flex overflow-hidden" style={{ display: 'flex', overflow: 'hidden' }}>
+        {/* Mobile sidebar overlay */}
+        <div 
+          className={`file-storage-sidebar-overlay ${sidebarOpen ? 'open' : ''}`}
+          onClick={() => setSidebarOpen(false)}
+          aria-hidden="true"
+        />
+        
         {/* Left Sidebar - Folders */}
-        <div style={{ width: '280px', borderRight: '1px solid #e5e7eb', overflow: 'auto' }}>
+        <div 
+          className={`file-storage-sidebar ${sidebarOpen ? 'open' : ''}`}
+          style={{ width: '280px', borderRight: '1px solid #e5e7eb', overflow: 'auto' }}
+        >
           <FolderView
             folders={folders}
             selectedFolderId={selectedFolderId}
@@ -277,7 +327,7 @@ export default function FileStorageHub() {
           {folders.length === 0 && (
             <div style={{ padding: '16px', borderTop: '1px solid #e5e7eb' }}>
               <button 
-                className={`${styles.btn} ${styles.btnSecondary}`}
+                className="btn btn-secondary"
                 onClick={handleInitializeFolders}
                 style={{ width: '100%' }}
               >
@@ -304,6 +354,7 @@ export default function FileStorageHub() {
               files={filteredFiles}
               folders={folders}
               viewMode={viewMode}
+              onViewModeChange={setViewMode}
               selectedFiles={selectedFiles}
               onSelectionChange={setSelectedFiles}
               onPreview={handleFileSelect}
@@ -317,6 +368,7 @@ export default function FileStorageHub() {
               onBulkMove={handleBulkMove}
               loading={loading}
               emptyMessage={selectedFolderId ? 'No files in this folder' : 'No files in root'}
+              onUploadClick={() => setShowUpload(true)}
             />
             {totalPages > 1 && (
               <div style={{ marginTop: '16px' }}>
@@ -326,7 +378,6 @@ export default function FileStorageHub() {
                   pageSize={pageSize}
                   onPageChange={setCurrentPage}
                   onPageSizeChange={(size) => { setPageSize(size); setCurrentPage(1); }}
-                  className={styles.pagination}
                 />
               </div>
             )}
@@ -334,73 +385,91 @@ export default function FileStorageHub() {
         </div>
 
         {/* Right Sidebar - Stats/Info */}
-        <div style={{ width: '240px', borderLeft: '1px solid #e5e7eb', padding: '16px', overflow: 'auto' }}>
-          <h3 className={styles.label} style={{ marginBottom: '16px' }}>Storage Overview</h3>
+        <div className="file-storage-stats-sidebar mobile-stats-sidebar-hidden" style={{ width: '240px', borderLeft: '1px solid #e5e7eb', padding: '16px', overflow: 'auto' }}>
+          <h3 className="label" style={{ marginBottom: '16px' }}>Storage Overview</h3>
           
           {stats && (
-            <div className={styles.statsGrid}>
-              <div className={styles.statCard}>
-                <div className={styles.statValue}>{stats.totalFiles}</div>
-                <div className={styles.statLabel}>Total Files</div>
+            <div className="grid grid-cols-2 gap-4">
+              <div className="card">
+                <div className="text-2xl font-bold text-primary">{stats.totalFiles}</div>
+                <div className="text-sm text-secondary">Total Files</div>
               </div>
-              <div className={styles.statCard}>
-                <div className={styles.statValue}>{formatBytes(stats.totalSize)}</div>
-                <div className={styles.statLabel}>Total Size</div>
+              <div className="card">
+                <div className="text-2xl font-bold text-primary">{formatBytes(stats.totalSize)}</div>
+                <div className="text-sm text-secondary">Total Size</div>
               </div>
             </div>
           )}
 
-          {stats?.categories && (
+{stats?.categories && (
             <div style={{ marginTop: '24px' }}>
-              <h4 className={styles.label}>By Category</h4>
+              <h4 className="label">By Category</h4>
               <div style={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
                 {stats.categories.map(cat => (
-                  <div key={cat._id} className={styles.flex} style={{ justifyContent: 'space-between', padding: '8px 0', borderBottom: '1px solid #f3f4f6' }}>
-                    <span className={styles.textSm}>{cat._id.replace('_', ' ')}</span>
-                    <span className={styles.textSm} style={{ fontWeight: 500 }}>{cat.count} files</span>
+                  <div key={cat._id} className="flex" style={{ justifyContent: 'space-between', padding: '8px 0', borderBottom: '1px solid #f3f4f6' }}>
+                    <span className="text-sm">{cat._id.replace('_', ' ')}</span>
+                    <span className="text-sm" style={{ fontWeight: 500 }}>{cat.count} files</span>
                   </div>
                 ))}
               </div>
             </div>
           )}
-
-          {stats?.folders && stats.folders.length > 0 && (
-            <div style={{ marginTop: '24px' }}>
-              <h4 className={styles.label}>By Folder</h4>
-              <div style={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
-                {stats.folders.slice(0, 10).map(folder => (
-                  <div key={folder._id} className={styles.flex} style={{ justifyContent: 'space-between', padding: '8px 0', borderBottom: '1px solid #f3f4f6' }}>
-                    <span className={styles.textSm} style={{ textOverflow: 'ellipsis', overflow: 'hidden', whiteSpace: 'nowrap', maxWidth: '140px' }}>{folder.name}</span>
-                    <span className={styles.textSm} style={{ fontWeight: 500 }}>{folder.count} files</span>
-                  </div>
-                ))}
-              </div>
+        
+        {stats?.folders && stats.folders.length > 0 && (
+          <div style={{ marginTop: '24px' }}>
+            <h4 className="label">By Folder</h4>
+            <div style={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
+              {stats.folders.slice(0, 10).map(folder => (
+                <div key={folder._id} className="flex" style={{ justifyContent: 'space-between', padding: '8px 0', borderBottom: '1px solid #f3f4f6' }}>
+                  <span className="text-sm" style={{ textOverflow: 'ellipsis', overflow: 'hidden', whiteSpace: 'nowrap', maxWidth: '140px' }}>{folder.name}</span>
+                  <span className="text-sm" style={{ fontWeight: 500 }}>{folder.count} files</span>
+                </div>
+              ))}
             </div>
-          )}
-        </div>
+          </div>
+        )}
       </div>
-
-      {/* Modals */}
-      <UploadZone
-        isOpen={showUpload}
-        onClose={() => setShowUpload(false)}
-        onUploadComplete={handleUploadComplete}
-        folders={folders}
-        selectedFolderId={selectedFolderId}
-      />
-
-      <FilePreview
-        file={previewFile}
-        isOpen={!!previewFile}
-        onClose={() => setPreviewFile(null)}
-        onDownload={handleDownload}
-      />
-
-      <ShareModal
-        file={shareFile}
-        isOpen={!!shareFile}
-        onClose={() => setShareFile(null)}
-      />
     </div>
-  );
+
+    {/* Modals */}
+    <UploadZone
+      isOpen={showUpload}
+      onClose={() => setShowUpload(false)}
+      onUploadComplete={handleUploadComplete}
+      folders={folders}
+      selectedFolderId={selectedFolderId}
+    />
+
+    <FilePreview
+      file={previewFile}
+      isOpen={!!previewFile}
+      onClose={() => setPreviewFile(null)}
+      onDownload={handleDownload}
+    />
+
+    <ShareModal
+      file={shareFile}
+      isOpen={!!shareFile}
+      onClose={() => setShareFile(null)}
+    />
+
+    <EditFileModal
+      file={editingFile}
+      folders={folders}
+      isOpen={!!editingFile}
+      onClose={() => setEditingFile(null)}
+      onSave={handleEditSave}
+    />
+
+    <BulkOperationModal
+      isOpen={!!bulkOp}
+      type={bulkOp?.type}
+      count={bulkOp?.fileIds?.length || 0}
+      fileIds={bulkOp?.fileIds || []}
+      folders={folders}
+      onClose={() => setBulkOp(null)}
+      onConfirm={handleBulkOpConfirm}
+    />
+  </div>
+);
 }

@@ -1,5 +1,5 @@
-import React, { useState, useEffect } from 'react';
-import { useAuth } from '../../contexts/AuthContext';
+import React, { useState } from 'react';
+import { useTranslation } from 'react-i18next';
 import { api } from '../../services/api';
 
 const SYMPTOMS = [
@@ -23,7 +23,7 @@ const SYMPTOMS = [
 const CATEGORIES = [...new Set(SYMPTOMS.map(s => s.category))];
 
 export default function SymptomChecker() {
-  const { patient } = useAuth();
+  const { t } = useTranslation('symptomChecker');
   const [selectedSymptoms, setSelectedSymptoms] = useState([]);
   const [activeCategory, setActiveCategory] = useState('All');
   const [language, setLanguage] = useState('en');
@@ -72,7 +72,7 @@ export default function SymptomChecker() {
   return (
     <div className="symptom-checker">
       <div className="checker-header">
-        <h2>🔍 AI Symptom Checker</h2>
+        <h2>{t('symptomChecker.title')}</h2>
         <p>Select your symptoms to get possible conditions and recommendations</p>
         <div className="language-selector">
           <label>Language: </label>
@@ -161,7 +161,7 @@ export default function SymptomChecker() {
 
             {result.conditions?.length > 0 && (
               <div className="result-section">
-                <h4>🏥 Possible Conditions</h4>
+                <h4>🏥 {t('symptomChecker.possibleConditions')}</h4>
                 <div className="conditions-list">
                   {result.conditions.map((c, i) => (
                     <div key={i} className="condition-card">

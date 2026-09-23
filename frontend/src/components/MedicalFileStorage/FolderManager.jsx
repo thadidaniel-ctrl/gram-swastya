@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { fileStorageAPI } from '../../services/fileStorageAPI';
+import { useTranslation } from 'react-i18next';
 import styles from './FileStorageStyles.module.css';
 
 const FOLDER_COLORS = [
@@ -12,8 +12,8 @@ export default function FolderManager({
   folders = [],
   selectedFolderId = null,
   onCreateFolder,
-  onClose,
 }) {
+  const { t } = useTranslation('files');
   const [showForm, setShowForm] = useState(false);
   const [formData, setFormData] = useState({
     folderName: '',
@@ -106,7 +106,7 @@ export default function FolderManager({
         </div>
 
         <div style={{ marginBottom: '16px' }}>
-          <label htmlFor="folder-description" className={styles.label}>Description</label>
+          <label htmlFor="folder-description" className={styles.label}>{t('common.description')}</label>
           <textarea
             id="folder-description"
             className={styles.input}
@@ -165,7 +165,7 @@ export default function FolderManager({
             onClick={handleCancel}
             disabled={loading}
           >
-            Cancel
+{t('common.cancel')}
           </button>
           <button
             type="submit"

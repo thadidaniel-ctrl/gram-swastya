@@ -1,5 +1,6 @@
 import React, { useState, useEffect, useCallback } from 'react';
 import { fileStorageAPI } from '../../services/fileStorageAPI';
+import { useTranslation } from 'react-i18next';
 import styles from './FileStorageStyles.module.css';
 
 const ACTIVITY_TYPES = [
@@ -31,6 +32,7 @@ const ACTIVITY_LABELS = {
 };
 
 export default function ActivityTimeline({ fileId }) {
+  const { t } = useTranslation('files');
   const [activities, setActivities] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
@@ -72,20 +74,11 @@ export default function ActivityTimeline({ fileId }) {
     return new Date(dateStr).toLocaleDateString('en-IN', { day: '2-digit', month: 'short', year: 'numeric' });
   };
 
-  const getFileIcon = (mimeType) => {
-    if (mimeType?.startsWith('image/')) return '🖼️';
-    if (mimeType === 'application/pdf') return '📄';
-    if (mimeType?.includes('word') || mimeType?.includes('document')) return '📝';
-    if (mimeType === 'text/plain') return '📄';
-    if (mimeType === 'application/zip') return '📦';
-    return '📄';
-  };
-
   if (error) {
     return (
       <div className={styles.alert} style={{ background: '#fef2f2', border: '1px solid #fecaca', color: '#991b1b', padding: '16px', borderRadius: '8px' }}>
         {error}
-        <button className={`${styles.btn} ${styles.btnSm} ${styles.mt4}`} onClick={fetchActivity}>Retry</button>
+        <button className={`${styles.btn} ${styles.btnSm} ${styles.mt4}`} onClick={fetchActivity}>{t('common.retry')}</button>
       </div>
     );
   }
@@ -186,7 +179,7 @@ export default function ActivityTimeline({ fileId }) {
               onClick={() => setCurrentPage(p => Math.max(1, p - 1))}
               disabled={currentPage === 1}
             >
-              ← Previous
+              {t('common.previous')}
             </button>
             <span className={styles.paginationInfo}>
               Page {currentPage} of {totalPages} ({totalCount} total)
@@ -196,7 +189,7 @@ export default function ActivityTimeline({ fileId }) {
               onClick={() => setCurrentPage(p => Math.min(totalPages, p + 1))}
               disabled={currentPage === totalPages}
             >
-              Next →
+              {t('common.next')}
             </button>
           </div>
         )}

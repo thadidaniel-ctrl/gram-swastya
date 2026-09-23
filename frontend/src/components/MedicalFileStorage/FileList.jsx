@@ -1,6 +1,9 @@
-import React, { useState, useMemo, useCallback } from 'react';
+import React, { useState, useMemo, useCallback, useEffect, useRef } from 'react';
 import { fileStorageAPI } from '../../services/fileStorageAPI';
+import { useTranslation } from 'react-i18next';
 import BulkActions from './BulkActions';
+import { ThumbnailImage } from './ProgressiveImage';
+import { EmptyState } from '../../components/Common/EmptyState';
 import styles from './FileStorageStyles.module.css';
 
 const CATEGORY_LABELS = {
@@ -25,44 +28,108 @@ const CATEGORY_LABELS = {
 };
 
 const CATEGORY_COLORS = {
-  lab_report: 'badgeRed',
-  prescription: 'badgeYellow',
-  diagnosis: 'badgeBlue',
-  vaccination: 'badgePink',
-  insurance: 'badgeTeal',
-  discharge_summary: 'badgeGreen',
-  imaging: 'badgePurple',
-  referral: 'badgeIndigo',
-  consent_form: 'badgeOrange',
-  id_proof: 'badgeGray',
-  other: 'badgeGray',
-  'Lab Report': 'badgeRed',
-  'Prescription': 'badgeYellow',
-  'Medical Image': 'badgeBlue',
-  'Hospital Record': 'badgeTeal',
-  'Vaccination': 'badgePink',
-  'Insurance': 'badgeTeal',
-  'Other': 'badgeGray',
+  lab_report: 'badge-error',
+  prescription: 'badge-warning',
+  diagnosis: 'badge-info',
+  vaccination: 'badge-info',
+  insurance: 'badge-info',
+  discharge_summary: 'badge-success',
+  imaging: 'badge-info',
+  referral: 'badge-info',
+  consent_form: 'badge-warning',
+  id_proof: 'badge-neutral',
+  other: 'badge-neutral',
+  'Lab Report': 'badge-error',
+  'Prescription': 'badge-warning',
+  'Medical Image': 'badge-info',
+  'Hospital Record': 'badge-info',
+  'Vaccination': 'badge-info',
+  'Insurance': 'badge-info',
+  'Other': 'badge-neutral',
 };
 
-export default function FileList({ 
-  files = [], 
-  folders = [],
+function getFileIcon(mimeType) {
+  if (mimeType?.startsWith('image/')) return '🖼️';
+  if (mimeType === 'application/pdf') return '📄';
+  if (mimeType?.includes('word') || mimeType?.includes('document')) return '📝';
+  if (mimeType === 'text/plain') return '📄';
+  if (mimeType === 'application/zip') return '📦';
+  return '📄';
+}
+
+function getFileColor(mimeType) {
+  if (mimeType?.startsWith('image/')) return '#dbeafe';
+  if (mimeType === 'application/pdf') return '#fee2e2';
+  if (mimeType?.includes('word') || mimeType?.includes('document')) return '#dbeafe';
+  if (mimeType === 'text/plain') return '#f3f4f6';
+  if (mimeType === 'application/zip') return '#fef9c3';
+  return '#f3f4f6';
+}
+
+// Lightweight thumbnail for image files (fetches a presigned preview URL lazily)
+function FileThumb({ file }) {
+  const isImage = file?.mimeType?.startsWith('image/');
+  const [previewUrl, setPreviewUrl] = useState('');
+  const [failed, setFailed] = useState(false);
+  const fetchedRef = useRef(false);
+
+  useEffect(() => {
+    if (!isImage || !file?.id || fetchedRef.current) return;
+    fetchedRef.current = true;
+    let cancelled = false;
+    fileStorageAPI
+      .getPreviewUrl(file.id)
+      .then(res => {
+        if (!cancelled) setPreviewUrl(res.data?.url || '');
+      })
+      .catch(() => {
+        if (!cancelled) setFailed(true);
+      });
+    return () => { cancelled = true; };
+  }, [isImage, file?.id]);
+
+  const icon = (
+    <div className={styles.fileIcon} style={{ background: getFileColor(file.mimeType), width: '100%', height: '120px', fontSize: '3rem', marginBottom: '12px' }}>
+      {getFileIcon(file.mimeType)}
+    </div>
+  );
+
+  if (!isImage || failed) return icon;
+  if (!previewUrl) return icon;
+
+  return (
+    <div className={styles.fileIcon} style={{ width: '100%', height: '120px', marginBottom: '12px', overflow: 'hidden' }}>
+      <ThumbnailImage
+        src={previewUrl}
+        alt={file.originalName || 'File preview'}
+        mimeType={file.mimeType}
+        fileSize={file.fileSize}
+        lowBandwidthMode={typeof navigator !== 'undefined' && navigator.connection?.effectiveType === '2g'}
+      />
+    </div>
+  );
+}
+
+export default function FileList({
+  files = [],
   viewMode = 'grid',
+  onViewModeChange,
   selectedFiles = [],
   onSelectionChange,
   onPreview,
   onDownload,
   onShare,
-  onDelete,
   onEdit,
+  onDelete,
   onRestore,
   onBulkDelete,
   onBulkShare,
   onBulkMove,
   loading = false,
-  emptyMessage = 'No files found'
+  emptyMessage = 'No files found',
+  onUploadClick
 }) {
+  const { t } = useTranslation('files');
   const [sortConfig, setSortConfig] = useState({ key: 'uploadedAt', direction: 'desc' });
   const [bulkLoading, setBulkLoading] = useState(false);
 
@@ -108,13 +175,6 @@ export default function FileList({
     if (days > 0) return `${days}d ${hours}h left`;
     if (hours > 0) return `${hours}h ${minutes}m left`;
     return `${minutes}m left`;
-  };
-
-  const handleSort = (key) => {
-    setSortConfig(prev => ({
-      key,
-      direction: prev.key === key && prev.direction === 'asc' ? 'desc' : 'asc',
-    }));
   };
 
   const isSelected = useCallback((fileId) => selectedFiles.includes(fileId), [selectedFiles]);
@@ -180,24 +240,6 @@ export default function FileList({
     </span>
   );
 
-  const getFileIcon = (mimeType) => {
-    if (mimeType?.startsWith('image/')) return '🖼️';
-    if (mimeType === 'application/pdf') return '📄';
-    if (mimeType?.includes('word') || mimeType?.includes('document')) return '📝';
-    if (mimeType === 'text/plain') return '📄';
-    if (mimeType === 'application/zip') return '📦';
-    return '📄';
-  };
-
-  const getFileColor = (mimeType) => {
-    if (mimeType?.startsWith('image/')) return '#dbeafe';
-    if (mimeType === 'application/pdf') return '#fee2e2';
-    if (mimeType?.includes('word') || mimeType?.includes('document')) return '#dbeafe';
-    if (mimeType === 'text/plain') return '#f3f4f6';
-    if (mimeType === 'application/zip') return '#fef9c3';
-    return '#f3f4f6';
-  };
-
   const formatDate = (dateStr) => {
     if (!dateStr) return '-';
     return new Date(dateStr).toLocaleDateString('en-IN', {
@@ -224,15 +266,16 @@ export default function FileList({
 
   if (files.length === 0) {
     return (
-      <div className={styles.emptyState}>
-        <div className={styles.emptyIcon}>📁</div>
-        <p className={styles.textMuted}>{emptyMessage}</p>
-      </div>
+      <EmptyState
+        icon="📁"
+        title="No files found"
+        description={emptyMessage}
+        action={{ label: t('files.uploadFiles'), onClick: onUploadClick }}
+      />
     );
   }
 
   const allSelected = selectedFiles.length > 0 && selectedFiles.length === sortedFiles.length;
-  const someSelected = selectedFiles.length > 0;
 
   return (
     <div>
@@ -253,14 +296,14 @@ export default function FileList({
           <div style={{ display: 'flex', gap: '4px', background: '#fff', borderRadius: '8px', border: '1px solid #e5e7eb', padding: '4px' }}>
             <button
               className={`${styles.tab} ${viewMode === 'grid' ? styles.tabActive : ''}`}
-              onClick={() => {}}
+              onClick={() => onViewModeChange?.('grid')}
               style={{ padding: '8px 12px', fontSize: '0.875rem' }}
             >
               ⊞ Grid
             </button>
             <button
               className={`${styles.tab} ${viewMode === 'list' ? styles.tabActive : ''}`}
-              onClick={() => {}}
+              onClick={() => onViewModeChange?.('list')}
               style={{ padding: '8px 12px', fontSize: '0.875rem' }}
             >
               ☰ List
@@ -269,7 +312,7 @@ export default function FileList({
         </div>
 
         <div className={styles.toolbarGroup} style={{ marginLeft: 'auto' }}>
-          <label className={styles.label} style={{ marginBottom: '4px' }}>Sort:</label>
+          <label className={styles.label} style={{ marginBottom: '4px' }}>{t('files.sortBy')}</label>
           <select
             className={`${styles.select} ${styles.input}`}
             style={{ width: 'auto', minWidth: '180px' }}
@@ -300,8 +343,8 @@ export default function FileList({
               onClick={() => toggleSelection(file.id)}
               style={{ cursor: 'pointer' }}
             >
-              <div className={styles.fileIcon} style={{ background: getFileColor(file.mimeType), width: '100%', height: '120px', fontSize: '3rem', marginBottom: '12px' }}>
-                {getFileIcon(file.mimeType)}
+              <div className={styles.cardThumb}>
+                <FileThumb file={file} />
               </div>
               <div style={{ padding: '0 12px 12px' }}>
                 <p className={styles.fileName} style={{ whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>
@@ -313,6 +356,11 @@ export default function FileList({
                 <p className={styles.fileMeta} style={{ marginTop: '8px' }}>
                   {formatDate(file.uploadedAt)} • {formatSize(file.fileSize)}
                 </p>
+                {file.documentDate && (
+                  <p className={styles.fileMeta} style={{ marginTop: '4px', color: '#4b5563' }}>
+                    📅 Document: {formatDate(file.documentDate)}
+                  </p>
+                )}
                 {file.folder && (
                   <p className={styles.fileMeta} style={{ color: '#3b82f6' }}>
                     📁 {file.folder.name}
@@ -378,12 +426,12 @@ export default function FileList({
             </div>
             <div className={styles.fileInfo} style={{ flex: 3 }}>
               <div style={{ display: 'flex', gap: '12px', alignItems: 'center' }}>
-                <span onClick={() => handleSort('originalName')} style={{ cursor: 'pointer' }}>File Name</span>
+                <span onClick={() => handleSort('originalName')} style={{ cursor: 'pointer' }}>{t('files.fileName')}</span>
                 {sortConfig.key === 'originalName' && (sortConfig.direction === 'asc' ? '↑' : '↓')}
               </div>
             </div>
             <div style={{ flex: 1, textAlign: 'center' }}>
-              <span onClick={() => handleSort('category')} style={{ cursor: 'pointer' }}>Category</span>
+              <span onClick={() => handleSort('category')} style={{ cursor: 'pointer' }}>{t('common.category')}</span>
               {sortConfig.key === 'category' && (sortConfig.direction === 'asc' ? '↑' : '↓')}
             </div>
             <div style={{ flex: 1, textAlign: 'center' }}>
@@ -395,7 +443,7 @@ export default function FileList({
               {sortConfig.key === 'uploadedAt' && (sortConfig.direction === 'asc' ? '↑' : '↓')}
             </div>
             <div style={{ flex: 1, textAlign: 'center' }}>Folder</div>
-            <div style={{ width: '80px', textAlign: 'center' }}>Actions</div>
+            <div style={{ width: '80px', textAlign: 'center' }}>{t('common.actions')}</div>
           </div>
 
           {sortedFiles.map(file => (
@@ -411,6 +459,7 @@ export default function FileList({
                 checked={isSelected(file.id)}
                 onChange={(e) => { e.stopPropagation(); toggleSelection(file.id); }}
                 style={{ width: '18px', height: '18px', marginRight: '12px', accentColor: '#3b82f6' }}
+                aria-label={`Select ${file.originalName}`}
               />
               <div className={styles.fileIcon} style={{ background: getFileColor(file.mimeType) }}>
                 {getFileIcon(file.mimeType)}
@@ -429,15 +478,20 @@ export default function FileList({
               </div>
               <div style={{ flex: 1, textAlign: 'center', color: '#6b7280' }}>
                 {formatDate(file.uploadedAt)}
+                {file.documentDate && (
+                  <div style={{ fontSize: '0.75rem', marginTop: '4px' }}>
+                    📅 {formatDate(file.documentDate)}
+                  </div>
+                )}
               </div>
               <div style={{ flex: 1, textAlign: 'center', color: '#6b7280' }}>
                 {file.folder ? file.folder.name : '—'}
               </div>
               <div className={styles.fileActions} style={{ width: '140px', justifyContent: 'center', gap: '4px' }}>
-                <button className={styles.btnIcon} onClick={(e) => { e.stopPropagation(); onPreview?.(file); }} title="Preview">👁️</button>
-                <button className={styles.btnIcon} onClick={(e) => { e.stopPropagation(); onDownload?.(file); }} title="Download">⬇️</button>
-                <button className={styles.btnIcon} onClick={(e) => { e.stopPropagation(); onShare?.(file); }} title="Share">🔗</button>
-                <button className={styles.btnIcon} onClick={(e) => { e.stopPropagation(); onEdit?.(file); }} title="Edit">✏️</button>
+                <button className={styles.btnIcon} onClick={(e) => { e.stopPropagation(); onPreview?.(file); }} title="Preview" aria-label={`Preview ${file.originalName}`}>👁️</button>
+                <button className={styles.btnIcon} onClick={(e) => { e.stopPropagation(); onDownload?.(file); }} title="Download" aria-label={`Download ${file.originalName}`}>⬇️</button>
+                <button className={styles.btnIcon} onClick={(e) => { e.stopPropagation(); onShare?.(file); }} title="Share" aria-label={`Share ${file.originalName}`}>🔗</button>
+                <button className={styles.btnIcon} onClick={(e) => { e.stopPropagation(); onEdit?.(file); }} title="Edit" aria-label={`Edit ${file.originalName}`}>✏️</button>
                 {file.isDeleted ? (
                   <div style={{ display: 'flex', gap: '4px', alignItems: 'center' }}>
                     {(() => {

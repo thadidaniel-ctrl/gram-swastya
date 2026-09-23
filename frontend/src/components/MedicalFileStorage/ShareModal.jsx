@@ -1,5 +1,6 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef, useCallback } from 'react';
 import { fileStorageAPI } from '../../services/fileStorageAPI';
+import { useTranslation } from 'react-i18next';
 import styles from './FileStorageStyles.module.css';
 
 export default function ShareModal({ 
@@ -7,22 +8,31 @@ export default function ShareModal({
   isOpen, 
   onClose 
 }) {
+  const { t } = useTranslation('files');
   const [doctors, setDoctors] = useState([]);
   const [sharedWith, setSharedWith] = useState([]);
   const [loading, setLoading] = useState(false);
   const [searchQuery, setSearchQuery] = useState('');
   const [selectedDoctor, setSelectedDoctor] = useState(null);
   const [expiresAt, setExpiresAt] = useState('');
-  const [permissions, setPermissions] = useState('view');
+  const [permissions, setPermissions] = useState('view-only');
   const [message, setMessage] = useState(null);
+
+  const searchInputRef = useRef(null);
 
   useEffect(() => {
     if (isOpen) {
       loadData();
     }
-  }, [isOpen, file]);
+  }, [isOpen, file, loadData]);
 
-  const loadData = async () => {
+  useEffect(() => {
+    if (isOpen && searchInputRef.current) {
+      searchInputRef.current.focus();
+    }
+  }, [isOpen]);
+
+  const loadData = useCallback(async () => {
     setLoading(true);
     try {
       const [doctorsRes] = await Promise.all([
@@ -38,23 +48,23 @@ export default function ShareModal({
     } finally {
       setLoading(false);
     }
-  };
+  }, [file]);
 
   const handleShare = async () => {
     if (!selectedDoctor) return;
     
-    setMessage({ type: 'loading', text: 'Sharing...' });
+    setMessage({ type: 'loading', text: t('files.sharing') });
     try {
       await fileStorageAPI.shareFile(file.id, {
         doctorId: selectedDoctor.id,
-        expiresAt: expiresAt || null,
-        permissions,
+        expiresAt: expiresAt || undefined,
+        permissions: 'view-only',
       });
-      
+
       setMessage({ type: 'success', text: 'File shared successfully!' });
       setSelectedDoctor(null);
       setExpiresAt('');
-      setPermissions('view');
+      setPermissions('view-only');
       loadData();
     } catch (error) {
       setMessage({ type: 'error', text: error.message || 'Failed to share file' });
@@ -85,18 +95,19 @@ export default function ShareModal({
     <div className={styles.modalOverlay} onClick={onClose}>
       <div className={styles.modal} style={{ maxWidth: '500px' }} onClick={e => e.stopPropagation()}>
         <div className={styles.modalHeader}>
-          <h3 className={styles.modalTitle}>🔗 Share "{file?.originalName}"</h3>
+          <h3 className={styles.modalTitle}>{t('files.share')} "{file?.originalName}"</h3>
           <button className={styles.modalClose} onClick={onClose} aria-label="Close">✕</button>
         </div>
 
         <div className={styles.modalBody}>
           {/* Share with doctor */}
           <div style={{ marginBottom: '24px' }}>
-            <h4 className={styles.label}>Share with Doctor</h4>
-            
-            <div style={{ marginBottom: '12px' }}>
-              <label className={styles.label}>Search Doctors</label>
+<h4 className={styles.label}>{t('files.shareWithDoctor')}</h4>
+              
+              <div style={{ marginBottom: '12px' }}>
+                <label className={styles.label}>Search Doctors</label>
               <input
+                ref={searchInputRef}
                 type="text"
                 className={styles.input}
                 placeholder="Search by name or specialization..."
@@ -161,9 +172,7 @@ export default function ShareModal({
                   value={permissions}
                   onChange={(e) => setPermissions(e.target.value)}
                 >
-                  <option value="view">View Only</option>
-                  <option value="download">View & Download</option>
-                  <option value="comment">View, Download & Comment</option>
+                  <option value="view-only">View Only</option>
                 </select>
               </div>
             </div>
@@ -174,7 +183,7 @@ export default function ShareModal({
               disabled={!selectedDoctor || loading}
               style={{ width: '100%' }}
             >
-              {loading ? 'Sharing...' : 'Share File'}
+              {loading ? 'Sharing...' : t('files.share')}
             </button>
           </div>
 
@@ -218,7 +227,7 @@ export default function ShareModal({
           )}
 
           {message && (
-            <div className={`${styles.mt4} ${message.type === 'error' ? styles.textError : message.type === 'success' ? 'text-green-600' : ''}`}>
+            <div className={`${styles.mt4} ${message.type === 'error' ? styles.textError : ''}`} style={message.type === 'success' ? { color: '#16a34a' } : {}}>
               {message.text}
             </div>
           )}

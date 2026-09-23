@@ -1,4 +1,5 @@
-import React, { useState, useMemo, useCallback } from 'react';
+import React, { useState, useMemo } from 'react';
+import { useTranslation } from 'react-i18next';
 import styles from './FileStorageStyles.module.css';
 
 const CATEGORY_OPTIONS = [
@@ -22,12 +23,12 @@ const SORT_OPTIONS = [
 
 export default function SearchBar({
   files = [],
-  folders = [],
   tags = [],
   onSearch,
   onFilterChange,
   initialFilters = {}
 }) {
+  const { t } = useTranslation('files');
   const [query, setQuery] = useState(initialFilters.search || '');
   const [category, setCategory] = useState(initialFilters.category || '');
   const [selectedTags, setSelectedTags] = useState(initialFilters.tags || []);
@@ -153,7 +154,7 @@ export default function SearchBar({
       <div className={styles.panelBody}>
         {/* Main Search */}
         <div style={{ marginBottom: '16px' }}>
-          <label className={styles.label}>Search Files</label>
+          <label className={styles.label}>{t('common.search')}</label>
           <div className={styles.flex} style={{ gap: '12px' }}>
             <input
               type="text"
@@ -177,7 +178,7 @@ export default function SearchBar({
 
         {/* Sort */}
         <div style={{ marginBottom: '16px' }}>
-          <label className={styles.label}>Sort By</label>
+          <label className={styles.label}>{t('files.sortBy')}</label>
           <select
             className={`${styles.select} ${styles.input}`}
             value={sortBy}

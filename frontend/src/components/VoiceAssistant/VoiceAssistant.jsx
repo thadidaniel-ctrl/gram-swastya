@@ -1,9 +1,13 @@
-import React, { useState, useRef, useEffect } from 'react';
+import React, { useState, useRef, useEffect, useCallback } from 'react';
+import { useTranslation } from 'react-i18next';
 import { useAuth } from '../../contexts/AuthContext';
 import { api } from '../../services/api';
+import { useToast } from '../../contexts/ToastContext';
 import { 
   saveConversation, 
   getConversations, 
+  getUnsyncedConversations,
+  markConversationSynced,
   cacheResponse, 
   getCachedResponse,
   getOfflineResponse,
@@ -13,16 +17,17 @@ import {
 } from '../../services/offlineVoice';
 
 export default function VoiceAssistant() {
+  const { t } = useTranslation('voiceAssistant');
+  const { showToast } = useToast();
   const { patient } = useAuth();
   const [isRecording, setIsRecording] = useState(false);
   const [isProcessing, setIsProcessing] = useState(false);
   const [isOnlineStatus, setIsOnlineStatus] = useState(true);
-  const [transcript, setTranscript] = useState('');
-  const [response, setResponse] = useState(null);
+  const [, setTranscript] = useState('');
+  const [, setResponse] = useState(null);
   const [language, setLanguage] = useState('en');
   const [error, setError] = useState(null);
   const [conversation, setConversation] = useState([]);
-  const [sessionId] = useState(`voice_${patient?.id}_${Date.now()}`);
   const [showHistory, setShowHistory] = useState(false);
   const [offlineMode, setOfflineMode] = useState(false);
   
@@ -31,6 +36,53 @@ export default function VoiceAssistant() {
   const audioContextRef = useRef(null);
   const analyserRef = useRef(null);
   const patientDataRef = useRef(null);
+
+  const sessionIdRef = useRef(
+    typeof crypto !== 'undefined' && typeof crypto.randomUUID === 'function'
+      ? crypto.randomUUID()
+      : `session_${Date.now()}_${Math.random().toString(36).slice(2, 9)}`
+  );
+
+  const syncPendingConversations = useCallback(async () => {
+    if (!patient?.id) return;
+    try {
+      const pending = await getUnsyncedConversations(200);
+      if (pending.length === 0) return;
+
+      const payload = pending.map(c => ({
+        sessionId: c.sessionId,
+        language: c.language || 'en',
+        userMessage: c.userMessage,
+        assistantResponse: c.assistantResponse,
+        intent: c.intent,
+        fromCache: c.fromCache,
+        patternMatched: c.patternMatched,
+        timestamp: c.timestamp,
+      }));
+
+      const result = await api.syncVoiceConversations(payload);
+
+      const syncedCount = result?.synced ?? 0;
+      for (const conv of pending) {
+        await markConversationSynced(conv.id);
+      }
+
+      if (syncedCount > 0) {
+        showToast(`${syncedCount} offline conversation${syncedCount > 1 ? 's' : ''} synced`, 'success');
+      }
+    } catch (error) {
+      showToast('Failed to sync offline conversations', 'error');
+    }
+  }, [patient, showToast]);
+
+  const loadConversationHistory = useCallback(async () => {
+    try {
+      const history = await getConversations(20);
+      setConversation(history.reverse());
+    } catch (error) {
+      showToast('Failed to load conversation history', 'error');
+    }
+  }, [showToast]);
 
   useEffect(() => {
     setIsOnlineStatus(isOnline());
@@ -48,24 +100,18 @@ export default function VoiceAssistant() {
     });
     
     loadConversationHistory();
-    return cleanup;
-  }, []);
-
-  const loadConversationHistory = async () => {
-    try {
-      const history = await getConversations(20);
-      setConversation(history.reverse());
-    } catch (error) {
-      console.error('Failed to load conversation history:', error);
+    if (isOnline()) {
+      syncPendingConversations();
     }
-  };
-
-  const syncPendingConversations = async () => {
-    // Sync logic would go here
-    console.log('Syncing pending conversations...');
-  };
+    return cleanup;
+  }, [patient, loadConversationHistory, syncPendingConversations]);
 
   const startRecording = async () => {
+    if (!isOnlineStatus) {
+      setError('Voice input unavailable offline. Use text prompts below or type your question.');
+      return;
+    }
+    
     try {
       const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
       audioContextRef.current = new AudioContext();
@@ -124,7 +170,7 @@ export default function VoiceAssistant() {
       
       let result;
       let fromCache = false;
-      let patternMatched = null;
+      const patternMatched = null;
       let offline = false;
 
       if (!isOnlineStatus) {
@@ -169,7 +215,7 @@ export default function VoiceAssistant() {
       
       // Save to IndexedDB
       await saveConversation({
-        sessionId,
+        sessionId: sessionIdRef.current,
         userMessage: simulatedTranscript,
         assistantResponse: result.text_response,
         intent: result.intent,
@@ -190,7 +236,7 @@ export default function VoiceAssistant() {
 
       setResponse(result);
     } catch (err) {
-      setError(err.message);
+      showToast('Voice processing failed. Please try again.', 'error');
     } finally {
       setIsProcessing(false);
     }
@@ -258,17 +304,10 @@ export default function VoiceAssistant() {
     return langSamples[Math.floor(Math.random() * langSamples.length)];
   };
 
-  const getVisualizerData = () => {
-    if (!analyserRef.current) return [];
-    const dataArray = new Uint8Array(analyserRef.current.frequencyBinCount);
-    analyserRef.current.getByteFrequencyData(dataArray);
-    return Array.from(dataArray).slice(0, 30);
-  };
-
   return (
     <div className="voice-assistant">
       <div className="assistant-header">
-        <h2>🎤 Voice Assistant</h2>
+        <h2>{t('voiceAssistant.title')}</h2>
         <div className="header-status">
           <span className={`connection-status ${isOnlineStatus ? 'online' : 'offline'}`}>
             {isOnlineStatus ? '🟢 Online' : '🔴 Offline'}
@@ -332,7 +371,7 @@ export default function VoiceAssistant() {
                     </div>
                   </div>
                 </div>
-              ))}
+            ))
             )}
 
             <div className="recording-controls">
@@ -350,13 +389,13 @@ export default function VoiceAssistant() {
               </div>
 
               <div className="status-text">
-                {isRecording ? '🎙️ Listening...' : isProcessing ? '🤔 Processing...' : isOnlineStatus ? 'Tap to speak' : '🔴 Offline - Tap for offline mode'}
+                {isRecording ? `🎙️ ${t('voiceAssistant.listening')}` : isProcessing ? `🤔 ${t('voiceAssistant.processing')}` : isOnlineStatus ? t('voiceAssistant.tapToSpeak') : '🔴 Offline — Voice unavailable. Use text prompts below.'}
               </div>
 
               <button 
                 className={`mic-button ${isRecording ? 'recording' : ''} ${isProcessing ? 'processing' : ''} ${!isOnlineStatus ? 'offline' : ''}`}
                 onClick={isRecording ? stopRecording : startRecording}
-                disabled={isProcessing}
+                disabled={isProcessing || !isOnlineStatus}
               >
                 {isRecording ? '⏹️' : '🎤'}
               </button>

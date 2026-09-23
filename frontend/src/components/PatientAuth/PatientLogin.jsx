@@ -2,8 +2,10 @@ import React, { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { usePatientAuth } from '../../contexts/PatientAuthContext';
 import { useAuth } from '../../contexts/AuthContext';
+import { useTranslation } from 'react-i18next';
 
 export default function PatientLogin() {
+  const { t } = useTranslation('auth');
   const navigate = useNavigate();
   const { sendOTP, verifyOTP, isLoading, error, clearError } = usePatientAuth();
   const { loginPatient } = useAuth();
@@ -98,20 +100,20 @@ export default function PatientLogin() {
                 className={method === 'phone' ? 'active' : ''}
                 onClick={() => setMethod('phone')}
               >
-                📱 Phone
+                📱 {t('common.phone')}
               </button>
               <button
                 type="button"
                 className={method === 'email' ? 'active' : ''}
                 onClick={() => setMethod('email')}
               >
-                ✉️ Email
+                ✉️ {t('common.email')}
               </button>
             </div>
 
             {method === 'phone' && (
               <div className="form-group">
-                <label>Phone Number</label>
+                <label>{t('auth.phoneNumber')}</label>
                 <input
                   type="tel"
                   value={phone}
@@ -139,7 +141,7 @@ export default function PatientLogin() {
             )}
 
             <button type="submit" className="btn btn-primary btn-full" disabled={isLoading}>
-              {isLoading ? 'Sending...' : 'Send OTP'}
+              {isLoading ? 'Sending...' : t('auth.sendOtp')}
             </button>
           </form>
         )}
@@ -147,7 +149,7 @@ export default function PatientLogin() {
         {step === 'otp' && (
           <form onSubmit={handleVerifyOTP} className="auth-form">
             <div className="form-group">
-              <label>Enter 6-Digit OTP</label>
+              <label>{t('auth.enterOtp')}</label>
               <div className="otp-inputs">
                 {Array.from({ length: 6 }, (_, i) => (
                   <input
@@ -181,7 +183,7 @@ export default function PatientLogin() {
                 <>Resend in {countdown}s</>
               ) : (
                 <button type="button" className="btn-link" onClick={() => setStep('contact')}>
-                  Resend OTP
+                  {t('auth.resendOtp')}
                 </button>
               )}
             </div>

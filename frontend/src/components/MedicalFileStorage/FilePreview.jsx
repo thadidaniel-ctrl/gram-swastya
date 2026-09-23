@@ -1,5 +1,6 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useRef } from 'react';
 import { fileStorageAPI } from '../../services/fileStorageAPI';
+import { useTranslation } from 'react-i18next';
 import styles from './FileStorageStyles.module.css';
 
 export default function FilePreview({ 
@@ -8,9 +9,13 @@ export default function FilePreview({
   onClose,
   onDownload 
 }) {
+  const { t } = useTranslation('files');
   const [previewUrl, setPreviewUrl] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
+
+  const closeBtnRef = useRef(null);
+  const previewUrlRef = useRef(null);
 
   useEffect(() => {
     if (!isOpen || !file) return;
@@ -20,6 +25,7 @@ export default function FilePreview({
       setError(null);
       try {
         const res = await fileStorageAPI.getPreviewUrl(file.id);
+        previewUrlRef.current = res.data.url;
         setPreviewUrl(res.data.url);
       } catch (err) {
         setError(err.message || 'Failed to load preview');
@@ -31,17 +37,20 @@ export default function FilePreview({
     fetchPreview();
 
     return () => {
-      if (previewUrl) {
-        URL.revokeObjectURL(previewUrl);
+      if (previewUrlRef.current) {
+        URL.revokeObjectURL(previewUrlRef.current);
+        previewUrlRef.current = null;
       }
     };
   }, [isOpen, file]);
 
-  if (!isOpen) return null;
+  useEffect(() => {
+    if (isOpen && closeBtnRef.current) {
+      closeBtnRef.current.focus();
+    }
+  }, [isOpen]);
 
-  const canPreview = (mimeType) => {
-    return mimeType?.startsWith('image/') || mimeType === 'application/pdf';
-  };
+  if (!isOpen) return null;
 
   const getFileIcon = (mimeType) => {
     if (mimeType?.startsWith('image/')) return '🖼️';
@@ -70,12 +79,21 @@ export default function FilePreview({
     });
   };
 
+  const formatDocDate = (dateStr) => {
+    if (!dateStr) return null;
+    return new Date(dateStr).toLocaleDateString('en-IN', {
+      day: '2-digit',
+      month: 'short',
+      year: 'numeric',
+    });
+  };
+
   return (
     <div className={styles.modalOverlay} onClick={onClose}>
       <div className={styles.modal} style={{ maxWidth: '900px', maxHeight: '90vh' }} onClick={e => e.stopPropagation()}>
         <div className={styles.modalHeader}>
           <h3 className={styles.modalTitle}>{file?.originalName || 'File Preview'}</h3>
-          <button className={styles.modalClose} onClick={onClose} aria-label="Close preview">✕</button>
+          <button ref={closeBtnRef} className={styles.modalClose} onClick={onClose} aria-label="Close preview">✕</button>
         </div>
 
         <div className={styles.modalBody} style={{ display: 'flex', flexDirection: 'column', height: 'calc(90vh - 140px)' }}>
@@ -94,7 +112,8 @@ export default function FilePreview({
               <div>
                 <p style={{ fontWeight: 500, color: '#111827' }}>{file?.originalName}</p>
                 <p className={styles.textSm} style={{ color: '#6b7280' }}>
-                  {formatSize(file?.fileSize)} • {file?.mimeType} • {formatDate(file?.uploadedAt)}
+                  {formatSize(file?.fileSize)} • {file?.mimeType} • Uploaded {formatDate(file?.uploadedAt)}
+                  {formatDocDate(file?.documentDate) ? ` • 📅 Document ${formatDocDate(file?.documentDate)}` : ''}
                 </p>
               </div>
             </div>
@@ -102,11 +121,18 @@ export default function FilePreview({
             {file?.category && (
               <span className={`${styles.badge} ${styles.badgeBlue}`}>{file.category.replace('_', ' ')}</span>
             )}
-            {file?.tags?.length && (
-              <span className={`${styles.badge} ${styles.badgeGray}`}>
-                {file.tags.slice(0, 3).join(', ')}{file.tags.length > 3 && ` +${file.tags.length - 3}`}
-              </span>
-            )}
+            {(() => {
+              const tagsArray = Array.isArray(file?.tags)
+                ? file.tags
+                : typeof file?.tags === 'string' && file.tags
+                  ? file.tags.split(',').map(t => t.trim()).filter(Boolean)
+                  : [];
+              return tagsArray.length > 0 ? (
+                <span className={`${styles.badge} ${styles.badgeGray}`}>
+                  {tagsArray.slice(0, 3).join(', ')}{tagsArray.length > 3 && ` +${tagsArray.length - 3}`}
+                </span>
+              ) : null;
+            })()}
             {file?.folder && (
               <span className={styles.textSm} style={{ color: '#3b82f6' }}>📁 {file.folder.name}</span>
             )}
@@ -117,7 +143,7 @@ export default function FilePreview({
                 onClick={() => onDownload?.(file)}
                 disabled={loading}
               >
-                ⬇️ Download
+                ⬇️ {t('common.download')}
               </button>
             </div>
           </div>
@@ -173,18 +199,18 @@ export default function FilePreview({
           </div>
         </div>
 
-        <div className={styles.modalFooter}>
-          <button className={`${styles.btn} ${styles.btnSecondary}`} onClick={onClose}>
-            Close
-          </button>
-          <button 
-            className={`${styles.btn} ${styles.btnPrimary}`}
-            onClick={() => onDownload?.(file)}
-            disabled={loading}
-          >
-            Download
-          </button>
-        </div>
+<div className={styles.modalFooter}>
+           <button className={`${styles.btn} ${styles.btnSecondary}`} onClick={onClose}>
+             {t('common.close')}
+           </button>
+           <button 
+             className={`${styles.btn} ${styles.btnPrimary}`}
+             onClick={() => onDownload?.(file)}
+             disabled={loading}
+           >
+             {t('common.download')}
+           </button>
+         </div>
       </div>
     </div>
   );

@@ -2,8 +2,10 @@ import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useDoctorAuth } from '../../contexts/DoctorAuthContext';
 import { useAuth } from '../../contexts/AuthContext';
+import { useTranslation } from 'react-i18next';
 
 export default function DoctorLogin() {
+  const { t } = useTranslation('auth');
   const navigate = useNavigate();
   const { sendOTP, verifyOTP, isLoading, error, clearError } = useDoctorAuth();
   const { loginDoctor } = useAuth();
@@ -77,14 +79,14 @@ export default function DoctorLogin() {
                 className={method === 'phone' ? 'active' : ''}
                 onClick={() => setMethod('phone')}
               >
-                📱 Phone
+                📱 {t('common.phone')}
               </button>
               <button
                 type="button"
                 className={method === 'email' ? 'active' : ''}
                 onClick={() => setMethod('email')}
               >
-                ✉️ Email
+                ✉️ {t('common.email')}
               </button>
             </div>
 
@@ -117,7 +119,7 @@ export default function DoctorLogin() {
             )}
 
             <button type="submit" className="btn btn-primary btn-full" disabled={isLoading}>
-              {isLoading ? 'Sending...' : 'Send OTP'}
+              {isLoading ? 'Sending...' : t('auth.sendOtp')}
             </button>
           </form>
         )}
@@ -125,7 +127,7 @@ export default function DoctorLogin() {
         {step === 'otp' && (
           <form onSubmit={handleVerifyOTP} className="auth-form">
             <div className="form-group">
-              <label>Enter 6-Digit OTP</label>
+              <label>{t('auth.enterOtp')}</label>
               <div className="otp-inputs">
                 {Array.from({ length: 6 }, (_, i) => (
                   <input

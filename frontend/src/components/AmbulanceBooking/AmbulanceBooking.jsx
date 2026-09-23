@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { useTranslation } from 'react-i18next';
 import { useAuth } from '../../contexts/AuthContext';
 import { api } from '../../services/api';
 
@@ -13,6 +14,7 @@ const EMERGENCY_TYPES = [
 ];
 
 export default function AmbulanceBooking() {
+  const { t } = useTranslation('ambulance');
   const { patient } = useAuth();
   const [step, setStep] = useState('type');
   const [emergencyType, setEmergencyType] = useState('');
@@ -28,7 +30,7 @@ export default function AmbulanceBooking() {
     if (step === 'location' && !location.lat) {
       getCurrentLocation();
     }
-  }, [step]);
+  }, [step, location.lat]);
 
   const getCurrentLocation = () => {
     if (!navigator.geolocation) {
@@ -44,7 +46,7 @@ export default function AmbulanceBooking() {
           address: 'Current GPS Location'
         });
       },
-      (err) => {
+      (_err) => {
         setError('Unable to get location. Please enable GPS.');
       },
       { enableHighAccuracy: true, timeout: 10000 }
@@ -59,16 +61,18 @@ export default function AmbulanceBooking() {
     
     try {
       const response = await api.bookAmbulance({
-        location: { lat: location.lat, lng: location.lng },
-        patient_id: patient?.id,
-        emergency_type: emergencyType,
+        lat: location.lat,
+        lng: location.lng,
+        address: location.address || 'Current GPS Location',
+        emergencyType,
         description,
-        contact_phone: contactPhone,
+        contactPhone,
       });
-      
-      setBooking(response);
+
+      const data = response?.data || response;
+      setBooking(data);
       setStep('confirmed');
-      startCountdown(response.eta_minutes * 60);
+      startCountdown((data.ambulance?.etaMinutes || 10) * 60);
     } catch (err) {
       setError(err.message);
     } finally {
@@ -98,7 +102,7 @@ export default function AmbulanceBooking() {
   return (
     <div className="ambulance-booking">
       <div className="booking-header">
-        <h2>🚑 Emergency Ambulance</h2>
+        <h2>{t('ambulance.title')}</h2>
         <p>Book nearest ambulance with real-time tracking</p>
       </div>
 
@@ -111,7 +115,12 @@ export default function AmbulanceBooking() {
         ))}
       </div>
 
-      {error && <div className="alert alert-error">{error}</div>}
+      {error && (
+        <div className="alert alert-error">
+          <p>{error}</p>
+          <a href="tel:108" className="btn btn-danger btn-small">📞 Call 108 Emergency</a>
+        </div>
+      )}
 
       {step === 'type' && (
         <div className="booking-content">
@@ -125,7 +134,7 @@ export default function AmbulanceBooking() {
               >
                 <div className="emergency-icon">{type.label.split(' ')[0]}</div>
                 <div className="emergency-info">
-                  <span className="emergency-label">{type.label.split(' ').slice(1).join(' ')}</span>
+                  <span className="emergency-label">{type.value === 'cardiac' ? t('ambulance.emergencyTypes.cardiac') : type.value === 'trauma' ? t('ambulance.emergencyTypes.trauma') : type.value === 'respiratory' ? t('ambulance.emergencyTypes.respiratory') : type.value === 'stroke' ? t('ambulance.emergencyTypes.stroke') : type.value === 'pregnancy' ? t('ambulance.emergencyTypes.pregnancy') : type.value === 'other' ? t('ambulance.emergencyTypes.other') : type.label.split(' ').slice(1).join(' ')}</span>
                   <span className={`priority-badge priority-${type.priority}`}>{type.priority.toUpperCase()}</span>
                 </div>
               </button>
@@ -167,7 +176,7 @@ export default function AmbulanceBooking() {
 
       {step === 'location' && (
         <div className="booking-content">
-          <h3>Pickup Location</h3>
+          <h3>{t('ambulance.pickupLocation')}</h3>
           <div className="location-card">
             {location.lat ? (
               <>
@@ -205,42 +214,37 @@ export default function AmbulanceBooking() {
           <div className="booking-details">
             <div className="detail-row">
               <span className="detail-label">Booking ID</span>
-              <span className="detail-value">{booking.booking_id}</span>
+              <span className="detail-value">{booking.callId}</span>
             </div>
             <div className="detail-row">
               <span className="detail-label">Ambulance</span>
-              <span className="detail-value">{booking.vehicle_number} ({booking.ambulance_id})</span>
+              <span className="detail-value">{booking.ambulance?.vehicleNumber}</span>
             </div>
             <div className="detail-row">
               <span className="detail-label">Driver</span>
-              <span className="detail-value">{booking.driver_name} • {booking.driver_phone}</span>
+              <span className="detail-value">{booking.ambulance?.driverName} • {booking.ambulance?.driverPhone}</span>
             </div>
             <div className="detail-row">
               <span className="detail-label">Hospital</span>
-              <span className="detail-value">{booking.hospital_name}</span>
+              <span className="detail-value">{booking.hospital?.name || 'Nearest facility'}</span>
             </div>
             <div className="detail-row highlight">
               <span className="detail-label">ETA</span>
-              <span className="detail-value eta">{countdown !== null ? formatTime(countdown) : `${booking.eta_minutes} min`} • {booking.distance_km} km</span>
+              <span className="detail-value eta">{countdown !== null ? formatTime(countdown) : `${booking.ambulance?.etaMinutes || 10} min`} • {booking.ambulance?.distanceKm} km</span>
             </div>
             <div className="detail-row">
               <span className="detail-label">Status</span>
-              <span className={`detail-value status-${booking.status}`}>{booking.status.replace('_', ' ').toUpperCase()}</span>
+              <span className={`detail-value status-${booking.status}`}>{(booking.status || 'assigned').replace('_', ' ').toUpperCase()}</span>
             </div>
           </div>
 
           <div className="booking-actions">
-            <a href={`tel:${booking.driver_phone}`} className="btn btn-primary btn-full">📞 Call Driver</a>
+            <a href={`tel:${booking.ambulance?.driverPhone}`} className="btn btn-primary btn-full">📞 Call Driver</a>
+            <a href="tel:108" className="btn btn-danger btn-full">📞 Emergency? Call 108</a>
             <button className="btn btn-secondary btn-full" onClick={() => { setStep('type'); setBooking(null); }}>New Booking</button>
           </div>
         </div>
       )}
     </div>
   );
-}
-
-function formatTime(seconds) {
-  const mins = Math.floor(seconds / 60);
-  const secs = seconds % 60;
-  return `${mins}:${secs.toString().padStart(2, '0')}`;
 }
