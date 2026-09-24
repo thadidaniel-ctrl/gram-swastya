@@ -3,7 +3,7 @@ import { clampProgress } from './utils';
 import styles from './HealthTracker.module.css';
 
 export default function GoalCard({ goal, config, current, progress, onEdit, onDelete }) {
-  const { t } = useTranslation('healthTracker');
+  const { t } = useTranslation();
   const safeProgress = clampProgress(progress);
 
   const formatCurrent = (type, value) => {

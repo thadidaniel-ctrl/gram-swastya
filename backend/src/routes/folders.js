@@ -66,6 +66,9 @@ router.get('/', listValidation, validate, folderController.getFolders);
 // GET /api/folders/list - Get folders flat list (alias for reference compatibility)
 router.get('/list', listValidation, validate, folderController.getFolders);
 
+// POST /api/folders/initialize - Create default system folders for a patient
+router.post('/initialize', folderController.initializeFolders);
+
 // POST /api/folders - Create folder
 router.post('/', createFolderValidation, validate, folderController.createFolder);
 

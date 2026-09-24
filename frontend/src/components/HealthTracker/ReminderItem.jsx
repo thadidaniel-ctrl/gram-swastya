@@ -2,7 +2,7 @@ import React from 'react';
 import styles from './HealthTracker.module.css';
 
 export default function ReminderItem({ reminder, timeUntil, onMarkTaken, onSnooze, formatTime, isCompleted, snoozeEnabled = true }) {
-  const { t } = useTranslation('healthTracker');
+  const { t } = useTranslation();
   const typeIcons = {
     medication: '💊',
     health_check: '🩺',

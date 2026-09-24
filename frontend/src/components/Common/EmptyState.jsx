@@ -9,7 +9,7 @@ export function EmptyState({
   action = null,
   className = '' 
 }) {
-  const { t } = useTranslation('common');
+  const { t } = useTranslation();
   const navigate = useNavigate();
 
   const handleAction = () => {

@@ -204,6 +204,100 @@ router.delete('/conversations/:sessionId', authenticate, authorize('patient'), a
   }
 });
 
+router.post(
+  '/sync',
+  authenticate,
+  authorize('patient'),
+  [
+    body('conversations')
+      .isArray({ min: 1, max: 200 })
+      .withMessage('conversations must be a non-empty array'),
+  ],
+  async (req, res) => {
+    try {
+      const errors = validationResult(req);
+      if (!errors.isEmpty()) {
+        return res.status(400).json({ success: false, errors: errors.array() });
+      }
+
+      const patientId = req.user._id;
+      const { conversations } = req.body;
+
+      let synced = 0;
+      const failed = [];
+
+      for (const entry of conversations) {
+        const {
+          sessionId,
+          userMessage,
+          assistantResponse,
+          intent,
+          fromCache,
+          patternMatched,
+          timestamp,
+        } = entry;
+
+        if (!sessionId || !userMessage || !assistantResponse) {
+          failed.push({
+            sessionId: sessionId || 'unknown',
+            reason: 'missing userMessage or assistantResponse',
+          });
+          continue;
+        }
+
+        try {
+          let conversation = await VoiceConversation.findOne({ sessionId, patient: patientId });
+          if (!conversation) {
+            conversation = new VoiceConversation({
+              patient: patientId,
+              sessionId,
+              language: entry.language || 'en',
+              startedAt: timestamp ? new Date(timestamp) : new Date(),
+            });
+          }
+
+          const existingTexts = conversation.messages.map(m => m.text);
+          const msgTimestamp = timestamp !== undefined ? new Date(timestamp) : new Date();
+
+          if (!existingTexts.includes(userMessage)) {
+            await conversation.addMessage({
+              role: 'user',
+              text: userMessage,
+              intent: 'user_query',
+              timestamp: msgTimestamp,
+            });
+          }
+          if (!existingTexts.includes(assistantResponse)) {
+            await conversation.addMessage({
+              role: 'assistant',
+              text: assistantResponse,
+              intent: intent || 'general',
+              fromCache: Boolean(fromCache),
+              patternMatched: patternMatched || null,
+              timestamp: msgTimestamp,
+            });
+          }
+
+          synced += 1;
+        } catch (convError) {
+          logger.error('Sync conversation save error:', convError);
+          failed.push({ sessionId, reason: 'save failed' });
+        }
+      }
+
+      res.json({
+        success: true,
+        synced,
+        failed,
+        remaining: conversations.length - synced,
+      });
+    } catch (error) {
+      logger.error('Voice sync error:', error);
+      res.status(500).json({ success: false, message: 'Voice sync failed' });
+    }
+  }
+);
+
 // Health check for voice service
 router.get('/health', async (req, res) => {
   res.json({

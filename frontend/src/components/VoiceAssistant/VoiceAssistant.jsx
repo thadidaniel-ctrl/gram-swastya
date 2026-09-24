@@ -17,7 +17,7 @@ import {
 } from '../../services/offlineVoice';
 
 export default function VoiceAssistant() {
-  const { t } = useTranslation('voiceAssistant');
+  const { t } = useTranslation();
   const { showToast } = useToast();
   const { patient } = useAuth();
   const [isRecording, setIsRecording] = useState(false);

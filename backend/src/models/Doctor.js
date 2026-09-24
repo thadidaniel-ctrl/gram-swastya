@@ -14,7 +14,7 @@ const availabilitySchema = new mongoose.Schema(
 
 const doctorSchema = new mongoose.Schema(
   {
-    phone: { type: String, required: true, unique: true, index: true },
+    phone: { type: String, required: true, unique: true },
     email: { type: String, sparse: true, unique: true },
     passwordHash: { type: String, select: false },
 

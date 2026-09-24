@@ -23,7 +23,7 @@ const SYMPTOMS = [
 const CATEGORIES = [...new Set(SYMPTOMS.map(s => s.category))];
 
 export default function SymptomChecker() {
-  const { t } = useTranslation('symptomChecker');
+  const { t } = useTranslation();
   const [selectedSymptoms, setSelectedSymptoms] = useState([]);
   const [activeCategory, setActiveCategory] = useState('All');
   const [language, setLanguage] = useState('en');

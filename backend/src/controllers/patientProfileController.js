@@ -6,10 +6,62 @@ const {
   Prescription,
   Pregnancy,
   Child,
+  Doctor,
 } = require('../models');
 const logger = require('../utils/logger');
 
+const sanitizePatient = patient => {
+  return {
+    id: patient._id,
+    phone: patient.phone,
+    email: patient.email,
+    name: patient.name,
+    age: patient.age,
+    gender: patient.gender,
+    address: patient.address,
+    bloodType: patient.bloodType,
+    emergencyContact: patient.emergencyContact,
+    allergies: patient.allergies,
+    currentMedications: patient.currentMedications,
+    medicalHistory: patient.medicalHistory,
+    preferredLanguage: patient.preferredLanguage,
+    isActive: patient.isActive,
+    createdAt: patient.createdAt,
+    updatedAt: patient.updatedAt,
+  };
+};
+
 class PatientProfileController {
+  // GET /api/patient/doctors/directory - List verified doctors for sharing files
+  async getDoctorsDirectory(req, res) {
+    try {
+      const doctors = await Doctor.find({ isActive: true, isVerified: true })
+        .select(
+          'profile.firstName profile.lastName profile.specialization profile.languages rating consultationFee videoConsultationEnabled'
+        )
+        .sort({ 'profile.lastName': 1 })
+        .lean()
+        .limit(200);
+
+      const directory = doctors.map(d => ({
+        id: d._id,
+        name: `${d.profile.firstName} ${d.profile.lastName}`,
+        firstName: d.profile.firstName,
+        lastName: d.profile.lastName,
+        specialization: d.profile.specialization,
+        languages: d.profile.languages || [],
+        rating: d.rating || 0,
+        consultationFee: d.consultationFee || 0,
+        videoConsultationEnabled: Boolean(d.videoConsultationEnabled),
+      }));
+
+      res.json({ success: true, data: directory, count: directory.length });
+    } catch (error) {
+      logger.error('Doctors directory error:', error);
+      res.status(500).json({ success: false, message: 'Failed to load doctors' });
+    }
+  }
+
   async getProfile(req, res) {
     try {
       const patient = await Patient.findById(req.user._id);
@@ -21,11 +73,11 @@ class PatientProfileController {
         });
       }
 
-      const healthHistory = await this.getHealthHistory(patient._id);
+      const healthHistory = await this.getHealthHistoryInternal(patient._id);
 
       res.json({
         success: true,
-        patient: this.sanitizePatient(patient),
+        patient: sanitizePatient(patient),
         healthHistory,
       });
     } catch (error) {
@@ -112,7 +164,7 @@ class PatientProfileController {
       res.json({
         success: true,
         message: 'Profile updated successfully',
-        patient: this.sanitizePatient(patient),
+        patient: sanitizePatient(patient),
       });
     } catch (error) {
       logger.error('Update profile error:', error);
@@ -173,7 +225,7 @@ class PatientProfileController {
 
   async addAllergy(req, res) {
     try {
-      const { allergen, severity, reaction, diagnosedDate } = req.body;
+      const { allergen } = req.body;
 
       const patient = await Patient.findByIdAndUpdate(
         req.user._id,
@@ -188,7 +240,7 @@ class PatientProfileController {
       res.json({
         success: true,
         message: 'Allergy added',
-        patient: this.sanitizePatient(patient),
+        patient: sanitizePatient(patient),
       });
     } catch (error) {
       logger.error('Add allergy error:', error);
@@ -212,7 +264,7 @@ class PatientProfileController {
       res.json({
         success: true,
         message: 'Allergy removed',
-        patient: this.sanitizePatient(patient),
+        patient: sanitizePatient(patient),
       });
     } catch (error) {
       logger.error('Remove allergy error:', error);
@@ -238,6 +290,35 @@ class PatientProfileController {
       res.status(500).json({
         success: false,
         message: 'Failed to update FCM token',
+      });
+    }
+  }
+
+  async updateWebPushToken(req, res) {
+    try {
+      const { webPushEndpoint, webPushSubscription } = req.body;
+
+      if (!webPushEndpoint) {
+        return res.status(400).json({
+          success: false,
+          message: 'webPushEndpoint is required',
+        });
+      }
+
+      await Patient.findByIdAndUpdate(req.user._id, {
+        fcmToken: null,
+        webPushSubscription: webPushSubscription || { endpoint: webPushEndpoint },
+      });
+
+      res.json({
+        success: true,
+        message: 'Web Push subscription updated',
+      });
+    } catch (error) {
+      logger.error('Update Web Push token error:', error);
+      res.status(500).json({
+        success: false,
+        message: 'Failed to update Web Push subscription',
       });
     }
   }

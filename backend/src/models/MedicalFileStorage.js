@@ -35,6 +35,7 @@ const medicalFileSchema = new mongoose.Schema(
     fileSize: { type: Number, required: true },
     originalSize: { type: Number },
     uploadedAt: { type: Date, default: Date.now },
+    documentDate: { type: Date, index: true },
 
     // Organization
     folderId: {

@@ -56,48 +56,141 @@ class ApiClient {
     this.refreshToken = localStorage.getItem('refreshToken');
   }
 
+  buildQuery(params = {}) {
+    const clean = {};
+    for (const [k, v] of Object.entries(params)) {
+      if (v === undefined || v === null || v === '') continue;
+      clean[k] = Array.isArray(v) ? v.join(',') : v;
+    }
+    return new URLSearchParams(clean).toString();
+  }
+
   async request(endpoint, options = {}) {
     const url = `${this.baseURL}${endpoint}`;
+    const isFormData = typeof FormData !== 'undefined' && options.body instanceof FormData;
+
     const headers = {
-      'Content-Type': 'application/json',
+      ...(isFormData ? {} : { 'Content-Type': 'application/json' }),
       ...options.headers,
     };
 
-    if (this.accessToken) {
-      headers['Authorization'] = `Bearer ${this.accessToken}`;
+    const isDoctorEndpoint = endpoint.startsWith('/doctor');
+    const accessToken = isDoctorEndpoint
+      ? localStorage.getItem('doctorAccessToken')
+      : this.accessToken;
+    if (accessToken) {
+      headers['Authorization'] = `Bearer ${accessToken}`;
+    }
+
+    let body = options.body;
+    if (!isFormData && body && typeof body === 'object') {
+      body = JSON.stringify(body);
     }
 
     const config = {
       ...options,
       headers,
+      body,
     };
 
-    if (options.body && typeof options.body === 'object') {
-      config.body = JSON.stringify(options.body);
-    }
+    const timeoutMs = options.timeout || 30000;
+    const maxAttempts = options.retry === false ? 1 : 2;
+    const method = (options.method || 'GET').toUpperCase();
+    const isRetrySafe =
+      method === 'GET' || method === 'HEAD' || method === 'OPTIONS' ||
+      method === 'PUT' || method === 'DELETE';
 
-    try {
-      let response = await fetch(url, config);
-      
-      if (response.status === 401 && this.refreshToken && !endpoint.includes('/auth/')) {
-        const refreshed = await this.refreshAccessToken();
-        if (refreshed) {
-          headers['Authorization'] = `Bearer ${this.accessToken}`;
-          response = await fetch(url, { ...config, headers });
+    const fetchWithTimeout = (timeout = timeoutMs) => {
+      const controller = new AbortController();
+      const timer = setTimeout(() => controller.abort(), timeout);
+      return fetch(url, { ...config, signal: controller.signal }).finally(() => clearTimeout(timer));
+    };
+
+    for (let attempt = 0; attempt < maxAttempts; attempt += 1) {
+      try {
+        let response = await fetchWithTimeout();
+
+        if (response.status === 401 && !endpoint.includes('/auth/')) {
+          const refreshToken = isDoctorEndpoint
+            ? localStorage.getItem('doctorRefreshToken')
+            : this.refreshToken;
+          if (refreshToken) {
+            const refreshed = isDoctorEndpoint
+              ? await this._refreshDoctorTokenOnce()
+              : await this._refreshPatientTokenOnce();
+            if (refreshed) {
+              const retryToken = isDoctorEndpoint
+                ? localStorage.getItem('doctorAccessToken')
+                : this.accessToken;
+              headers['Authorization'] = `Bearer ${retryToken}`;
+              response = await this._fetchWithTimeout(url, { ...config, headers }, timeoutMs);
+            }
+          }
         }
-      }
 
-      const data = await response.json();
-      
-      if (!response.ok) {
-        throw new Error(data.message || 'API request failed');
-      }
+        if (response.status === 204) return { success: true };
 
-      return data;
-    } catch (error) {
-      console.error(`API Error (${endpoint}):`, error);
-      throw error;
+        const text = await response.text();
+        let data = { success: response.ok };
+        if (text) {
+          try {
+            data = JSON.parse(text);
+          } catch (parseError) {
+            data = { success: response.ok, message: 'Unexpected response from server' };
+          }
+        }
+
+        if (response.status >= 500 && isRetrySafe && attempt + 1 < maxAttempts) {
+          await new Promise(resolve => setTimeout(resolve, 300 * (attempt + 1)));
+          continue;
+        }
+
+        if (data && data.offline) {
+          const offlineError = new Error(data.message || 'You are offline');
+          offlineError.offline = true;
+          throw offlineError;
+        }
+
+        if (!response.ok) {
+          throw new Error(data.message || 'API request failed');
+        }
+
+        return data;
+      } catch (error) {
+        if (error.name === 'AbortError') {
+          throw new Error('Request timed out');
+        }
+        if (error instanceof TypeError && isRetrySafe && attempt + 1 < maxAttempts) {
+          await new Promise(resolve => setTimeout(resolve, 300 * (attempt + 1)));
+          continue;
+        }
+        throw error;
+      }
     }
+  }
+
+  _fetchWithTimeout(url, config, timeoutMs = 30000) {
+    const controller = new AbortController();
+    const timer = setTimeout(() => controller.abort(), timeoutMs);
+    return fetch(url, { ...config, signal: controller.signal }).finally(() => clearTimeout(timer));
+  }
+
+  _refreshPatientTokenOnce() {
+    if (!this._patientRefreshPromise) {
+      this._patientRefreshPromise = this.refreshAccessToken().finally(() => {
+        this._patientRefreshPromise = null;
+      });
+    }
+    return this._patientRefreshPromise;
+  }
+
+  _refreshDoctorTokenOnce() {
+    if (!this._doctorRefreshPromise) {
+      this._doctorRefreshPromise = this.refreshDoctorAccessToken().finally(() => {
+        this._doctorRefreshPromise = null;
+      });
+    }
+    return this._doctorRefreshPromise;
   }
 
   async refreshAccessToken() {
@@ -119,6 +212,30 @@ class ApiClient {
     }
     
     this.clearTokens();
+    return false;
+  }
+
+  async refreshDoctorAccessToken() {
+    try {
+      const response = await fetch(`${this.baseURL}/doctor/auth/refresh-token`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ refreshToken: localStorage.getItem('doctorRefreshToken') }),
+      });
+
+      const data = await response.json();
+
+      if (data.success) {
+        localStorage.setItem('doctorAccessToken', data.accessToken);
+        localStorage.setItem('doctorRefreshToken', data.refreshToken);
+        return true;
+      }
+    } catch (error) {
+      console.error('Doctor token refresh failed:', error);
+    }
+
+    localStorage.removeItem('doctorAccessToken');
+    localStorage.removeItem('doctorRefreshToken');
     return false;
   }
 
@@ -163,6 +280,20 @@ class ApiClient {
     });
   }
 
+  async updateFCMToken(fcmToken) {
+    return this.request('/patient/profile/fcm-token', {
+      method: 'PUT',
+      body: { fcmToken },
+    });
+  }
+
+  async updateWebPushToken(webPushEndpoint, webPushSubscription) {
+    return this.request('/patient/profile/webpush-token', {
+      method: 'PUT',
+      body: { webPushEndpoint, webPushSubscription },
+    });
+  }
+
   async getHealthHistory() {
     return this.request('/patient/health-history');
   }
@@ -188,17 +319,43 @@ class ApiClient {
     });
   }
 
-  // Ambulance
+  // Ambulance — routes to real /emergency/call backend
   async bookAmbulance(data) {
-    return this.request('/ambulance/book-emergency', {
+    return this.request('/emergency/call', {
       method: 'POST',
       body: data,
     });
   }
 
-  // Health Records
-  async getHealthRecords(patientId) {
-    return this.request(`/health-records/${patientId}`);
+  // Health Records — real backend endpoint returns { success, healthHistory: {...} }
+  async getHealthRecords() {
+    const body = await this.request('/patient/health-history');
+    return body?.healthHistory;
+  }
+
+  // Medicines — real backend CRUD at /patient/medicines
+  async getMedicines() {
+    return this.request('/patient/medicines');
+  }
+
+  async createMedicine(data) {
+    return this.request('/patient/medicines', {
+      method: 'POST',
+      body: data,
+    });
+  }
+
+  async updateMedicine(id, data) {
+    return this.request(`/patient/medicines/${id}`, {
+      method: 'PUT',
+      body: data,
+    });
+  }
+
+  async deleteMedicine(id) {
+    return this.request(`/patient/medicines/${id}`, {
+      method: 'DELETE',
+    });
   }
 
   // Medicine Reminders
@@ -214,8 +371,8 @@ class ApiClient {
   }
 
   async getNotifications(params = {}) {
-    const query = new URLSearchParams(params).toString();
-    return this.request(`/patient/notifications?${query}`);
+    const query = this.buildQuery(params);
+    return this.request(`/patient/notifications${query ? `?${query}` : ''}`);
   }
 
   async markNotificationRead(id) {
@@ -245,8 +402,8 @@ class ApiClient {
 
   // File Storage
   async getFiles(params = {}) {
-    const query = new URLSearchParams(params).toString();
-    return this.request(`/patient/file-storage?${query}`);
+    const query = this.buildQuery(params);
+    return this.request(`/patient/file-storage${query ? `?${query}` : ''}`);
   }
 
   async getFileStats() {
@@ -303,8 +460,8 @@ class ApiClient {
 
   // Folders
   async getFolders(params = {}) {
-    const query = new URLSearchParams(params).toString();
-    return this.request(`/patient/folders?${query}`);
+    const query = this.buildQuery(params);
+    return this.request(`/patient/folders${query ? `?${query}` : ''}`);
   }
 
   async createFolder(data) {
@@ -322,9 +479,8 @@ class ApiClient {
   }
 
   async deleteFolder(folderId, recursive = false) {
-    return this.request(`/patient/folders/${folderId}`, {
+    return this.request(`/patient/folders/${folderId}?recursive=${recursive}`, {
       method: 'DELETE',
-      body: { recursive },
     });
   }
 
@@ -335,14 +491,41 @@ class ApiClient {
   }
 
   async getFolderFiles(folderId, params = {}) {
-    const query = new URLSearchParams(params).toString();
-    const path = folderId === 'root' ? '/patient/folders/root/files' : `/patient/folders/${folderId}/files`;
-    return this.request(`${path}?${query}`);
+    const query = this.buildQuery(params);
+    const qs = query ? `?${query}` : '';
+    if (folderId === 'root' || folderId === null || folderId === undefined) {
+      return this.getFiles({ ...params });
+    }
+    return this.request(`/patient/folders/${folderId}/files${qs}`);
   }
 
   // Doctor list for sharing
   async getDoctorList() {
-    return this.request('/doctor/patients?limit=100');
+    return this.request('/patient/doctors/directory');
+  }
+
+  // Patient Appointments
+  async getAppointments(params = {}) {
+    const query = this.buildQuery(params);
+    return this.request(`/patient/appointments${query ? `?${query}` : ''}`);
+  }
+
+  async getAppointmentDetail(appointmentId) {
+    return this.request(`/patient/appointments/${appointmentId}`);
+  }
+
+  async bookAppointment(data) {
+    return this.request('/patient/appointments', {
+      method: 'POST',
+      body: data,
+    });
+  }
+
+  async cancelAppointment(appointmentId, reason) {
+    return this.request(`/patient/appointments/${appointmentId}/cancel`, {
+      method: 'POST',
+      body: { reason },
+    });
   }
 
   // Voice Assistant
@@ -350,6 +533,13 @@ class ApiClient {
     return this.request('/voice-assistant/process', {
       method: 'POST',
       body: { audio_base64: audioBase64, language, context },
+    });
+  }
+
+  async syncVoiceConversations(conversations) {
+    return this.request('/voice-assistant/sync', {
+      method: 'POST',
+      body: { conversations },
     });
   }
 
@@ -374,13 +564,27 @@ class ApiClient {
   }
 
   async getDoctorPatients(params = {}) {
-    const query = new URLSearchParams(params).toString();
-    return this.request(`/doctor/patients?${query}`);
+    const query = this.buildQuery(params);
+    return this.request(`/doctor/patients${query ? `?${query}` : ''}`);
   }
 
   async getDoctorAppointments(params = {}) {
-    const query = new URLSearchParams(params).toString();
-    return this.request(`/doctor/appointments?${query}`);
+    const query = this.buildQuery(params);
+    return this.request(`/doctor/appointments${query ? `?${query}` : ''}`);
+  }
+
+  // Doctor Shared Files (files patients shared with this doctor)
+  async getDoctorSharedFiles(params = {}) {
+    const query = this.buildQuery(params);
+    return this.request(`/doctor/shared-files${query ? `?${query}` : ''}`);
+  }
+
+  async getDoctorSharedFilePreview(fileId) {
+    return this.request(`/doctor/shared-files/${fileId}/preview`);
+  }
+
+  async getDoctorSharedFileDownload(fileId) {
+    return this.request(`/doctor/shared-files/${fileId}/download`);
   }
 }
 

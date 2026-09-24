@@ -2,7 +2,9 @@ const winston = require('winston');
 const path = require('path');
 const config = require('../config');
 
-const logFormat = winston.format.combine(
+const isProduction = config.nodeEnv === 'production';
+
+const printfFormat = winston.format.combine(
   winston.format.timestamp({ format: 'YYYY-MM-DD HH:mm:ss' }),
   winston.format.errors({ stack: true }),
   winston.format.printf(({ timestamp, level, message, ...meta }) => {
@@ -14,12 +16,22 @@ const logFormat = winston.format.combine(
   })
 );
 
+const jsonFormat = winston.format.combine(
+  winston.format.timestamp({ format: 'YYYY-MM-DDTHH:mm:ss.SSSZ' }),
+  winston.format.errors({ stack: true }),
+  winston.format.json()
+);
+
 const logger = winston.createLogger({
-  level: config.nodeEnv === 'production' ? 'info' : 'debug',
-  format: logFormat,
+  level: isProduction ? 'info' : 'debug',
+  // Files/aggregators: JSON in production, plain text otherwise (never colorized).
+  format: isProduction ? jsonFormat : printfFormat,
   transports: [
     new winston.transports.Console({
-      format: winston.format.combine(winston.format.colorize(), logFormat),
+      // Console: colored in dev, structured JSON in production.
+      format: isProduction
+        ? jsonFormat
+        : winston.format.combine(winston.format.colorize(), printfFormat),
     }),
     new winston.transports.File({
       filename: path.join(__dirname, '../../logs/error.log'),
@@ -34,13 +46,5 @@ const logger = winston.createLogger({
     }),
   ],
 });
-
-if (config.nodeEnv !== 'production') {
-  logger.add(
-    new winston.transports.Console({
-      format: winston.format.combine(winston.format.colorize(), winston.format.simple()),
-    })
-  );
-}
 
 module.exports = logger;

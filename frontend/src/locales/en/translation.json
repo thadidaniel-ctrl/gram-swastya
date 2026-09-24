@@ -9,7 +9,18 @@
     "healthTracker": "Health Tracker",
     "ambulance": "Ambulance",
     "symptomChecker": "Symptom Checker",
-    "voiceAssistant": "Voice Assistant"
+    "voiceAssistant": "Voice Assistant",
+    "records": "Health Records",
+    "tablets": "Medicine Info",
+    "patients": "Patients",
+    "skipToContent": "Skip to main content",
+    "openMenu": "Open menu",
+    "closeMenu": "Close menu",
+    "mainNavigation": "Main navigation",
+    "mobileNavigation": "Mobile navigation",
+    "doctorLabel": "Dr.",
+    "patientDashboard": "Patient Dashboard",
+    "doctorDashboard": "Doctor Dashboard"
   },
   "doctor": {
     "patients": "My Patients",
@@ -286,5 +297,9 @@
     "medicalConditions": "Medical Conditions",
     "saveChanges": "Save Changes",
     "changesSaved": "Changes saved successfully"
+  },
+  "notFound": {
+    "message": "The page you are looking for does not exist.",
+    "backHome": "Back to Home"
   }
 }

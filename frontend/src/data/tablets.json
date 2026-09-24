@@ -1,0 +1,4650 @@
+{
+  "tablets": [
+    {
+      "id": 1,
+      "name": "Paracetamol",
+      "category": "Painkiller",
+      "uses": [
+        "Fever",
+        "Mild to moderate pain",
+        "Headache",
+        "Body ache"
+      ],
+      "dosage": "500mg, 1-2 tablets every 4-6 hours (max 8 tablets/day)",
+      "sideEffects": [
+        "Rare allergic reaction",
+        "Liver damage if overdosed"
+      ],
+      "alternatives": [
+        "Ibuprofen",
+        "Aspirin"
+      ],
+      "whyUsed": "Gentle, safe first-choice medicine for fever and everyday pain",
+      "dosageFrequency": "Every 4-6 hours as needed",
+      "maxDailyDose": "8 tablets (4g paracetamol equivalent)",
+      "commonSideEffects": [
+        "Nausea",
+        "Stomach upset",
+        "Drowsiness"
+      ],
+      "seriousSideEffects": [
+        "Liver damage (overdose)",
+        "Allergic reactions",
+        "Stomach bleeding"
+      ],
+      "contraindications": [
+        "Liver disease",
+        "Alcohol dependence",
+        "Severe kidney disease"
+      ],
+      "interactions": [
+        "Warfarin",
+        "Alcohol",
+        "Other NSAIDs"
+      ],
+      "pregnancyWarning": "Generally safe at recommended doses; consult doctor",
+      "alcoholWarning": "Avoid alcohol - increases liver damage risk"
+    },
+    {
+      "id": 2,
+      "name": "Ibuprofen",
+      "category": "Painkiller",
+      "uses": [
+        "Pain relief",
+        "Fever",
+        "Inflammation",
+        "Menstrual cramps"
+      ],
+      "dosage": "200-400mg, every 4-6 hours with food as needed",
+      "sideEffects": [
+        "Stomach upset",
+        "Heartburn",
+        "Dizziness",
+        "Kidney effects with long use"
+      ],
+      "alternatives": [
+        "Paracetamol",
+        "Naproxen",
+        "Aspirin"
+      ],
+      "whyUsed": "Reduces both pain and swelling, ideal for muscle and joint pain",
+      "dosageFrequency": "Every 4-6 hours as needed",
+      "maxDailyDose": "8 tablets (4g paracetamol equivalent)",
+      "commonSideEffects": [
+        "Nausea",
+        "Stomach upset",
+        "Drowsiness"
+      ],
+      "seriousSideEffects": [
+        "Liver damage (overdose)",
+        "Allergic reactions",
+        "Stomach bleeding"
+      ],
+      "contraindications": [
+        "Liver disease",
+        "Alcohol dependence",
+        "Severe kidney disease"
+      ],
+      "interactions": [
+        "Warfarin",
+        "Alcohol",
+        "Other NSAIDs"
+      ],
+      "pregnancyWarning": "Generally safe at recommended doses; consult doctor",
+      "alcoholWarning": "Avoid alcohol - increases liver damage risk"
+    },
+    {
+      "id": 3,
+      "name": "Aspirin",
+      "category": "Painkiller",
+      "uses": [
+        "Headache",
+        "Fever",
+        "Pain",
+        "Low-dose heart attack prevention"
+      ],
+      "dosage": "300-650mg for pain every 4-6 hours; 75-150mg daily for heart (doctor advised)",
+      "sideEffects": [
+        "Stomach irritation",
+        "Bleeding risk",
+        "Ringing in ears"
+      ],
+      "alternatives": [
+        "Paracetamol",
+        "Ibuprofen"
+      ],
+      "whyUsed": "Affordable classic painkiller also used to thin the blood",
+      "dosageFrequency": "Every 4-6 hours as needed",
+      "maxDailyDose": "8 tablets (4g paracetamol equivalent)",
+      "commonSideEffects": [
+        "Nausea",
+        "Stomach upset",
+        "Drowsiness"
+      ],
+      "seriousSideEffects": [
+        "Liver damage (overdose)",
+        "Allergic reactions",
+        "Stomach bleeding"
+      ],
+      "contraindications": [
+        "Liver disease",
+        "Alcohol dependence",
+        "Severe kidney disease"
+      ],
+      "interactions": [
+        "Warfarin",
+        "Alcohol",
+        "Other NSAIDs"
+      ],
+      "pregnancyWarning": "Generally safe at recommended doses; consult doctor",
+      "alcoholWarning": "Avoid alcohol - increases liver damage risk"
+    },
+    {
+      "id": 4,
+      "name": "Naproxen",
+      "category": "Painkiller",
+      "uses": [
+        "Arthritis",
+        "Back pain",
+        "Muscle pain",
+        "Period pain"
+      ],
+      "dosage": "250-500mg twice a day with food",
+      "sideEffects": [
+        "Stomach upset",
+        "Heartburn",
+        "Swelling of feet"
+      ],
+      "alternatives": [
+        "Ibuprofen",
+        "Diclofenac"
+      ],
+      "whyUsed": "Longer-lasting pain relief that works for deep joint and muscle pain",
+      "dosageFrequency": "Every 4-6 hours as needed",
+      "maxDailyDose": "8 tablets (4g paracetamol equivalent)",
+      "commonSideEffects": [
+        "Nausea",
+        "Stomach upset",
+        "Drowsiness"
+      ],
+      "seriousSideEffects": [
+        "Liver damage (overdose)",
+        "Allergic reactions",
+        "Stomach bleeding"
+      ],
+      "contraindications": [
+        "Liver disease",
+        "Alcohol dependence",
+        "Severe kidney disease"
+      ],
+      "interactions": [
+        "Warfarin",
+        "Alcohol",
+        "Other NSAIDs"
+      ],
+      "pregnancyWarning": "Generally safe at recommended doses; consult doctor",
+      "alcoholWarning": "Avoid alcohol - increases liver damage risk"
+    },
+    {
+      "id": 5,
+      "name": "Diclofenac",
+      "category": "Painkiller",
+      "uses": [
+        "Joint pain",
+        "Back pain",
+        "Post-injury swelling",
+        "Period pain"
+      ],
+      "dosage": "50mg 2-3 times a day with food (max 150mg/day)",
+      "sideEffects": [
+        "Stomach irritation",
+        "Dizziness",
+        "High blood pressure"
+      ],
+      "alternatives": [
+        "Ibuprofen",
+        "Naproxen"
+      ],
+      "whyUsed": "Strong anti-inflammatory action for severe joint and muscle pain",
+      "dosageFrequency": "Every 4-6 hours as needed",
+      "maxDailyDose": "8 tablets (4g paracetamol equivalent)",
+      "commonSideEffects": [
+        "Nausea",
+        "Stomach upset",
+        "Drowsiness"
+      ],
+      "seriousSideEffects": [
+        "Liver damage (overdose)",
+        "Allergic reactions",
+        "Stomach bleeding"
+      ],
+      "contraindications": [
+        "Liver disease",
+        "Alcohol dependence",
+        "Severe kidney disease"
+      ],
+      "interactions": [
+        "Warfarin",
+        "Alcohol",
+        "Other NSAIDs"
+      ],
+      "pregnancyWarning": "Generally safe at recommended doses; consult doctor",
+      "alcoholWarning": "Avoid alcohol - increases liver damage risk"
+    },
+    {
+      "id": 6,
+      "name": "Aceclofenac",
+      "category": "Painkiller",
+      "uses": [
+        "Arthritis pain",
+        "Backache",
+        "Muscle sprains",
+        "Dental pain"
+      ],
+      "dosage": "100mg twice a day after food",
+      "sideEffects": [
+        "Stomach upset",
+        "Nausea",
+        "Diarrhoea"
+      ],
+      "alternatives": [
+        "Diclofenac",
+        "Ibuprofen",
+        "Naproxen"
+      ],
+      "whyUsed": "Fast-acting painkiller commonly used across India for joint pain",
+      "dosageFrequency": "Every 4-6 hours as needed",
+      "maxDailyDose": "8 tablets (4g paracetamol equivalent)",
+      "commonSideEffects": [
+        "Nausea",
+        "Stomach upset",
+        "Drowsiness"
+      ],
+      "seriousSideEffects": [
+        "Liver damage (overdose)",
+        "Allergic reactions",
+        "Stomach bleeding"
+      ],
+      "contraindications": [
+        "Liver disease",
+        "Alcohol dependence",
+        "Severe kidney disease"
+      ],
+      "interactions": [
+        "Warfarin",
+        "Alcohol",
+        "Other NSAIDs"
+      ],
+      "pregnancyWarning": "Generally safe at recommended doses; consult doctor",
+      "alcoholWarning": "Avoid alcohol - increases liver damage risk"
+    },
+    {
+      "id": 7,
+      "name": "Mefenamic Acid",
+      "category": "Painkiller",
+      "uses": [
+        "Period pain",
+        "Muscle pain",
+        "Dental pain",
+        "After-surgery pain"
+      ],
+      "dosage": "250-500mg every 6-8 hours with food",
+      "sideEffects": [
+        "Stomach upset",
+        "Diarrhoea",
+        "Dizziness"
+      ],
+      "alternatives": [
+        "Ibuprofen",
+        "Paracetamol",
+        "Naproxen"
+      ],
+      "whyUsed": "Very effective for painful periods and muscle cramps",
+      "dosageFrequency": "Every 4-6 hours as needed",
+      "maxDailyDose": "8 tablets (4g paracetamol equivalent)",
+      "commonSideEffects": [
+        "Nausea",
+        "Stomach upset",
+        "Drowsiness"
+      ],
+      "seriousSideEffects": [
+        "Liver damage (overdose)",
+        "Allergic reactions",
+        "Stomach bleeding"
+      ],
+      "contraindications": [
+        "Liver disease",
+        "Alcohol dependence",
+        "Severe kidney disease"
+      ],
+      "interactions": [
+        "Warfarin",
+        "Alcohol",
+        "Other NSAIDs"
+      ],
+      "pregnancyWarning": "Generally safe at recommended doses; consult doctor",
+      "alcoholWarning": "Avoid alcohol - increases liver damage risk"
+    },
+    {
+      "id": 8,
+      "name": "Ketorolac",
+      "category": "Painkiller",
+      "uses": [
+        "Moderate to severe pain",
+        "After surgery",
+        "Kidney stone pain",
+        "Dental pain"
+      ],
+      "dosage": "10mg every 4-6 hours (never more than 5 days; short-term only)",
+      "sideEffects": [
+        "Stomach bleeding",
+        "Drowsiness",
+        "Kidney problems"
+      ],
+      "alternatives": [
+        "Diclofenac",
+        "Tramadol",
+        "Paracetamol"
+      ],
+      "whyUsed": "Very strong short-term painkiller for severe pain episodes",
+      "dosageFrequency": "Every 4-6 hours as needed",
+      "maxDailyDose": "8 tablets (4g paracetamol equivalent)",
+      "commonSideEffects": [
+        "Nausea",
+        "Stomach upset",
+        "Drowsiness"
+      ],
+      "seriousSideEffects": [
+        "Liver damage (overdose)",
+        "Allergic reactions",
+        "Stomach bleeding"
+      ],
+      "contraindications": [
+        "Liver disease",
+        "Alcohol dependence",
+        "Severe kidney disease"
+      ],
+      "interactions": [
+        "Warfarin",
+        "Alcohol",
+        "Other NSAIDs"
+      ],
+      "pregnancyWarning": "Generally safe at recommended doses; consult doctor",
+      "alcoholWarning": "Avoid alcohol - increases liver damage risk"
+    },
+    {
+      "id": 9,
+      "name": "Tramadol",
+      "category": "Painkiller",
+      "uses": [
+        "Moderate to severe pain",
+        "Chronic back pain",
+        "Cancer pain"
+      ],
+      "dosage": "50-100mg every 4-6 hours (max 400mg/day; strong caution)",
+      "sideEffects": [
+        "Dizziness",
+        "Nausea",
+        "Constipation",
+        "Dependence with long use"
+      ],
+      "alternatives": [
+        "Paracetamol",
+        "Ibuprofen",
+        "Doctor-prescribed opioids"
+      ],
+      "whyUsed": "Strong-level pain relief for pain that ordinary tablets cannot control",
+      "dosageFrequency": "Every 4-6 hours as needed",
+      "maxDailyDose": "8 tablets (4g paracetamol equivalent)",
+      "commonSideEffects": [
+        "Nausea",
+        "Stomach upset",
+        "Drowsiness"
+      ],
+      "seriousSideEffects": [
+        "Liver damage (overdose)",
+        "Allergic reactions",
+        "Stomach bleeding"
+      ],
+      "contraindications": [
+        "Liver disease",
+        "Alcohol dependence",
+        "Severe kidney disease"
+      ],
+      "interactions": [
+        "Warfarin",
+        "Alcohol",
+        "Other NSAIDs"
+      ],
+      "pregnancyWarning": "Generally safe at recommended doses; consult doctor",
+      "alcoholWarning": "Avoid alcohol - increases liver damage risk"
+    },
+    {
+      "id": 10,
+      "name": "Nimesulide",
+      "category": "Painkiller",
+      "uses": [
+        "Fever",
+        "Pain",
+        "Inflammatory conditions"
+      ],
+      "dosage": "100mg twice a day after food (short courses only)",
+      "sideEffects": [
+        "Liver problems",
+        "Stomach upset",
+        "Skin rashes"
+      ],
+      "alternatives": [
+        "Paracetamol",
+        "Ibuprofen"
+      ],
+      "whyUsed": "Effective fever and pain medicine, but use is restricted in some countries",
+      "dosageFrequency": "Every 4-6 hours as needed",
+      "maxDailyDose": "8 tablets (4g paracetamol equivalent)",
+      "commonSideEffects": [
+        "Nausea",
+        "Stomach upset",
+        "Drowsiness"
+      ],
+      "seriousSideEffects": [
+        "Liver damage (overdose)",
+        "Allergic reactions",
+        "Stomach bleeding"
+      ],
+      "contraindications": [
+        "Liver disease",
+        "Alcohol dependence",
+        "Severe kidney disease"
+      ],
+      "interactions": [
+        "Warfarin",
+        "Alcohol",
+        "Other NSAIDs"
+      ],
+      "pregnancyWarning": "Generally safe at recommended doses; consult doctor",
+      "alcoholWarning": "Avoid alcohol - increases liver damage risk"
+    },
+    {
+      "id": 11,
+      "name": "Paracetamol + Caffeine",
+      "category": "Painkiller",
+      "uses": [
+        "Migraine",
+        "Tension headache",
+        "Body ache"
+      ],
+      "dosage": "1-2 tablets when pain starts (max 6 tablets/day)",
+      "sideEffects": [
+        "Nervousness",
+        "Sleep problems",
+        "Palpitations from caffeine"
+      ],
+      "alternatives": [
+        "Plain Paracetamol",
+        "Naproxen",
+        "Sumatriptan"
+      ],
+      "whyUsed": "Caffeine boosts the pain-relieving effect for stubborn headaches",
+      "dosageFrequency": "Every 4-6 hours as needed",
+      "maxDailyDose": "8 tablets (4g paracetamol equivalent)",
+      "commonSideEffects": [
+        "Nausea",
+        "Stomach upset",
+        "Drowsiness"
+      ],
+      "seriousSideEffects": [
+        "Liver damage (overdose)",
+        "Allergic reactions",
+        "Stomach bleeding"
+      ],
+      "contraindications": [
+        "Liver disease",
+        "Alcohol dependence",
+        "Severe kidney disease"
+      ],
+      "interactions": [
+        "Warfarin",
+        "Alcohol",
+        "Other NSAIDs"
+      ],
+      "pregnancyWarning": "Generally safe at recommended doses; consult doctor",
+      "alcoholWarning": "Avoid alcohol - increases liver damage risk"
+    },
+    {
+      "id": 12,
+      "name": "Amoxicillin",
+      "category": "Antibiotic",
+      "uses": [
+        "Ear infections",
+        "Throat infection",
+        "Chest infection",
+        "Dental abscess"
+      ],
+      "dosage": "250-500mg every 8 hours as prescribed (7-14 day course)",
+      "sideEffects": [
+        "Skin rash",
+        "Stomach upset",
+        "Diarrhoea"
+      ],
+      "alternatives": [
+        "Ampicillin",
+        "Cefixime"
+      ],
+      "whyUsed": "One of the most commonly prescribed antibiotics for bacterial infections",
+      "dosageFrequency": "Every 8-12 hours as prescribed",
+      "maxDailyDose": "As prescribed by doctor - do not exceed",
+      "commonSideEffects": [
+        "Diarrhea",
+        "Nausea",
+        "Stomach upset",
+        "Yeast infection"
+      ],
+      "seriousSideEffects": [
+        "Severe allergic reaction",
+        "C. difficile infection",
+        "Tendon damage (fluoroquinolones)"
+      ],
+      "contraindications": [
+        "Known allergy to antibiotic class",
+        "Severe kidney/liver disease (varies)"
+      ],
+      "interactions": [
+        "Antacids",
+        "Warfarin",
+        "Oral contraceptives (may reduce efficacy)"
+      ],
+      "pregnancyWarning": "Category varies - only take if prescribed by doctor",
+      "alcoholWarning": "Avoid alcohol - may reduce effectiveness and increase side effects"
+    },
+    {
+      "id": 13,
+      "name": "Amoxicillin + Clavulanic Acid",
+      "category": "Antibiotic",
+      "uses": [
+        "Sinusitis",
+        "Lung infection",
+        "Urinary infection",
+        "Animal bite infection"
+      ],
+      "dosage": "625mg twice a day or 1g twice a day as prescribed with food",
+      "sideEffects": [
+        "Diarrhoea",
+        "Stomach upset",
+        "Skin rash"
+      ],
+      "alternatives": [
+        "Cefpodoxime",
+        "Ciprofloxacin"
+      ],
+      "whyUsed": "Stronger antibiotic for infections resistant to plain amoxicillin",
+      "dosageFrequency": "Every 8-12 hours as prescribed",
+      "maxDailyDose": "As prescribed by doctor - do not exceed",
+      "commonSideEffects": [
+        "Diarrhea",
+        "Nausea",
+        "Stomach upset",
+        "Yeast infection"
+      ],
+      "seriousSideEffects": [
+        "Severe allergic reaction",
+        "C. difficile infection",
+        "Tendon damage (fluoroquinolones)"
+      ],
+      "contraindications": [
+        "Known allergy to antibiotic class",
+        "Severe kidney/liver disease (varies)"
+      ],
+      "interactions": [
+        "Antacids",
+        "Warfarin",
+        "Oral contraceptives (may reduce efficacy)"
+      ],
+      "pregnancyWarning": "Category varies - only take if prescribed by doctor",
+      "alcoholWarning": "Avoid alcohol - may reduce effectiveness and increase side effects"
+    },
+    {
+      "id": 14,
+      "name": "Azithromycin",
+      "category": "Antibiotic",
+      "uses": [
+        "Respiratory infection",
+        "Throat infection",
+        "Typhoid",
+        "Skin infection"
+      ],
+      "dosage": "500mg once daily for 3-5 days as directed",
+      "sideEffects": [
+        "Stomach pain",
+        "Nausea",
+        "Diarrhoea",
+        "Rare heart rhythm effects"
+      ],
+      "alternatives": [
+        "Clarithromycin",
+        "Amoxicillin"
+      ],
+      "whyUsed": "Convenient short-course antibiotic taken just once a day",
+      "dosageFrequency": "Every 8-12 hours as prescribed",
+      "maxDailyDose": "As prescribed by doctor - do not exceed",
+      "commonSideEffects": [
+        "Diarrhea",
+        "Nausea",
+        "Stomach upset",
+        "Yeast infection"
+      ],
+      "seriousSideEffects": [
+        "Severe allergic reaction",
+        "C. difficile infection",
+        "Tendon damage (fluoroquinolones)"
+      ],
+      "contraindications": [
+        "Known allergy to antibiotic class",
+        "Severe kidney/liver disease (varies)"
+      ],
+      "interactions": [
+        "Antacids",
+        "Warfarin",
+        "Oral contraceptives (may reduce efficacy)"
+      ],
+      "pregnancyWarning": "Category varies - only take if prescribed by doctor",
+      "alcoholWarning": "Avoid alcohol - may reduce effectiveness and increase side effects"
+    },
+    {
+      "id": 15,
+      "name": "Ciprofloxacin",
+      "category": "Antibiotic",
+      "uses": [
+        "Urinary infection",
+        "Typhoid",
+        "Stomach infection",
+        "Prostate infection"
+      ],
+      "dosage": "250-500mg twice a day, 1 hour before food",
+      "sideEffects": [
+        "Stomach upset",
+        "Tendon pain",
+        "Dizziness",
+        "Photosensitivity"
+      ],
+      "alternatives": [
+        "Norfloxacin",
+        "Ofloxacin",
+        "Nitrofurantoin"
+      ],
+      "whyUsed": "Broad-spectrum antibiotic strong against many common bacterial infections",
+      "dosageFrequency": "Every 8-12 hours as prescribed",
+      "maxDailyDose": "As prescribed by doctor - do not exceed",
+      "commonSideEffects": [
+        "Diarrhea",
+        "Nausea",
+        "Stomach upset",
+        "Yeast infection"
+      ],
+      "seriousSideEffects": [
+        "Severe allergic reaction",
+        "C. difficile infection",
+        "Tendon damage (fluoroquinolones)"
+      ],
+      "contraindications": [
+        "Known allergy to antibiotic class",
+        "Severe kidney/liver disease (varies)"
+      ],
+      "interactions": [
+        "Antacids",
+        "Warfarin",
+        "Oral contraceptives (may reduce efficacy)"
+      ],
+      "pregnancyWarning": "Category varies - only take if prescribed by doctor",
+      "alcoholWarning": "Avoid alcohol - may reduce effectiveness and increase side effects"
+    },
+    {
+      "id": 16,
+      "name": "Cefixime",
+      "category": "Antibiotic",
+      "uses": [
+        "Throat infection",
+        "Ear infection",
+        "Typhoid",
+        "Urinary infection"
+      ],
+      "dosage": "200-400mg once or twice daily as prescribed",
+      "sideEffects": [
+        "Diarrhoea",
+        "Stomach upset",
+        "Skin rash"
+      ],
+      "alternatives": [
+        "Cefpodoxime",
+        "Amoxicillin"
+      ],
+      "whyUsed": "Popular once-a-day antibiotic for many day-to-day infections",
+      "dosageFrequency": "Every 8-12 hours as prescribed",
+      "maxDailyDose": "As prescribed by doctor - do not exceed",
+      "commonSideEffects": [
+        "Diarrhea",
+        "Nausea",
+        "Stomach upset",
+        "Yeast infection"
+      ],
+      "seriousSideEffects": [
+        "Severe allergic reaction",
+        "C. difficile infection",
+        "Tendon damage (fluoroquinolones)"
+      ],
+      "contraindications": [
+        "Known allergy to antibiotic class",
+        "Severe kidney/liver disease (varies)"
+      ],
+      "interactions": [
+        "Antacids",
+        "Warfarin",
+        "Oral contraceptives (may reduce efficacy)"
+      ],
+      "pregnancyWarning": "Category varies - only take if prescribed by doctor",
+      "alcoholWarning": "Avoid alcohol - may reduce effectiveness and increase side effects"
+    },
+    {
+      "id": 17,
+      "name": "Cephalexin",
+      "category": "Antibiotic",
+      "uses": [
+        "Skin infection",
+        "Throat infection",
+        "Urinary infection",
+        "Bone infection"
+      ],
+      "dosage": "250-500mg every 6-8 hours with food",
+      "sideEffects": [
+        "Stomach upset",
+        "Diarrhoea",
+        "Skin rash"
+      ],
+      "alternatives": [
+        "Amoxicillin",
+        "Cefixime"
+      ],
+      "whyUsed": "Reliable antibiotic often used for skin and soft tissue infections",
+      "dosageFrequency": "Every 8-12 hours as prescribed",
+      "maxDailyDose": "As prescribed by doctor - do not exceed",
+      "commonSideEffects": [
+        "Diarrhea",
+        "Nausea",
+        "Stomach upset",
+        "Yeast infection"
+      ],
+      "seriousSideEffects": [
+        "Severe allergic reaction",
+        "C. difficile infection",
+        "Tendon damage (fluoroquinolones)"
+      ],
+      "contraindications": [
+        "Known allergy to antibiotic class",
+        "Severe kidney/liver disease (varies)"
+      ],
+      "interactions": [
+        "Antacids",
+        "Warfarin",
+        "Oral contraceptives (may reduce efficacy)"
+      ],
+      "pregnancyWarning": "Category varies - only take if prescribed by doctor",
+      "alcoholWarning": "Avoid alcohol - may reduce effectiveness and increase side effects"
+    },
+    {
+      "id": 18,
+      "name": "Ampicillin",
+      "category": "Antibiotic",
+      "uses": [
+        "Throat infection",
+        "Ear infection",
+        "Meningitis (IV form)",
+        "Urinary infection"
+      ],
+      "dosage": "250-500mg every 6 hours, 1 hour before food",
+      "sideEffects": [
+        "Skin rash",
+        "Stomach upset",
+        "Diarrhoea"
+      ],
+      "alternatives": [
+        "Amoxicillin",
+        "Cefixime"
+      ],
+      "whyUsed": "One of the oldest still-useful antibiotics for common infections",
+      "dosageFrequency": "Every 8-12 hours as prescribed",
+      "maxDailyDose": "As prescribed by doctor - do not exceed",
+      "commonSideEffects": [
+        "Diarrhea",
+        "Nausea",
+        "Stomach upset",
+        "Yeast infection"
+      ],
+      "seriousSideEffects": [
+        "Severe allergic reaction",
+        "C. difficile infection",
+        "Tendon damage (fluoroquinolones)"
+      ],
+      "contraindications": [
+        "Known allergy to antibiotic class",
+        "Severe kidney/liver disease (varies)"
+      ],
+      "interactions": [
+        "Antacids",
+        "Warfarin",
+        "Oral contraceptives (may reduce efficacy)"
+      ],
+      "pregnancyWarning": "Category varies - only take if prescribed by doctor",
+      "alcoholWarning": "Avoid alcohol - may reduce effectiveness and increase side effects"
+    },
+    {
+      "id": 19,
+      "name": "Cotrimoxazole",
+      "category": "Antibiotic",
+      "uses": [
+        "Urinary infection",
+        "Respiratory infection",
+        "Traveler's diarrhoea",
+        "Pneumonia"
+      ],
+      "dosage": "960mg twice a day as prescribed with plenty of water",
+      "sideEffects": [
+        "Skin rash",
+        "Nausea",
+        "Raised potassium",
+        "Kidney stones"
+      ],
+      "alternatives": [
+        "Nitrofurantoin",
+        "Amoxicillin"
+      ],
+      "whyUsed": "Two drugs combined into one effective antibiotic tablet",
+      "dosageFrequency": "Every 8-12 hours as prescribed",
+      "maxDailyDose": "As prescribed by doctor - do not exceed",
+      "commonSideEffects": [
+        "Diarrhea",
+        "Nausea",
+        "Stomach upset",
+        "Yeast infection"
+      ],
+      "seriousSideEffects": [
+        "Severe allergic reaction",
+        "C. difficile infection",
+        "Tendon damage (fluoroquinolones)"
+      ],
+      "contraindications": [
+        "Known allergy to antibiotic class",
+        "Severe kidney/liver disease (varies)"
+      ],
+      "interactions": [
+        "Antacids",
+        "Warfarin",
+        "Oral contraceptives (may reduce efficacy)"
+      ],
+      "pregnancyWarning": "Category varies - only take if prescribed by doctor",
+      "alcoholWarning": "Avoid alcohol - may reduce effectiveness and increase side effects"
+    },
+    {
+      "id": 20,
+      "name": "Metronidazole",
+      "category": "Antibiotic",
+      "uses": [
+        "Stomach infection",
+        "Giardia",
+        "Dental infection",
+        "Amoebic dysentery"
+      ],
+      "dosage": "200-400mg every 8 hours after food (course as prescribed)",
+      "sideEffects": [
+        "Metallic taste",
+        "Nausea",
+        "Dizziness",
+        "Avoid alcohol"
+      ],
+      "alternatives": [
+        "Tinidazole",
+        "Norfloxacin"
+      ],
+      "whyUsed": "Go-to medicine for gut infections and certain dental problems",
+      "dosageFrequency": "Every 8-12 hours as prescribed",
+      "maxDailyDose": "As prescribed by doctor - do not exceed",
+      "commonSideEffects": [
+        "Diarrhea",
+        "Nausea",
+        "Stomach upset",
+        "Yeast infection"
+      ],
+      "seriousSideEffects": [
+        "Severe allergic reaction",
+        "C. difficile infection",
+        "Tendon damage (fluoroquinolones)"
+      ],
+      "contraindications": [
+        "Known allergy to antibiotic class",
+        "Severe kidney/liver disease (varies)"
+      ],
+      "interactions": [
+        "Antacids",
+        "Warfarin",
+        "Oral contraceptives (may reduce efficacy)"
+      ],
+      "pregnancyWarning": "Category varies - only take if prescribed by doctor",
+      "alcoholWarning": "Avoid alcohol - may reduce effectiveness and increase side effects"
+    },
+    {
+      "id": 21,
+      "name": "Doxycycline",
+      "category": "Antibiotic",
+      "uses": [
+        "Malaria prevention",
+        "Acne",
+        "Chest infection",
+        "Ticks/bites"
+      ],
+      "dosage": "100mg once or twice a day after food with plenty of water",
+      "sideEffects": [
+        "Photosensitivity",
+        "Stomach upset",
+        "Oesophagus irritation"
+      ],
+      "alternatives": [
+        "Azithromycin",
+        "Minocycline"
+      ],
+      "whyUsed": "Multi-purpose antibiotic also used for acne and malaria prevention",
+      "dosageFrequency": "Every 8-12 hours as prescribed",
+      "maxDailyDose": "As prescribed by doctor - do not exceed",
+      "commonSideEffects": [
+        "Diarrhea",
+        "Nausea",
+        "Stomach upset",
+        "Yeast infection"
+      ],
+      "seriousSideEffects": [
+        "Severe allergic reaction",
+        "C. difficile infection",
+        "Tendon damage (fluoroquinolones)"
+      ],
+      "contraindications": [
+        "Known allergy to antibiotic class",
+        "Severe kidney/liver disease (varies)"
+      ],
+      "interactions": [
+        "Antacids",
+        "Warfarin",
+        "Oral contraceptives (may reduce efficacy)"
+      ],
+      "pregnancyWarning": "Category varies - only take if prescribed by doctor",
+      "alcoholWarning": "Avoid alcohol - may reduce effectiveness and increase side effects"
+    },
+    {
+      "id": 22,
+      "name": "Norfloxacin",
+      "category": "Antibiotic",
+      "uses": [
+        "Urinary infection",
+        "Stomach infection",
+        "Dysentery"
+      ],
+      "dosage": "400mg twice a day, 1 hour before food",
+      "sideEffects": [
+        "Nausea",
+        "Dizziness",
+        "Joint discomfort"
+      ],
+      "alternatives": [
+        "Ciprofloxacin",
+        "Ofloxacin"
+      ],
+      "whyUsed": "Common cheap antibiotic for urinary tract problems",
+      "dosageFrequency": "Every 8-12 hours as prescribed",
+      "maxDailyDose": "As prescribed by doctor - do not exceed",
+      "commonSideEffects": [
+        "Diarrhea",
+        "Nausea",
+        "Stomach upset",
+        "Yeast infection"
+      ],
+      "seriousSideEffects": [
+        "Severe allergic reaction",
+        "C. difficile infection",
+        "Tendon damage (fluoroquinolones)"
+      ],
+      "contraindications": [
+        "Known allergy to antibiotic class",
+        "Severe kidney/liver disease (varies)"
+      ],
+      "interactions": [
+        "Antacids",
+        "Warfarin",
+        "Oral contraceptives (may reduce efficacy)"
+      ],
+      "pregnancyWarning": "Category varies - only take if prescribed by doctor",
+      "alcoholWarning": "Avoid alcohol - may reduce effectiveness and increase side effects"
+    },
+    {
+      "id": 23,
+      "name": "Ofloxacin",
+      "category": "Antibiotic",
+      "uses": [
+        "Urinary infection",
+        "Throat infection",
+        "Stomach infection"
+      ],
+      "dosage": "200-400mg once or twice a day as prescribed",
+      "sideEffects": [
+        "Dizziness",
+        "Nausea",
+        "Tendon pain"
+      ],
+      "alternatives": [
+        "Ciprofloxacin",
+        "Levofloxacin"
+      ],
+      "whyUsed": "Fluoroquinolone antibiotic effective for many bacterial infections",
+      "dosageFrequency": "Every 8-12 hours as prescribed",
+      "maxDailyDose": "As prescribed by doctor - do not exceed",
+      "commonSideEffects": [
+        "Diarrhea",
+        "Nausea",
+        "Stomach upset",
+        "Yeast infection"
+      ],
+      "seriousSideEffects": [
+        "Severe allergic reaction",
+        "C. difficile infection",
+        "Tendon damage (fluoroquinolones)"
+      ],
+      "contraindications": [
+        "Known allergy to antibiotic class",
+        "Severe kidney/liver disease (varies)"
+      ],
+      "interactions": [
+        "Antacids",
+        "Warfarin",
+        "Oral contraceptives (may reduce efficacy)"
+      ],
+      "pregnancyWarning": "Category varies - only take if prescribed by doctor",
+      "alcoholWarning": "Avoid alcohol - may reduce effectiveness and increase side effects"
+    },
+    {
+      "id": 24,
+      "name": "Nitrofurantoin",
+      "category": "Antibiotic",
+      "uses": [
+        "Urinary tract infection",
+        "Bladder infection"
+      ],
+      "dosage": "100mg every 6 hours with food (short course)",
+      "sideEffects": [
+        "Nausea",
+        "Headache",
+        "Dark urine",
+        "Lung reactions (rare)"
+      ],
+      "alternatives": [
+        "Cotrimoxazole",
+        "Ciprofloxacin"
+      ],
+      "whyUsed": "First-line oral antibiotic specially targeted at urine infections",
+      "dosageFrequency": "Every 8-12 hours as prescribed",
+      "maxDailyDose": "As prescribed by doctor - do not exceed",
+      "commonSideEffects": [
+        "Diarrhea",
+        "Nausea",
+        "Stomach upset",
+        "Yeast infection"
+      ],
+      "seriousSideEffects": [
+        "Severe allergic reaction",
+        "C. difficile infection",
+        "Tendon damage (fluoroquinolones)"
+      ],
+      "contraindications": [
+        "Known allergy to antibiotic class",
+        "Severe kidney/liver disease (varies)"
+      ],
+      "interactions": [
+        "Antacids",
+        "Warfarin",
+        "Oral contraceptives (may reduce efficacy)"
+      ],
+      "pregnancyWarning": "Category varies - only take if prescribed by doctor",
+      "alcoholWarning": "Avoid alcohol - may reduce effectiveness and increase side effects"
+    },
+    {
+      "id": 25,
+      "name": "Clarithromycin",
+      "category": "Antibiotic",
+      "uses": [
+        "Chest infection",
+        "Stomach ulcer (H.pylori)",
+        "Skin infection"
+      ],
+      "dosage": "250-500mg twice a day with food",
+      "sideEffects": [
+        "Bad taste",
+        "Stomach upset",
+        "Diarrhoea"
+      ],
+      "alternatives": [
+        "Azithromycin",
+        "Erythromycin"
+      ],
+      "whyUsed": "Useful when penicillin-type antibiotics cannot be used",
+      "dosageFrequency": "Every 8-12 hours as prescribed",
+      "maxDailyDose": "As prescribed by doctor - do not exceed",
+      "commonSideEffects": [
+        "Diarrhea",
+        "Nausea",
+        "Stomach upset",
+        "Yeast infection"
+      ],
+      "seriousSideEffects": [
+        "Severe allergic reaction",
+        "C. difficile infection",
+        "Tendon damage (fluoroquinolones)"
+      ],
+      "contraindications": [
+        "Known allergy to antibiotic class",
+        "Severe kidney/liver disease (varies)"
+      ],
+      "interactions": [
+        "Antacids",
+        "Warfarin",
+        "Oral contraceptives (may reduce efficacy)"
+      ],
+      "pregnancyWarning": "Category varies - only take if prescribed by doctor",
+      "alcoholWarning": "Avoid alcohol - may reduce effectiveness and increase side effects"
+    },
+    {
+      "id": 26,
+      "name": "Levofloxacin",
+      "category": "Antibiotic",
+      "uses": [
+        "Chest infection",
+        "Sinusitis",
+        "Urinary infection",
+        "Prostate infection"
+      ],
+      "dosage": "500mg once daily for 5-14 days as prescribed",
+      "sideEffects": [
+        "Insomnia",
+        "Dizziness",
+        "Tendon pain",
+        "Blood sugar changes"
+      ],
+      "alternatives": [
+        "Ciprofloxacin",
+        "Amoxicillin + Clavulanic Acid"
+      ],
+      "whyUsed": "Potent broad-spectrum antibiotic for resistant infections",
+      "dosageFrequency": "Every 8-12 hours as prescribed",
+      "maxDailyDose": "As prescribed by doctor - do not exceed",
+      "commonSideEffects": [
+        "Diarrhea",
+        "Nausea",
+        "Stomach upset",
+        "Yeast infection"
+      ],
+      "seriousSideEffects": [
+        "Severe allergic reaction",
+        "C. difficile infection",
+        "Tendon damage (fluoroquinolones)"
+      ],
+      "contraindications": [
+        "Known allergy to antibiotic class",
+        "Severe kidney/liver disease (varies)"
+      ],
+      "interactions": [
+        "Antacids",
+        "Warfarin",
+        "Oral contraceptives (may reduce efficacy)"
+      ],
+      "pregnancyWarning": "Category varies - only take if prescribed by doctor",
+      "alcoholWarning": "Avoid alcohol - may reduce effectiveness and increase side effects"
+    },
+    {
+      "id": 27,
+      "name": "Linezolid",
+      "category": "Antibiotic",
+      "uses": [
+        "Severe skin infection",
+        "MRSA infection",
+        "Hospital-acquired pneumonia"
+      ],
+      "dosage": "600mg twice a day (5-10 days, prescription-only)",
+      "sideEffects": [
+        "Nausea",
+        "Headache",
+        "Low blood counts",
+        "Interaction with some foods"
+      ],
+      "alternatives": [
+        "Teicoplanin",
+        "Vancomycin (IV)",
+        "Clarithromycin"
+      ],
+      "whyUsed": "Reserve antibiotic for serious infections that resist other drugs",
+      "dosageFrequency": "Every 8-12 hours as prescribed",
+      "maxDailyDose": "As prescribed by doctor - do not exceed",
+      "commonSideEffects": [
+        "Diarrhea",
+        "Nausea",
+        "Stomach upset",
+        "Yeast infection"
+      ],
+      "seriousSideEffects": [
+        "Severe allergic reaction",
+        "C. difficile infection",
+        "Tendon damage (fluoroquinolones)"
+      ],
+      "contraindications": [
+        "Known allergy to antibiotic class",
+        "Severe kidney/liver disease (varies)"
+      ],
+      "interactions": [
+        "Antacids",
+        "Warfarin",
+        "Oral contraceptives (may reduce efficacy)"
+      ],
+      "pregnancyWarning": "Category varies - only take if prescribed by doctor",
+      "alcoholWarning": "Avoid alcohol - may reduce effectiveness and increase side effects"
+    },
+    {
+      "id": 28,
+      "name": "Rifampicin",
+      "category": "Antibiotic",
+      "uses": [
+        "Tuberculosis (TB)",
+        "Leprosy",
+        "Meningitis prevention"
+      ],
+      "dosage": "450-600mg once daily (usually combined with other TB drugs)",
+      "sideEffects": [
+        "Orange-red urine",
+        "Stomach upset",
+        "Liver effects",
+        "Skin rash"
+      ],
+      "alternatives": [
+        "Part of DHOT TB regimen prescribed only by a doctor"
+      ],
+      "whyUsed": "Cornerstone drug of anti-tuberculosis treatment",
+      "dosageFrequency": "Every 8-12 hours as prescribed",
+      "maxDailyDose": "As prescribed by doctor - do not exceed",
+      "commonSideEffects": [
+        "Diarrhea",
+        "Nausea",
+        "Stomach upset",
+        "Yeast infection"
+      ],
+      "seriousSideEffects": [
+        "Severe allergic reaction",
+        "C. difficile infection",
+        "Tendon damage (fluoroquinolones)"
+      ],
+      "contraindications": [
+        "Known allergy to antibiotic class",
+        "Severe kidney/liver disease (varies)"
+      ],
+      "interactions": [
+        "Antacids",
+        "Warfarin",
+        "Oral contraceptives (may reduce efficacy)"
+      ],
+      "pregnancyWarning": "Category varies - only take if prescribed by doctor",
+      "alcoholWarning": "Avoid alcohol - may reduce effectiveness and increase side effects"
+    },
+    {
+      "id": 29,
+      "name": "Isoniazid",
+      "category": "Antibiotic",
+      "uses": [
+        "Tuberculosis (TB)",
+        "Latent TB prevention"
+      ],
+      "dosage": "300mg once daily on empty stomach (with pyridoxine)",
+      "sideEffects": [
+        "Numbness of hands/feet",
+        "Liver effects",
+        "Nausea"
+      ],
+      "alternatives": [
+        "Part of DHOT TB regimen prescribed only by a doctor"
+      ],
+      "whyUsed": "Key daily tablet that kills active TB bacteria",
+      "dosageFrequency": "Every 8-12 hours as prescribed",
+      "maxDailyDose": "As prescribed by doctor - do not exceed",
+      "commonSideEffects": [
+        "Diarrhea",
+        "Nausea",
+        "Stomach upset",
+        "Yeast infection"
+      ],
+      "seriousSideEffects": [
+        "Severe allergic reaction",
+        "C. difficile infection",
+        "Tendon damage (fluoroquinolones)"
+      ],
+      "contraindications": [
+        "Known allergy to antibiotic class",
+        "Severe kidney/liver disease (varies)"
+      ],
+      "interactions": [
+        "Antacids",
+        "Warfarin",
+        "Oral contraceptives (may reduce efficacy)"
+      ],
+      "pregnancyWarning": "Category varies - only take if prescribed by doctor",
+      "alcoholWarning": "Avoid alcohol - may reduce effectiveness and increase side effects"
+    },
+    {
+      "id": 30,
+      "name": "Omeprazole",
+      "category": "Antacid",
+      "uses": [
+        "Acidity",
+        "Heartburn",
+        "Gastric ulcer",
+        "GERD"
+      ],
+      "dosage": "20mg once daily 30-60 minutes before breakfast",
+      "sideEffects": [
+        "Headache",
+        "Stomach pain",
+        "Low magnesium with long use"
+      ],
+      "alternatives": [
+        "Pantoprazole",
+        "Rabeprazole",
+        "Antacid"
+      ],
+      "whyUsed": "Lasts a whole day by strongly switching off excess stomach acid",
+      "dosageFrequency": "After meals and at bedtime as needed",
+      "maxDailyDose": "As per label - typically 4-8 doses/day",
+      "commonSideEffects": [
+        "Constipation (aluminum)",
+        "Diarrhea (magnesium)",
+        "Gas"
+      ],
+      "seriousSideEffects": [
+        "Electrolyte imbalance (long-term)",
+        "Kidney stones (calcium-based)"
+      ],
+      "contraindications": [
+        "Kidney failure",
+        "Severe heart failure (sodium-containing)"
+      ],
+      "interactions": [
+        "Tetracyclines",
+        "Quinolones",
+        "Iron supplements",
+        "Digoxin"
+      ],
+      "pregnancyWarning": "Generally safe; prefer calcium carbonate; avoid aluminum",
+      "alcoholWarning": "Alcohol worsens acid reflux; limit intake"
+    },
+    {
+      "id": 31,
+      "name": "Pantoprazole",
+      "category": "Antacid",
+      "uses": [
+        "Acidity",
+        "GERD",
+        "Peptic ulcer",
+        "Reflux"
+      ],
+      "dosage": "40mg once daily before food",
+      "sideEffects": [
+        "Headache",
+        "Diarrhoea",
+        "Flatulence"
+      ],
+      "alternatives": [
+        "Omeprazole",
+        "Rabeprazole",
+        "Esomeprazole"
+      ],
+      "whyUsed": "Popular once-daily tablet for burning acidity and reflux",
+      "dosageFrequency": "After meals and at bedtime as needed",
+      "maxDailyDose": "As per label - typically 4-8 doses/day",
+      "commonSideEffects": [
+        "Constipation (aluminum)",
+        "Diarrhea (magnesium)",
+        "Gas"
+      ],
+      "seriousSideEffects": [
+        "Electrolyte imbalance (long-term)",
+        "Kidney stones (calcium-based)"
+      ],
+      "contraindications": [
+        "Kidney failure",
+        "Severe heart failure (sodium-containing)"
+      ],
+      "interactions": [
+        "Tetracyclines",
+        "Quinolones",
+        "Iron supplements",
+        "Digoxin"
+      ],
+      "pregnancyWarning": "Generally safe; prefer calcium carbonate; avoid aluminum",
+      "alcoholWarning": "Alcohol worsens acid reflux; limit intake"
+    },
+    {
+      "id": 32,
+      "name": "Rabeprazole",
+      "category": "Antacid",
+      "uses": [
+        "Acidity",
+        "Heartburn",
+        "Stomach ulcer"
+      ],
+      "dosage": "20mg once daily 30 minutes before food",
+      "sideEffects": [
+        "Headache",
+        "Diarrhoea",
+        "Dizziness"
+      ],
+      "alternatives": [
+        "Omeprazole",
+        "Pantoprazole",
+        "Esomeprazole"
+      ],
+      "whyUsed": "Starts working quickly for sudden and long-standing acidity",
+      "dosageFrequency": "After meals and at bedtime as needed",
+      "maxDailyDose": "As per label - typically 4-8 doses/day",
+      "commonSideEffects": [
+        "Constipation (aluminum)",
+        "Diarrhea (magnesium)",
+        "Gas"
+      ],
+      "seriousSideEffects": [
+        "Electrolyte imbalance (long-term)",
+        "Kidney stones (calcium-based)"
+      ],
+      "contraindications": [
+        "Kidney failure",
+        "Severe heart failure (sodium-containing)"
+      ],
+      "interactions": [
+        "Tetracyclines",
+        "Quinolones",
+        "Iron supplements",
+        "Digoxin"
+      ],
+      "pregnancyWarning": "Generally safe; prefer calcium carbonate; avoid aluminum",
+      "alcoholWarning": "Alcohol worsens acid reflux; limit intake"
+    },
+    {
+      "id": 33,
+      "name": "Esomeprazole",
+      "category": "Antacid",
+      "uses": [
+        "GERD",
+        "Reflux symptoms",
+        "Stomach ulcer"
+      ],
+      "dosage": "20-40mg once daily before food",
+      "sideEffects": [
+        "Headache",
+        "Constipation",
+        "Dry mouth"
+      ],
+      "alternatives": [
+        "Omeprazole",
+        "Rabeprazole"
+      ],
+      "whyUsed": "Refined version of omeprazole with smoother acid control",
+      "dosageFrequency": "After meals and at bedtime as needed",
+      "maxDailyDose": "As per label - typically 4-8 doses/day",
+      "commonSideEffects": [
+        "Constipation (aluminum)",
+        "Diarrhea (magnesium)",
+        "Gas"
+      ],
+      "seriousSideEffects": [
+        "Electrolyte imbalance (long-term)",
+        "Kidney stones (calcium-based)"
+      ],
+      "contraindications": [
+        "Kidney failure",
+        "Severe heart failure (sodium-containing)"
+      ],
+      "interactions": [
+        "Tetracyclines",
+        "Quinolones",
+        "Iron supplements",
+        "Digoxin"
+      ],
+      "pregnancyWarning": "Generally safe; prefer calcium carbonate; avoid aluminum",
+      "alcoholWarning": "Alcohol worsens acid reflux; limit intake"
+    },
+    {
+      "id": 34,
+      "name": "Ranitidine",
+      "category": "Antacid",
+      "uses": [
+        "Acidity",
+        "Stomach ulcer",
+        "Heartburn"
+      ],
+      "dosage": "150mg twice a day or 300mg at night",
+      "sideEffects": [
+        "Headache",
+        "Constipation",
+        "Drowsiness"
+      ],
+      "alternatives": [
+        "Famotidine",
+        "Omeprazole",
+        "Antacid"
+      ],
+      "whyUsed": "Older acid-blocker that reduces stomach acid production",
+      "dosageFrequency": "After meals and at bedtime as needed",
+      "maxDailyDose": "As per label - typically 4-8 doses/day",
+      "commonSideEffects": [
+        "Constipation (aluminum)",
+        "Diarrhea (magnesium)",
+        "Gas"
+      ],
+      "seriousSideEffects": [
+        "Electrolyte imbalance (long-term)",
+        "Kidney stones (calcium-based)"
+      ],
+      "contraindications": [
+        "Kidney failure",
+        "Severe heart failure (sodium-containing)"
+      ],
+      "interactions": [
+        "Tetracyclines",
+        "Quinolones",
+        "Iron supplements",
+        "Digoxin"
+      ],
+      "pregnancyWarning": "Generally safe; prefer calcium carbonate; avoid aluminum",
+      "alcoholWarning": "Alcohol worsens acid reflux; limit intake"
+    },
+    {
+      "id": 35,
+      "name": "Famotidine",
+      "category": "Antacid",
+      "uses": [
+        "Acidity",
+        "Heartburn",
+        "Stomach ulcer"
+      ],
+      "dosage": "20-40mg once or twice a day",
+      "sideEffects": [
+        "Headache",
+        "Constipation",
+        "Dizziness"
+      ],
+      "alternatives": [
+        "Ranitidine",
+        "Omeprazole"
+      ],
+      "whyUsed": "Gentler acid blocker with fewer drug interactions",
+      "dosageFrequency": "After meals and at bedtime as needed",
+      "maxDailyDose": "As per label - typically 4-8 doses/day",
+      "commonSideEffects": [
+        "Constipation (aluminum)",
+        "Diarrhea (magnesium)",
+        "Gas"
+      ],
+      "seriousSideEffects": [
+        "Electrolyte imbalance (long-term)",
+        "Kidney stones (calcium-based)"
+      ],
+      "contraindications": [
+        "Kidney failure",
+        "Severe heart failure (sodium-containing)"
+      ],
+      "interactions": [
+        "Tetracyclines",
+        "Quinolones",
+        "Iron supplements",
+        "Digoxin"
+      ],
+      "pregnancyWarning": "Generally safe; prefer calcium carbonate; avoid aluminum",
+      "alcoholWarning": "Alcohol worsens acid reflux; limit intake"
+    },
+    {
+      "id": 36,
+      "name": "Antacid (Aluminium + Magnesium)",
+      "category": "Antacid",
+      "uses": [
+        "Instant acidity relief",
+        "Heartburn",
+        "Indigestion",
+        "Gas"
+      ],
+      "dosage": "15-30ml as needed after meals (liquid); or chew 1-2 tablets",
+      "sideEffects": [
+        "Constipation",
+        "Diarrhoea",
+        "Reduced absorption of other drugs"
+      ],
+      "alternatives": [
+        "Omeprazole",
+        "Famotidine",
+        "Sodium bicarbonate"
+      ],
+      "whyUsed": "Neutralises acid in seconds for fast burning relief",
+      "dosageFrequency": "After meals and at bedtime as needed",
+      "maxDailyDose": "As per label - typically 4-8 doses/day",
+      "commonSideEffects": [
+        "Constipation (aluminum)",
+        "Diarrhea (magnesium)",
+        "Gas"
+      ],
+      "seriousSideEffects": [
+        "Electrolyte imbalance (long-term)",
+        "Kidney stones (calcium-based)"
+      ],
+      "contraindications": [
+        "Kidney failure",
+        "Severe heart failure (sodium-containing)"
+      ],
+      "interactions": [
+        "Tetracyclines",
+        "Quinolones",
+        "Iron supplements",
+        "Digoxin"
+      ],
+      "pregnancyWarning": "Generally safe; prefer calcium carbonate; avoid aluminum",
+      "alcoholWarning": "Alcohol worsens acid reflux; limit intake"
+    },
+    {
+      "id": 37,
+      "name": "Domperidone",
+      "category": "Antacid",
+      "uses": [
+        "Nausea",
+        "Vomiting",
+        "Bloating",
+        "Slow digestion"
+      ],
+      "dosage": "10mg three times a day before meals",
+      "sideEffects": [
+        "Dry mouth",
+        "Headache",
+        "Rare heart rhythm effects",
+        "Raised prolactin"
+      ],
+      "alternatives": [
+        "Ondansetron",
+        "Metoclopramide"
+      ],
+      "whyUsed": "Settles the stomach and prevents vomiting after meals",
+      "dosageFrequency": "After meals and at bedtime as needed",
+      "maxDailyDose": "As per label - typically 4-8 doses/day",
+      "commonSideEffects": [
+        "Constipation (aluminum)",
+        "Diarrhea (magnesium)",
+        "Gas"
+      ],
+      "seriousSideEffects": [
+        "Electrolyte imbalance (long-term)",
+        "Kidney stones (calcium-based)"
+      ],
+      "contraindications": [
+        "Kidney failure",
+        "Severe heart failure (sodium-containing)"
+      ],
+      "interactions": [
+        "Tetracyclines",
+        "Quinolones",
+        "Iron supplements",
+        "Digoxin"
+      ],
+      "pregnancyWarning": "Generally safe; prefer calcium carbonate; avoid aluminum",
+      "alcoholWarning": "Alcohol worsens acid reflux; limit intake"
+    },
+    {
+      "id": 38,
+      "name": "Ondansetron",
+      "category": "Antacid",
+      "uses": [
+        "Vomiting",
+        "Chemotherapy nausea",
+        "Post-surgery nausea"
+      ],
+      "dosage": "4-8mg every 8-12 hours as needed (dissolving tablets available)",
+      "sideEffects": [
+        "Constipation",
+        "Headache",
+        "Low blood pressure"
+      ],
+      "alternatives": [
+        "Domperidone",
+        "Metoclopramide"
+      ],
+      "whyUsed": "Very effective anti-vomiting tablet also safe for motion sickness",
+      "dosageFrequency": "After meals and at bedtime as needed",
+      "maxDailyDose": "As per label - typically 4-8 doses/day",
+      "commonSideEffects": [
+        "Constipation (aluminum)",
+        "Diarrhea (magnesium)",
+        "Gas"
+      ],
+      "seriousSideEffects": [
+        "Electrolyte imbalance (long-term)",
+        "Kidney stones (calcium-based)"
+      ],
+      "contraindications": [
+        "Kidney failure",
+        "Severe heart failure (sodium-containing)"
+      ],
+      "interactions": [
+        "Tetracyclines",
+        "Quinolones",
+        "Iron supplements",
+        "Digoxin"
+      ],
+      "pregnancyWarning": "Generally safe; prefer calcium carbonate; avoid aluminum",
+      "alcoholWarning": "Alcohol worsens acid reflux; limit intake"
+    },
+    {
+      "id": 39,
+      "name": "Metoclopramide",
+      "category": "Antacid",
+      "uses": [
+        "Nausea",
+        "Vomiting",
+        "Migraine-related vomiting",
+        "Slow stomach emptying"
+      ],
+      "dosage": "10mg three times a day before meals (short courses only)",
+      "sideEffects": [
+        "Restlessness",
+        "Muscle twitching",
+        "Drowsiness",
+        "Dystonia"
+      ],
+      "alternatives": [
+        "Domperidone",
+        "Ondansetron"
+      ],
+      "whyUsed": "Speeds up stomach emptying and quickly controls nausea",
+      "dosageFrequency": "After meals and at bedtime as needed",
+      "maxDailyDose": "As per label - typically 4-8 doses/day",
+      "commonSideEffects": [
+        "Constipation (aluminum)",
+        "Diarrhea (magnesium)",
+        "Gas"
+      ],
+      "seriousSideEffects": [
+        "Electrolyte imbalance (long-term)",
+        "Kidney stones (calcium-based)"
+      ],
+      "contraindications": [
+        "Kidney failure",
+        "Severe heart failure (sodium-containing)"
+      ],
+      "interactions": [
+        "Tetracyclines",
+        "Quinolones",
+        "Iron supplements",
+        "Digoxin"
+      ],
+      "pregnancyWarning": "Generally safe; prefer calcium carbonate; avoid aluminum",
+      "alcoholWarning": "Alcohol worsens acid reflux; limit intake"
+    },
+    {
+      "id": 40,
+      "name": "Loperamide",
+      "category": "Antacid",
+      "uses": [
+        "Acute diarrhoea",
+        "Irritable bowel diarrhoea"
+      ],
+      "dosage": "2mg after first loose stool, then 2mg after each loose stool (max 8mg/day)",
+      "sideEffects": [
+        "Constipation",
+        "Dizziness",
+        "Dry mouth"
+      ],
+      "alternatives": [
+        "ORS fluids",
+        "Racecadotril"
+      ],
+      "whyUsed": "Slows the gut to reduce the number of loose motions",
+      "dosageFrequency": "After meals and at bedtime as needed",
+      "maxDailyDose": "As per label - typically 4-8 doses/day",
+      "commonSideEffects": [
+        "Constipation (aluminum)",
+        "Diarrhea (magnesium)",
+        "Gas"
+      ],
+      "seriousSideEffects": [
+        "Electrolyte imbalance (long-term)",
+        "Kidney stones (calcium-based)"
+      ],
+      "contraindications": [
+        "Kidney failure",
+        "Severe heart failure (sodium-containing)"
+      ],
+      "interactions": [
+        "Tetracyclines",
+        "Quinolones",
+        "Iron supplements",
+        "Digoxin"
+      ],
+      "pregnancyWarning": "Generally safe; prefer calcium carbonate; avoid aluminum",
+      "alcoholWarning": "Alcohol worsens acid reflux; limit intake"
+    },
+    {
+      "id": 41,
+      "name": "Metformin",
+      "category": "Diabetes",
+      "uses": [
+        "Type 2 diabetes",
+        "Prediabetes",
+        "PCOS"
+      ],
+      "dosage": "500mg once or twice a day with meals (slowly increased by doctor)",
+      "sideEffects": [
+        "Nausea",
+        "Taste changes",
+        "Diarrhoea",
+        "Rare lactic acidosis"
+      ],
+      "alternatives": [
+        "Glimepiride",
+        "Sitagliptin",
+        "Dapagliflozin"
+      ],
+      "whyUsed": "First-choice and lifetime tablet for most type 2 diabetes patients",
+      "dosageFrequency": "As prescribed - typically once or twice daily",
+      "maxDailyDose": "As prescribed by doctor",
+      "commonSideEffects": [
+        "Low blood sugar",
+        "Weight gain",
+        "Stomach upset",
+        "Diarrhea"
+      ],
+      "seriousSideEffects": [
+        "Severe hypoglycemia",
+        "Lactic acidosis (metformin)",
+        "Pancreatitis (GLP-1)"
+      ],
+      "contraindications": [
+        "Type 1 diabetes (for some)",
+        "Severe kidney/liver disease",
+        "Pregnancy (varies)"
+      ],
+      "interactions": [
+        "Beta-blockers (mask hypoglycemia)",
+        "Alcohol",
+        "Diuretics",
+        "Steroids"
+      ],
+      "pregnancyWarning": "Insulin preferred; most oral agents not recommended",
+      "alcoholWarning": "Increases hypoglycemia risk; drink with food if at all"
+    },
+    {
+      "id": 42,
+      "name": "Glimepiride",
+      "category": "Diabetes",
+      "uses": [
+        "Type 2 diabetes"
+      ],
+      "dosage": "1-4mg once daily with breakfast (as directed)",
+      "sideEffects": [
+        "Low sugar (hypoglycaemia)",
+        "Weight gain",
+        "Nausea"
+      ],
+      "alternatives": [
+        "Gliclazide",
+        "Metformin"
+      ],
+      "whyUsed": "Makes the pancreas release more insulin when blood sugar is high",
+      "dosageFrequency": "As prescribed - typically once or twice daily",
+      "maxDailyDose": "As prescribed by doctor",
+      "commonSideEffects": [
+        "Low blood sugar",
+        "Weight gain",
+        "Stomach upset",
+        "Diarrhea"
+      ],
+      "seriousSideEffects": [
+        "Severe hypoglycemia",
+        "Lactic acidosis (metformin)",
+        "Pancreatitis (GLP-1)"
+      ],
+      "contraindications": [
+        "Type 1 diabetes (for some)",
+        "Severe kidney/liver disease",
+        "Pregnancy (varies)"
+      ],
+      "interactions": [
+        "Beta-blockers (mask hypoglycemia)",
+        "Alcohol",
+        "Diuretics",
+        "Steroids"
+      ],
+      "pregnancyWarning": "Insulin preferred; most oral agents not recommended",
+      "alcoholWarning": "Increases hypoglycemia risk; drink with food if at all"
+    },
+    {
+      "id": 43,
+      "name": "Glibenclamide",
+      "category": "Diabetes",
+      "uses": [
+        "Type 2 diabetes"
+      ],
+      "dosage": "2.5-5mg once daily with meals (as directed)",
+      "sideEffects": [
+        "Low sugar episodes",
+        "Weight gain"
+      ],
+      "alternatives": [
+        "Glimepiride",
+        "Gliclazide"
+      ],
+      "whyUsed": "Classic sulfonylurea that lowers blood sugar for a full day",
+      "dosageFrequency": "As prescribed - typically once or twice daily",
+      "maxDailyDose": "As prescribed by doctor",
+      "commonSideEffects": [
+        "Low blood sugar",
+        "Weight gain",
+        "Stomach upset",
+        "Diarrhea"
+      ],
+      "seriousSideEffects": [
+        "Severe hypoglycemia",
+        "Lactic acidosis (metformin)",
+        "Pancreatitis (GLP-1)"
+      ],
+      "contraindications": [
+        "Type 1 diabetes (for some)",
+        "Severe kidney/liver disease",
+        "Pregnancy (varies)"
+      ],
+      "interactions": [
+        "Beta-blockers (mask hypoglycemia)",
+        "Alcohol",
+        "Diuretics",
+        "Steroids"
+      ],
+      "pregnancyWarning": "Insulin preferred; most oral agents not recommended",
+      "alcoholWarning": "Increases hypoglycemia risk; drink with food if at all"
+    },
+    {
+      "id": 44,
+      "name": "Gliclazide",
+      "category": "Diabetes",
+      "uses": [
+        "Type 2 diabetes"
+      ],
+      "dosage": "30-80mg daily before breakfast (modified-release forms available)",
+      "sideEffects": [
+        "Low sugar",
+        "Weight gain",
+        "Stomach upset"
+      ],
+      "alternatives": [
+        "Glimepiride",
+        "Metformin"
+      ],
+      "whyUsed": "Twice-daily option that keeps sugar in check with less risk of lows",
+      "dosageFrequency": "As prescribed - typically once or twice daily",
+      "maxDailyDose": "As prescribed by doctor",
+      "commonSideEffects": [
+        "Low blood sugar",
+        "Weight gain",
+        "Stomach upset",
+        "Diarrhea"
+      ],
+      "seriousSideEffects": [
+        "Severe hypoglycemia",
+        "Lactic acidosis (metformin)",
+        "Pancreatitis (GLP-1)"
+      ],
+      "contraindications": [
+        "Type 1 diabetes (for some)",
+        "Severe kidney/liver disease",
+        "Pregnancy (varies)"
+      ],
+      "interactions": [
+        "Beta-blockers (mask hypoglycemia)",
+        "Alcohol",
+        "Diuretics",
+        "Steroids"
+      ],
+      "pregnancyWarning": "Insulin preferred; most oral agents not recommended",
+      "alcoholWarning": "Increases hypoglycemia risk; drink with food if at all"
+    },
+    {
+      "id": 45,
+      "name": "Sitagliptin",
+      "category": "Diabetes",
+      "uses": [
+        "Type 2 diabetes"
+      ],
+      "dosage": "100mg once daily",
+      "sideEffects": [
+        "Cold-like symptoms",
+        "Stomach upset",
+        "Joint pain"
+      ],
+      "alternatives": [
+        "Empagliflozin",
+        "Glimepiride"
+      ],
+      "whyUsed": "Newer once-daily medicine that lowers sugar without causing lows",
+      "dosageFrequency": "As prescribed - typically once or twice daily",
+      "maxDailyDose": "As prescribed by doctor",
+      "commonSideEffects": [
+        "Low blood sugar",
+        "Weight gain",
+        "Stomach upset",
+        "Diarrhea"
+      ],
+      "seriousSideEffects": [
+        "Severe hypoglycemia",
+        "Lactic acidosis (metformin)",
+        "Pancreatitis (GLP-1)"
+      ],
+      "contraindications": [
+        "Type 1 diabetes (for some)",
+        "Severe kidney/liver disease",
+        "Pregnancy (varies)"
+      ],
+      "interactions": [
+        "Beta-blockers (mask hypoglycemia)",
+        "Alcohol",
+        "Diuretics",
+        "Steroids"
+      ],
+      "pregnancyWarning": "Insulin preferred; most oral agents not recommended",
+      "alcoholWarning": "Increases hypoglycemia risk; drink with food if at all"
+    },
+    {
+      "id": 46,
+      "name": "Empagliflozin",
+      "category": "Diabetes",
+      "uses": [
+        "Type 2 diabetes",
+        "Heart failure protection"
+      ],
+      "dosage": "10-25mg once daily in the morning",
+      "sideEffects": [
+        "Urinary infection",
+        "Dehydration",
+        "Genital yeast infection"
+      ],
+      "alternatives": [
+        "Dapagliflozin",
+        "Sitagliptin"
+      ],
+      "whyUsed": "Removes extra sugar through urine and also protects the heart and kidneys",
+      "dosageFrequency": "As prescribed - typically once or twice daily",
+      "maxDailyDose": "As prescribed by doctor",
+      "commonSideEffects": [
+        "Low blood sugar",
+        "Weight gain",
+        "Stomach upset",
+        "Diarrhea"
+      ],
+      "seriousSideEffects": [
+        "Severe hypoglycemia",
+        "Lactic acidosis (metformin)",
+        "Pancreatitis (GLP-1)"
+      ],
+      "contraindications": [
+        "Type 1 diabetes (for some)",
+        "Severe kidney/liver disease",
+        "Pregnancy (varies)"
+      ],
+      "interactions": [
+        "Beta-blockers (mask hypoglycemia)",
+        "Alcohol",
+        "Diuretics",
+        "Steroids"
+      ],
+      "pregnancyWarning": "Insulin preferred; most oral agents not recommended",
+      "alcoholWarning": "Increases hypoglycemia risk; drink with food if at all"
+    },
+    {
+      "id": 47,
+      "name": "Dapagliflozin",
+      "category": "Diabetes",
+      "uses": [
+        "Type 2 diabetes",
+        "Kidney protection",
+        "Heart failure"
+      ],
+      "dosage": "5-10mg once daily in the morning",
+      "sideEffects": [
+        "Thirst",
+        "Urinary infection",
+        "Reduced appetite"
+      ],
+      "alternatives": [
+        "Empagliflozin",
+        "Sitagliptin"
+      ],
+      "whyUsed": "Flushes out extra sugar via urine with extra kidney and heart benefit",
+      "dosageFrequency": "As prescribed - typically once or twice daily",
+      "maxDailyDose": "As prescribed by doctor",
+      "commonSideEffects": [
+        "Low blood sugar",
+        "Weight gain",
+        "Stomach upset",
+        "Diarrhea"
+      ],
+      "seriousSideEffects": [
+        "Severe hypoglycemia",
+        "Lactic acidosis (metformin)",
+        "Pancreatitis (GLP-1)"
+      ],
+      "contraindications": [
+        "Type 1 diabetes (for some)",
+        "Severe kidney/liver disease",
+        "Pregnancy (varies)"
+      ],
+      "interactions": [
+        "Beta-blockers (mask hypoglycemia)",
+        "Alcohol",
+        "Diuretics",
+        "Steroids"
+      ],
+      "pregnancyWarning": "Insulin preferred; most oral agents not recommended",
+      "alcoholWarning": "Increases hypoglycemia risk; drink with food if at all"
+    },
+    {
+      "id": 48,
+      "name": "Pioglitazone",
+      "category": "Diabetes",
+      "uses": [
+        "Type 2 diabetes"
+      ],
+      "dosage": "15-45mg once daily at the same time each day",
+      "sideEffects": [
+        "Swelling of feet",
+        "Weight gain",
+        "Heart failure risk"
+      ],
+      "alternatives": [
+        "Metformin",
+        "Sitagliptin"
+      ],
+      "whyUsed": "Lowers sugar by helping the body use insulin better",
+      "dosageFrequency": "As prescribed - typically once or twice daily",
+      "maxDailyDose": "As prescribed by doctor",
+      "commonSideEffects": [
+        "Low blood sugar",
+        "Weight gain",
+        "Stomach upset",
+        "Diarrhea"
+      ],
+      "seriousSideEffects": [
+        "Severe hypoglycemia",
+        "Lactic acidosis (metformin)",
+        "Pancreatitis (GLP-1)"
+      ],
+      "contraindications": [
+        "Type 1 diabetes (for some)",
+        "Severe kidney/liver disease",
+        "Pregnancy (varies)"
+      ],
+      "interactions": [
+        "Beta-blockers (mask hypoglycemia)",
+        "Alcohol",
+        "Diuretics",
+        "Steroids"
+      ],
+      "pregnancyWarning": "Insulin preferred; most oral agents not recommended",
+      "alcoholWarning": "Increases hypoglycemia risk; drink with food if at all"
+    },
+    {
+      "id": 49,
+      "name": "Voglibose",
+      "category": "Diabetes",
+      "uses": [
+        "Type 2 diabetes",
+        "High sugar after meals"
+      ],
+      "dosage": "0.2-0.3mg three times a day just before each main meal",
+      "sideEffects": [
+        "Gas",
+        "Bloating",
+        "Diarrhoea"
+      ],
+      "alternatives": [
+        "Metformin",
+        "Sitagliptin"
+      ],
+      "whyUsed": "Slows the absorption of sugar from meals, cutting after-food spikes",
+      "dosageFrequency": "As prescribed - typically once or twice daily",
+      "maxDailyDose": "As prescribed by doctor",
+      "commonSideEffects": [
+        "Low blood sugar",
+        "Weight gain",
+        "Stomach upset",
+        "Diarrhea"
+      ],
+      "seriousSideEffects": [
+        "Severe hypoglycemia",
+        "Lactic acidosis (metformin)",
+        "Pancreatitis (GLP-1)"
+      ],
+      "contraindications": [
+        "Type 1 diabetes (for some)",
+        "Severe kidney/liver disease",
+        "Pregnancy (varies)"
+      ],
+      "interactions": [
+        "Beta-blockers (mask hypoglycemia)",
+        "Alcohol",
+        "Diuretics",
+        "Steroids"
+      ],
+      "pregnancyWarning": "Insulin preferred; most oral agents not recommended",
+      "alcoholWarning": "Increases hypoglycemia risk; drink with food if at all"
+    },
+    {
+      "id": 50,
+      "name": "Insulin (Human Mixtard)",
+      "category": "Diabetes",
+      "uses": [
+        "Type 1 diabetes",
+        "Advanced type 2 diabetes",
+        "Pregnancy diabetes"
+      ],
+      "dosage": "Individualised; usually given by injection 1-2 times daily",
+      "sideEffects": [
+        "Low sugar (hypoglycaemia)",
+        "Weight gain",
+        "Injection-site swelling"
+      ],
+      "alternatives": [
+        "Other insulin types",
+        "Glimepiride (early diabetes)"
+      ],
+      "whyUsed": "Replaces the missing hormone that the body needs to use sugar",
+      "dosageFrequency": "As prescribed - typically once or twice daily",
+      "maxDailyDose": "As prescribed by doctor",
+      "commonSideEffects": [
+        "Low blood sugar",
+        "Weight gain",
+        "Stomach upset",
+        "Diarrhea"
+      ],
+      "seriousSideEffects": [
+        "Severe hypoglycemia",
+        "Lactic acidosis (metformin)",
+        "Pancreatitis (GLP-1)"
+      ],
+      "contraindications": [
+        "Type 1 diabetes (for some)",
+        "Severe kidney/liver disease",
+        "Pregnancy (varies)"
+      ],
+      "interactions": [
+        "Beta-blockers (mask hypoglycemia)",
+        "Alcohol",
+        "Diuretics",
+        "Steroids"
+      ],
+      "pregnancyWarning": "Insulin preferred; most oral agents not recommended",
+      "alcoholWarning": "Increases hypoglycemia risk; drink with food if at all"
+    },
+    {
+      "id": 51,
+      "name": "Atorvastatin",
+      "category": "Cholesterol",
+      "uses": [
+        "High cholesterol",
+        "Heart attack prevention",
+        "Stroke prevention"
+      ],
+      "dosage": "10-80mg once daily in the evening",
+      "sideEffects": [
+        "Muscle aches",
+        "Stomach upset",
+        "Liver enzyme changes"
+      ],
+      "alternatives": [
+        "Rosuvastatin",
+        "Simvastatin"
+      ],
+      "whyUsed": "Lowers 'bad' cholesterol and guards against heart attacks",
+      "dosageFrequency": "Once daily, preferably at night",
+      "maxDailyDose": "As prescribed (typically 10-80mg statins)",
+      "commonSideEffects": [
+        "Muscle aches",
+        "Headache",
+        "Stomach upset",
+        "Liver enzyme changes"
+      ],
+      "seriousSideEffects": [
+        "Rhabdomyolysis (muscle breakdown)",
+        "Liver failure",
+        "Type 2 diabetes risk"
+      ],
+      "contraindications": [
+        "Active liver disease",
+        "Pregnancy",
+        "Breastfeeding"
+      ],
+      "interactions": [
+        "Grapefruit juice",
+        "Warfarin",
+        "Fibrates",
+        "Niacin"
+      ],
+      "pregnancyWarning": "Contraindicated - statins can harm fetus",
+      "alcoholWarning": "Limit alcohol - increases liver damage risk"
+    },
+    {
+      "id": 52,
+      "name": "Rosuvastatin",
+      "category": "Cholesterol",
+      "uses": [
+        "High cholesterol",
+        "Heart attack prevention"
+      ],
+      "dosage": "5-40mg once daily at any time",
+      "sideEffects": [
+        "Muscle pain",
+        "Headache",
+        "Constipation"
+      ],
+      "alternatives": [
+        "Atorvastatin",
+        "Simvastatin"
+      ],
+      "whyUsed": "Potent statin that brings stubborn cholesterol down effectively",
+      "dosageFrequency": "Once daily, preferably at night",
+      "maxDailyDose": "As prescribed (typically 10-80mg statins)",
+      "commonSideEffects": [
+        "Muscle aches",
+        "Headache",
+        "Stomach upset",
+        "Liver enzyme changes"
+      ],
+      "seriousSideEffects": [
+        "Rhabdomyolysis (muscle breakdown)",
+        "Liver failure",
+        "Type 2 diabetes risk"
+      ],
+      "contraindications": [
+        "Active liver disease",
+        "Pregnancy",
+        "Breastfeeding"
+      ],
+      "interactions": [
+        "Grapefruit juice",
+        "Warfarin",
+        "Fibrates",
+        "Niacin"
+      ],
+      "pregnancyWarning": "Contraindicated - statins can harm fetus",
+      "alcoholWarning": "Limit alcohol - increases liver damage risk"
+    },
+    {
+      "id": 53,
+      "name": "Simvastatin",
+      "category": "Cholesterol",
+      "uses": [
+        "High cholesterol",
+        "Heart disease prevention"
+      ],
+      "dosage": "10-40mg once daily at night",
+      "sideEffects": [
+        "Muscle pain",
+        "Stomach upset",
+        "Sleep problems"
+      ],
+      "alternatives": [
+        "Atorvastatin",
+        "Rosuvastatin"
+      ],
+      "whyUsed": "Affordable evening dose that lowers cholesterol when taken before sleep",
+      "dosageFrequency": "Once daily, preferably at night",
+      "maxDailyDose": "As prescribed (typically 10-80mg statins)",
+      "commonSideEffects": [
+        "Muscle aches",
+        "Headache",
+        "Stomach upset",
+        "Liver enzyme changes"
+      ],
+      "seriousSideEffects": [
+        "Rhabdomyolysis (muscle breakdown)",
+        "Liver failure",
+        "Type 2 diabetes risk"
+      ],
+      "contraindications": [
+        "Active liver disease",
+        "Pregnancy",
+        "Breastfeeding"
+      ],
+      "interactions": [
+        "Grapefruit juice",
+        "Warfarin",
+        "Fibrates",
+        "Niacin"
+      ],
+      "pregnancyWarning": "Contraindicated - statins can harm fetus",
+      "alcoholWarning": "Limit alcohol - increases liver damage risk"
+    },
+    {
+      "id": 54,
+      "name": "Lisinopril",
+      "category": "Blood Pressure",
+      "uses": [
+        "High blood pressure",
+        "Heart failure",
+        "After heart attack"
+      ],
+      "dosage": "5-40mg once daily",
+      "sideEffects": [
+        "Dry cough",
+        "Dizziness",
+        "High potassium"
+      ],
+      "alternatives": [
+        "Ramipril",
+        "Enalapril",
+        "Losartan"
+      ],
+      "whyUsed": "Lowers blood pressure while protecting the heart and kidneys",
+      "dosageFrequency": "Once or twice daily as prescribed",
+      "maxDailyDose": "As prescribed by doctor",
+      "commonSideEffects": [
+        "Dizziness",
+        "Fatigue",
+        "Cough (ACE inhibitors)",
+        "Swelling (CCBs)"
+      ],
+      "seriousSideEffects": [
+        "Angioedema (ACE/ARB)",
+        "Severe hypotension",
+        "Kidney dysfunction"
+      ],
+      "contraindications": [
+        "Pregnancy (ACE/ARB)",
+        "Severe kidney stenosis",
+        "Hyperkalemia"
+      ],
+      "interactions": [
+        "Potassium supplements",
+        "NSAIDs",
+        "Lithium",
+        "Other BP meds"
+      ],
+      "pregnancyWarning": "ACE/ARB contraindicated; methyldopa/labetalol preferred",
+      "alcoholWarning": "May increase dizziness and blood pressure lowering"
+    },
+    {
+      "id": 55,
+      "name": "Ramipril",
+      "category": "Blood Pressure",
+      "uses": [
+        "High blood pressure",
+        "Heart failure",
+        "Stroke prevention"
+      ],
+      "dosage": "2.5-10mg once daily",
+      "sideEffects": [
+        "Dry cough",
+        "Dizziness",
+        "Rare kidney effects"
+      ],
+      "alternatives": [
+        "Lisinopril",
+        "Enalapril",
+        "Telmisartan"
+      ],
+      "whyUsed": "Well-proven ACE inhibitor for blood pressure and heart protection",
+      "dosageFrequency": "Once or twice daily as prescribed",
+      "maxDailyDose": "As prescribed by doctor",
+      "commonSideEffects": [
+        "Dizziness",
+        "Fatigue",
+        "Cough (ACE inhibitors)",
+        "Swelling (CCBs)"
+      ],
+      "seriousSideEffects": [
+        "Angioedema (ACE/ARB)",
+        "Severe hypotension",
+        "Kidney dysfunction"
+      ],
+      "contraindications": [
+        "Pregnancy (ACE/ARB)",
+        "Severe kidney stenosis",
+        "Hyperkalemia"
+      ],
+      "interactions": [
+        "Potassium supplements",
+        "NSAIDs",
+        "Lithium",
+        "Other BP meds"
+      ],
+      "pregnancyWarning": "ACE/ARB contraindicated; methyldopa/labetalol preferred",
+      "alcoholWarning": "May increase dizziness and blood pressure lowering"
+    },
+    {
+      "id": 56,
+      "name": "Enalapril",
+      "category": "Blood Pressure",
+      "uses": [
+        "High blood pressure",
+        "Heart failure"
+      ],
+      "dosage": "5-20mg once or twice daily",
+      "sideEffects": [
+        "Dry cough",
+        "Dizziness",
+        "Skin rash"
+      ],
+      "alternatives": [
+        "Lisinopril",
+        "Ramipril"
+      ],
+      "whyUsed": "Daily tablet that relaxes blood vessels to keep pressure low",
+      "dosageFrequency": "Once or twice daily as prescribed",
+      "maxDailyDose": "As prescribed by doctor",
+      "commonSideEffects": [
+        "Dizziness",
+        "Fatigue",
+        "Cough (ACE inhibitors)",
+        "Swelling (CCBs)"
+      ],
+      "seriousSideEffects": [
+        "Angioedema (ACE/ARB)",
+        "Severe hypotension",
+        "Kidney dysfunction"
+      ],
+      "contraindications": [
+        "Pregnancy (ACE/ARB)",
+        "Severe kidney stenosis",
+        "Hyperkalemia"
+      ],
+      "interactions": [
+        "Potassium supplements",
+        "NSAIDs",
+        "Lithium",
+        "Other BP meds"
+      ],
+      "pregnancyWarning": "ACE/ARB contraindicated; methyldopa/labetalol preferred",
+      "alcoholWarning": "May increase dizziness and blood pressure lowering"
+    },
+    {
+      "id": 57,
+      "name": "Amlodipine",
+      "category": "Blood Pressure",
+      "uses": [
+        "High blood pressure",
+        "Angina (chest pain)"
+      ],
+      "dosage": "2.5-10mg once daily",
+      "sideEffects": [
+        "Swollen ankles",
+        "Headache",
+        "Flushing",
+        "Palpitations"
+      ],
+      "alternatives": [
+        "Telmisartan",
+        "Lisinopril",
+        "Nifedipine"
+      ],
+      "whyUsed": "Widens blood vessels for smooth, steady blood pressure control",
+      "dosageFrequency": "Once or twice daily as prescribed",
+      "maxDailyDose": "As prescribed by doctor",
+      "commonSideEffects": [
+        "Dizziness",
+        "Fatigue",
+        "Cough (ACE inhibitors)",
+        "Swelling (CCBs)"
+      ],
+      "seriousSideEffects": [
+        "Angioedema (ACE/ARB)",
+        "Severe hypotension",
+        "Kidney dysfunction"
+      ],
+      "contraindications": [
+        "Pregnancy (ACE/ARB)",
+        "Severe kidney stenosis",
+        "Hyperkalemia"
+      ],
+      "interactions": [
+        "Potassium supplements",
+        "NSAIDs",
+        "Lithium",
+        "Other BP meds"
+      ],
+      "pregnancyWarning": "ACE/ARB contraindicated; methyldopa/labetalol preferred",
+      "alcoholWarning": "May increase dizziness and blood pressure lowering"
+    },
+    {
+      "id": 58,
+      "name": "Losartan",
+      "category": "Blood Pressure",
+      "uses": [
+        "High blood pressure",
+        "Kidney protection in diabetes"
+      ],
+      "dosage": "25-100mg once or twice daily",
+      "sideEffects": [
+        "Dizziness",
+        "High potassium",
+        "Back pain"
+      ],
+      "alternatives": [
+        "Telmisartan",
+        "Lisinopril",
+        "Amlodipine"
+      ],
+      "whyUsed": "Gentle blood pressure tablet that also protects kidneys in diabetes",
+      "dosageFrequency": "Once or twice daily as prescribed",
+      "maxDailyDose": "As prescribed by doctor",
+      "commonSideEffects": [
+        "Dizziness",
+        "Fatigue",
+        "Cough (ACE inhibitors)",
+        "Swelling (CCBs)"
+      ],
+      "seriousSideEffects": [
+        "Angioedema (ACE/ARB)",
+        "Severe hypotension",
+        "Kidney dysfunction"
+      ],
+      "contraindications": [
+        "Pregnancy (ACE/ARB)",
+        "Severe kidney stenosis",
+        "Hyperkalemia"
+      ],
+      "interactions": [
+        "Potassium supplements",
+        "NSAIDs",
+        "Lithium",
+        "Other BP meds"
+      ],
+      "pregnancyWarning": "ACE/ARB contraindicated; methyldopa/labetalol preferred",
+      "alcoholWarning": "May increase dizziness and blood pressure lowering"
+    },
+    {
+      "id": 59,
+      "name": "Telmisartan",
+      "category": "Blood Pressure",
+      "uses": [
+        "High blood pressure",
+        "Heart protection"
+      ],
+      "dosage": "40-80mg once daily",
+      "sideEffects": [
+        "Dizziness",
+        "Diarrhoea",
+        "Fatigue"
+      ],
+      "alternatives": [
+        "Losartan",
+        "Lisinopril"
+      ],
+      "whyUsed": "Long-acting tablet that keeps blood pressure stable for 24 hours",
+      "dosageFrequency": "Once or twice daily as prescribed",
+      "maxDailyDose": "As prescribed by doctor",
+      "commonSideEffects": [
+        "Dizziness",
+        "Fatigue",
+        "Cough (ACE inhibitors)",
+        "Swelling (CCBs)"
+      ],
+      "seriousSideEffects": [
+        "Angioedema (ACE/ARB)",
+        "Severe hypotension",
+        "Kidney dysfunction"
+      ],
+      "contraindications": [
+        "Pregnancy (ACE/ARB)",
+        "Severe kidney stenosis",
+        "Hyperkalemia"
+      ],
+      "interactions": [
+        "Potassium supplements",
+        "NSAIDs",
+        "Lithium",
+        "Other BP meds"
+      ],
+      "pregnancyWarning": "ACE/ARB contraindicated; methyldopa/labetalol preferred",
+      "alcoholWarning": "May increase dizziness and blood pressure lowering"
+    },
+    {
+      "id": 60,
+      "name": "Metoprolol",
+      "category": "Blood Pressure",
+      "uses": [
+        "High blood pressure",
+        "Angina",
+        "Heart failure",
+        "Fast heartbeat"
+      ],
+      "dosage": "25-100mg once or twice daily (slow-release forms available)",
+      "sideEffects": [
+        "Slowed heartbeat",
+        "Tiredness",
+        "Cold hands",
+        "Dizziness"
+      ],
+      "alternatives": [
+        "Atenolol",
+        "Amlodipine"
+      ],
+      "whyUsed": "Slows the heart rate and lowers pressure, protecting the heart",
+      "dosageFrequency": "Once or twice daily as prescribed",
+      "maxDailyDose": "As prescribed by doctor",
+      "commonSideEffects": [
+        "Dizziness",
+        "Fatigue",
+        "Cough (ACE inhibitors)",
+        "Swelling (CCBs)"
+      ],
+      "seriousSideEffects": [
+        "Angioedema (ACE/ARB)",
+        "Severe hypotension",
+        "Kidney dysfunction"
+      ],
+      "contraindications": [
+        "Pregnancy (ACE/ARB)",
+        "Severe kidney stenosis",
+        "Hyperkalemia"
+      ],
+      "interactions": [
+        "Potassium supplements",
+        "NSAIDs",
+        "Lithium",
+        "Other BP meds"
+      ],
+      "pregnancyWarning": "ACE/ARB contraindicated; methyldopa/labetalol preferred",
+      "alcoholWarning": "May increase dizziness and blood pressure lowering"
+    },
+    {
+      "id": 61,
+      "name": "Atenolol",
+      "category": "Blood Pressure",
+      "uses": [
+        "High blood pressure",
+        "Angina",
+        "Migraine prevention"
+      ],
+      "dosage": "25-100mg once daily",
+      "sideEffects": [
+        "Fatigue",
+        "Slow heartbeat",
+        "Cold fingers",
+        "Sleep disturbance"
+      ],
+      "alternatives": [
+        "Metoprolol",
+        "Amlodipine"
+      ],
+      "whyUsed": "Classic beta-blocker that reduces the heart's workload",
+      "dosageFrequency": "Once or twice daily as prescribed",
+      "maxDailyDose": "As prescribed by doctor",
+      "commonSideEffects": [
+        "Dizziness",
+        "Fatigue",
+        "Cough (ACE inhibitors)",
+        "Swelling (CCBs)"
+      ],
+      "seriousSideEffects": [
+        "Angioedema (ACE/ARB)",
+        "Severe hypotension",
+        "Kidney dysfunction"
+      ],
+      "contraindications": [
+        "Pregnancy (ACE/ARB)",
+        "Severe kidney stenosis",
+        "Hyperkalemia"
+      ],
+      "interactions": [
+        "Potassium supplements",
+        "NSAIDs",
+        "Lithium",
+        "Other BP meds"
+      ],
+      "pregnancyWarning": "ACE/ARB contraindicated; methyldopa/labetalol preferred",
+      "alcoholWarning": "May increase dizziness and blood pressure lowering"
+    },
+    {
+      "id": 62,
+      "name": "Nitroglycerin",
+      "category": "Blood Pressure",
+      "uses": [
+        "Chest pain (angina)",
+        "Heart attack first aid"
+      ],
+      "dosage": "0.5mg tablet placed under the tongue when chest pain starts",
+      "sideEffects": [
+        "Headache",
+        "Facial flushing",
+        "Dizziness",
+        "Low blood pressure"
+      ],
+      "alternatives": [
+        "Isosorbide dinitrate",
+        "Doctor-prescribed angina care"
+      ],
+      "whyUsed": "Gives emergency chest-pain relief within minutes",
+      "dosageFrequency": "Once or twice daily as prescribed",
+      "maxDailyDose": "As prescribed by doctor",
+      "commonSideEffects": [
+        "Dizziness",
+        "Fatigue",
+        "Cough (ACE inhibitors)",
+        "Swelling (CCBs)"
+      ],
+      "seriousSideEffects": [
+        "Angioedema (ACE/ARB)",
+        "Severe hypotension",
+        "Kidney dysfunction"
+      ],
+      "contraindications": [
+        "Pregnancy (ACE/ARB)",
+        "Severe kidney stenosis",
+        "Hyperkalemia"
+      ],
+      "interactions": [
+        "Potassium supplements",
+        "NSAIDs",
+        "Lithium",
+        "Other BP meds"
+      ],
+      "pregnancyWarning": "ACE/ARB contraindicated; methyldopa/labetalol preferred",
+      "alcoholWarning": "May increase dizziness and blood pressure lowering"
+    },
+    {
+      "id": 63,
+      "name": "Clopidogrel",
+      "category": "Blood Pressure",
+      "uses": [
+        "Heart attack prevention",
+        "Stroke prevention",
+        "After stent insertion"
+      ],
+      "dosage": "75mg once daily",
+      "sideEffects": [
+        "Bleeding/bruising",
+        "Stomach upset",
+        "Skin rash"
+      ],
+      "alternatives": [
+        "Aspirin",
+        "Ticagrelor"
+      ],
+      "whyUsed": "Stops platelets from clumping, preventing dangerous clots",
+      "dosageFrequency": "Once or twice daily as prescribed",
+      "maxDailyDose": "As prescribed by doctor",
+      "commonSideEffects": [
+        "Dizziness",
+        "Fatigue",
+        "Cough (ACE inhibitors)",
+        "Swelling (CCBs)"
+      ],
+      "seriousSideEffects": [
+        "Angioedema (ACE/ARB)",
+        "Severe hypotension",
+        "Kidney dysfunction"
+      ],
+      "contraindications": [
+        "Pregnancy (ACE/ARB)",
+        "Severe kidney stenosis",
+        "Hyperkalemia"
+      ],
+      "interactions": [
+        "Potassium supplements",
+        "NSAIDs",
+        "Lithium",
+        "Other BP meds"
+      ],
+      "pregnancyWarning": "ACE/ARB contraindicated; methyldopa/labetalol preferred",
+      "alcoholWarning": "May increase dizziness and blood pressure lowering"
+    },
+    {
+      "id": 64,
+      "name": "Furosemide",
+      "category": "Blood Pressure",
+      "uses": [
+        "Fluid retention",
+        "Heart failure swelling",
+        "Kidney failure oedema"
+      ],
+      "dosage": "20-40mg once daily in the morning as prescribed",
+      "sideEffects": [
+        "Frequent urination",
+        "Low potassium",
+        "Dehydration",
+        "Dizziness"
+      ],
+      "alternatives": [
+        "Hydrochlorothiazide",
+        "Spironolactone"
+      ],
+      "whyUsed": "Quickly removes excess water and salt from the body",
+      "dosageFrequency": "Once or twice daily as prescribed",
+      "maxDailyDose": "As prescribed by doctor",
+      "commonSideEffects": [
+        "Dizziness",
+        "Fatigue",
+        "Cough (ACE inhibitors)",
+        "Swelling (CCBs)"
+      ],
+      "seriousSideEffects": [
+        "Angioedema (ACE/ARB)",
+        "Severe hypotension",
+        "Kidney dysfunction"
+      ],
+      "contraindications": [
+        "Pregnancy (ACE/ARB)",
+        "Severe kidney stenosis",
+        "Hyperkalemia"
+      ],
+      "interactions": [
+        "Potassium supplements",
+        "NSAIDs",
+        "Lithium",
+        "Other BP meds"
+      ],
+      "pregnancyWarning": "ACE/ARB contraindicated; methyldopa/labetalol preferred",
+      "alcoholWarning": "May increase dizziness and blood pressure lowering"
+    },
+    {
+      "id": 65,
+      "name": "Hydrochlorothiazide",
+      "category": "Blood Pressure",
+      "uses": [
+        "High blood pressure",
+        "Fluid retention"
+      ],
+      "dosage": "12.5-50mg once daily in the morning",
+      "sideEffects": [
+        "Increased urination",
+        "Low potassium",
+        "Sun sensitivity"
+      ],
+      "alternatives": [
+        "Chlorthalidone",
+        "Furosemide"
+      ],
+      "whyUsed": "Cheap water tablet that also brings blood pressure down",
+      "dosageFrequency": "Once or twice daily as prescribed",
+      "maxDailyDose": "As prescribed by doctor",
+      "commonSideEffects": [
+        "Dizziness",
+        "Fatigue",
+        "Cough (ACE inhibitors)",
+        "Swelling (CCBs)"
+      ],
+      "seriousSideEffects": [
+        "Angioedema (ACE/ARB)",
+        "Severe hypotension",
+        "Kidney dysfunction"
+      ],
+      "contraindications": [
+        "Pregnancy (ACE/ARB)",
+        "Severe kidney stenosis",
+        "Hyperkalemia"
+      ],
+      "interactions": [
+        "Potassium supplements",
+        "NSAIDs",
+        "Lithium",
+        "Other BP meds"
+      ],
+      "pregnancyWarning": "ACE/ARB contraindicated; methyldopa/labetalol preferred",
+      "alcoholWarning": "May increase dizziness and blood pressure lowering"
+    },
+    {
+      "id": 66,
+      "name": "Digoxin",
+      "category": "Blood Pressure",
+      "uses": [
+        "Heart failure",
+        "Irregular heartbeat (AF)"
+      ],
+      "dosage": "0.125-0.25mg once daily (doctor-monitored)",
+      "sideEffects": [
+        "Nausea",
+        "Slow heartbeat",
+        "Vision changes (toxicity)",
+        "Confusion"
+      ],
+      "alternatives": [
+        "Beta-blockers",
+        "Amiodarone"
+      ],
+      "whyUsed": "Strengthens heart contractions in advanced heart failure",
+      "dosageFrequency": "Once or twice daily as prescribed",
+      "maxDailyDose": "As prescribed by doctor",
+      "commonSideEffects": [
+        "Dizziness",
+        "Fatigue",
+        "Cough (ACE inhibitors)",
+        "Swelling (CCBs)"
+      ],
+      "seriousSideEffects": [
+        "Angioedema (ACE/ARB)",
+        "Severe hypotension",
+        "Kidney dysfunction"
+      ],
+      "contraindications": [
+        "Pregnancy (ACE/ARB)",
+        "Severe kidney stenosis",
+        "Hyperkalemia"
+      ],
+      "interactions": [
+        "Potassium supplements",
+        "NSAIDs",
+        "Lithium",
+        "Other BP meds"
+      ],
+      "pregnancyWarning": "ACE/ARB contraindicated; methyldopa/labetalol preferred",
+      "alcoholWarning": "May increase dizziness and blood pressure lowering"
+    },
+    {
+      "id": 67,
+      "name": "Vitamin B12 (Methylcobalamin)",
+      "category": "Vitamin",
+      "uses": [
+        "Vitamin B12 deficiency",
+        "Nerve numbness",
+        "Anaemia",
+        "Weakness"
+      ],
+      "dosage": "500-1500mcg once daily or as prescribed (injections for severe cases)",
+      "sideEffects": [
+        "Rare allergic reaction",
+        "Diarrhoea (uncommon)"
+      ],
+      "alternatives": [
+        "Vitamin B complex",
+        "Cyanocobalamin"
+      ],
+      "whyUsed": "Rebuilds nerves and red blood cells in deficiency and tingling",
+      "dosageFrequency": "Once daily with food",
+      "maxDailyDose": "Per label (do not exceed RDA significantly)",
+      "commonSideEffects": [
+        "Nausea (if empty stomach)",
+        "Yellow urine (B vitamins)",
+        "Mild stomach upset"
+      ],
+      "seriousSideEffects": [
+        "Hypervitaminosis (fat-soluble A,D,E,K)",
+        "Kidney stones (excess C/D)"
+      ],
+      "contraindications": [
+        "Hypercalcemia (Vit D)",
+        "Iron overload (Vit C with iron)"
+      ],
+      "interactions": [
+        "Warfarin (Vit K)",
+        "Antibiotics (minerals)",
+        "Thyroid meds (calcium)"
+      ],
+      "pregnancyWarning": "Prenatal vitamins recommended; avoid excess Vitamin A",
+      "alcoholWarning": "Minimal interaction; alcohol depletes B vitamins"
+    },
+    {
+      "id": 68,
+      "name": "Multivitamin",
+      "category": "Vitamin",
+      "uses": [
+        "General weakness",
+        "Poor appetite",
+        "Nutritional gaps",
+        "Recovery from illness"
+      ],
+      "dosage": "1 tablet once daily with food",
+      "sideEffects": [
+        "Stomach upset",
+        "Yellow urine",
+        "Constipation"
+      ],
+      "alternatives": [
+        "Vitamin B complex",
+        "Individual vitamins"
+      ],
+      "whyUsed": "Daily convenience pack of essential vitamins and minerals",
+      "dosageFrequency": "Once daily with food",
+      "maxDailyDose": "Per label (do not exceed RDA significantly)",
+      "commonSideEffects": [
+        "Nausea (if empty stomach)",
+        "Yellow urine (B vitamins)",
+        "Mild stomach upset"
+      ],
+      "seriousSideEffects": [
+        "Hypervitaminosis (fat-soluble A,D,E,K)",
+        "Kidney stones (excess C/D)"
+      ],
+      "contraindications": [
+        "Hypercalcemia (Vit D)",
+        "Iron overload (Vit C with iron)"
+      ],
+      "interactions": [
+        "Warfarin (Vit K)",
+        "Antibiotics (minerals)",
+        "Thyroid meds (calcium)"
+      ],
+      "pregnancyWarning": "Prenatal vitamins recommended; avoid excess Vitamin A",
+      "alcoholWarning": "Minimal interaction; alcohol depletes B vitamins"
+    },
+    {
+      "id": 69,
+      "name": "Vitamin D3 (Cholecalciferol)",
+      "category": "Vitamin",
+      "uses": [
+        "Vitamin D deficiency",
+        "Weak bones",
+        "Body aches",
+        "Low immunity"
+      ],
+      "dosage": "60,000IU once weekly for 8 weeks, then 1000-2000IU daily (as directed)",
+      "sideEffects": [
+        "Rare high calcium",
+        "Constipation",
+        "Nausea"
+      ],
+      "alternatives": [
+        "Calcium + Vitamin D3",
+        "Vitamin D2 (Ergocalciferol)"
+      ],
+      "whyUsed": "Strengthens bones and helps the body absorb calcium",
+      "dosageFrequency": "Once daily with food",
+      "maxDailyDose": "Per label (do not exceed RDA significantly)",
+      "commonSideEffects": [
+        "Nausea (if empty stomach)",
+        "Yellow urine (B vitamins)",
+        "Mild stomach upset"
+      ],
+      "seriousSideEffects": [
+        "Hypervitaminosis (fat-soluble A,D,E,K)",
+        "Kidney stones (excess C/D)"
+      ],
+      "contraindications": [
+        "Hypercalcemia (Vit D)",
+        "Iron overload (Vit C with iron)"
+      ],
+      "interactions": [
+        "Warfarin (Vit K)",
+        "Antibiotics (minerals)",
+        "Thyroid meds (calcium)"
+      ],
+      "pregnancyWarning": "Prenatal vitamins recommended; avoid excess Vitamin A",
+      "alcoholWarning": "Minimal interaction; alcohol depletes B vitamins"
+    },
+    {
+      "id": 70,
+      "name": "Vitamin C (Ascorbic Acid)",
+      "category": "Vitamin",
+      "uses": [
+        "Common cold",
+        "Iron absorption",
+        "Wound healing",
+        "Immunity"
+      ],
+      "dosage": "500-1000mg once or twice daily",
+      "sideEffects": [
+        "Stomach cramps",
+        "Diarrhoea at high doses"
+      ],
+      "alternatives": [
+        "Zinc",
+        "Amla",
+        "Citrus fruits"
+      ],
+      "whyUsed": "Boosts immunity and helps wounds and colds heal faster",
+      "dosageFrequency": "Once daily with food",
+      "maxDailyDose": "Per label (do not exceed RDA significantly)",
+      "commonSideEffects": [
+        "Nausea (if empty stomach)",
+        "Yellow urine (B vitamins)",
+        "Mild stomach upset"
+      ],
+      "seriousSideEffects": [
+        "Hypervitaminosis (fat-soluble A,D,E,K)",
+        "Kidney stones (excess C/D)"
+      ],
+      "contraindications": [
+        "Hypercalcemia (Vit D)",
+        "Iron overload (Vit C with iron)"
+      ],
+      "interactions": [
+        "Warfarin (Vit K)",
+        "Antibiotics (minerals)",
+        "Thyroid meds (calcium)"
+      ],
+      "pregnancyWarning": "Prenatal vitamins recommended; avoid excess Vitamin A",
+      "alcoholWarning": "Minimal interaction; alcohol depletes B vitamins"
+    },
+    {
+      "id": 71,
+      "name": "Iron + Folic Acid",
+      "category": "Vitamin",
+      "uses": [
+        "Anaemia",
+        "Pregnancy supplementation",
+        "Weakness",
+        "Pale skin"
+      ],
+      "dosage": "1 tablet daily in pregnancy; anaemia dose as prescribed",
+      "sideEffects": [
+        "Constipation",
+        "Dark stools",
+        "Nausea",
+        "Stomach upset"
+      ],
+      "alternatives": [
+        "Iron sucrose (IV)",
+        "Folic acid alone"
+      ],
+      "whyUsed": "Rebuilds haemoglobin and prevents low blood in pregnancy",
+      "dosageFrequency": "Once daily with food",
+      "maxDailyDose": "Per label (do not exceed RDA significantly)",
+      "commonSideEffects": [
+        "Nausea (if empty stomach)",
+        "Yellow urine (B vitamins)",
+        "Mild stomach upset"
+      ],
+      "seriousSideEffects": [
+        "Hypervitaminosis (fat-soluble A,D,E,K)",
+        "Kidney stones (excess C/D)"
+      ],
+      "contraindications": [
+        "Hypercalcemia (Vit D)",
+        "Iron overload (Vit C with iron)"
+      ],
+      "interactions": [
+        "Warfarin (Vit K)",
+        "Antibiotics (minerals)",
+        "Thyroid meds (calcium)"
+      ],
+      "pregnancyWarning": "Prenatal vitamins recommended; avoid excess Vitamin A",
+      "alcoholWarning": "Minimal interaction; alcohol depletes B vitamins"
+    },
+    {
+      "id": 72,
+      "name": "Calcium + Vitamin D3",
+      "category": "Vitamin",
+      "uses": [
+        "Weak bones",
+        "Osteoporosis",
+        "Bone pain",
+        "Elderly fractures"
+      ],
+      "dosage": "500mg calcium + 200-800IU vitamin D3, once or twice daily",
+      "sideEffects": [
+        "Constipation",
+        "Gas",
+        "Kidney stones (high dose)"
+      ],
+      "alternatives": [
+        "Vitamin D3 alone",
+        "Calcium citrate"
+      ],
+      "whyUsed": "Rebuilds bone strength and prevents fractures in older age",
+      "dosageFrequency": "Once daily with food",
+      "maxDailyDose": "Per label (do not exceed RDA significantly)",
+      "commonSideEffects": [
+        "Nausea (if empty stomach)",
+        "Yellow urine (B vitamins)",
+        "Mild stomach upset"
+      ],
+      "seriousSideEffects": [
+        "Hypervitaminosis (fat-soluble A,D,E,K)",
+        "Kidney stones (excess C/D)"
+      ],
+      "contraindications": [
+        "Hypercalcemia (Vit D)",
+        "Iron overload (Vit C with iron)"
+      ],
+      "interactions": [
+        "Warfarin (Vit K)",
+        "Antibiotics (minerals)",
+        "Thyroid meds (calcium)"
+      ],
+      "pregnancyWarning": "Prenatal vitamins recommended; avoid excess Vitamin A",
+      "alcoholWarning": "Minimal interaction; alcohol depletes B vitamins"
+    },
+    {
+      "id": 73,
+      "name": "Zinc Sulphate",
+      "category": "Vitamin",
+      "uses": [
+        "Diarrhoea in children",
+        "Wound healing",
+        "Skin problems",
+        "Immunity"
+      ],
+      "dosage": "20mg daily in diarrhoea; 10-50mg daily otherwise (as directed)",
+      "sideEffects": [
+        "Nausea",
+        "Metallic taste",
+        "Stomach upset"
+      ],
+      "alternatives": [
+        "Vitamin C",
+        "Multivitamin"
+      ],
+      "whyUsed": "CutS short childhood diarrhoea and repairs skin and immunity",
+      "dosageFrequency": "Once daily with food",
+      "maxDailyDose": "Per label (do not exceed RDA significantly)",
+      "commonSideEffects": [
+        "Nausea (if empty stomach)",
+        "Yellow urine (B vitamins)",
+        "Mild stomach upset"
+      ],
+      "seriousSideEffects": [
+        "Hypervitaminosis (fat-soluble A,D,E,K)",
+        "Kidney stones (excess C/D)"
+      ],
+      "contraindications": [
+        "Hypercalcemia (Vit D)",
+        "Iron overload (Vit C with iron)"
+      ],
+      "interactions": [
+        "Warfarin (Vit K)",
+        "Antibiotics (minerals)",
+        "Thyroid meds (calcium)"
+      ],
+      "pregnancyWarning": "Prenatal vitamins recommended; avoid excess Vitamin A",
+      "alcoholWarning": "Minimal interaction; alcohol depletes B vitamins"
+    },
+    {
+      "id": 74,
+      "name": "Omega-3 Fatty Acids",
+      "category": "Vitamin",
+      "uses": [
+        "High triglycerides",
+        "Heart health",
+        "Joint inflammation"
+      ],
+      "dosage": "500-1000mg fish oil once or twice daily with food",
+      "sideEffects": [
+        "Fishy burp",
+        "Stomach upset",
+        "Thin blood (high doses)"
+      ],
+      "alternatives": [
+        "Flaxseed",
+        "Walnuts",
+        "Atorvastatin"
+      ],
+      "whyUsed": "Healthy fats that improve triglycerides and heart health",
+      "dosageFrequency": "Once daily with food",
+      "maxDailyDose": "Per label (do not exceed RDA significantly)",
+      "commonSideEffects": [
+        "Nausea (if empty stomach)",
+        "Yellow urine (B vitamins)",
+        "Mild stomach upset"
+      ],
+      "seriousSideEffects": [
+        "Hypervitaminosis (fat-soluble A,D,E,K)",
+        "Kidney stones (excess C/D)"
+      ],
+      "contraindications": [
+        "Hypercalcemia (Vit D)",
+        "Iron overload (Vit C with iron)"
+      ],
+      "interactions": [
+        "Warfarin (Vit K)",
+        "Antibiotics (minerals)",
+        "Thyroid meds (calcium)"
+      ],
+      "pregnancyWarning": "Prenatal vitamins recommended; avoid excess Vitamin A",
+      "alcoholWarning": "Minimal interaction; alcohol depletes B vitamins"
+    },
+    {
+      "id": 75,
+      "name": "Vitamin B6 (Pyridoxine)",
+      "category": "Vitamin",
+      "uses": [
+        "Nausea in pregnancy",
+        "Nerve health",
+        "With TB drug isoniazid"
+      ],
+      "dosage": "10-50mg once daily or with meals as directed",
+      "sideEffects": [
+        "Numbness with very high long-term doses"
+      ],
+      "alternatives": [
+        "Vitamin B complex",
+        "Ginger for nausea"
+      ],
+      "whyUsed": "Settles nausea and protects nerves during TB treatment",
+      "dosageFrequency": "Once daily with food",
+      "maxDailyDose": "Per label (do not exceed RDA significantly)",
+      "commonSideEffects": [
+        "Nausea (if empty stomach)",
+        "Yellow urine (B vitamins)",
+        "Mild stomach upset"
+      ],
+      "seriousSideEffects": [
+        "Hypervitaminosis (fat-soluble A,D,E,K)",
+        "Kidney stones (excess C/D)"
+      ],
+      "contraindications": [
+        "Hypercalcemia (Vit D)",
+        "Iron overload (Vit C with iron)"
+      ],
+      "interactions": [
+        "Warfarin (Vit K)",
+        "Antibiotics (minerals)",
+        "Thyroid meds (calcium)"
+      ],
+      "pregnancyWarning": "Prenatal vitamins recommended; avoid excess Vitamin A",
+      "alcoholWarning": "Minimal interaction; alcohol depletes B vitamins"
+    },
+    {
+      "id": 76,
+      "name": "Cough Syrup (Dextromethorphan)",
+      "category": "Cough & Cold",
+      "uses": [
+        "Dry cough",
+        "Tickly throat",
+        "Night cough"
+      ],
+      "dosage": "10-20mg every 4-6 hours (2.5-10ml syrup as per label)",
+      "sideEffects": [
+        "Drowsiness",
+        "Dizziness",
+        "Nausea"
+      ],
+      "alternatives": [
+        "Honey with warm water",
+        "Ambroxol for wet cough"
+      ],
+      "whyUsed": "Stops the cough reflex so you can rest at night",
+      "dosageFrequency": "Every 4-6 hours as needed",
+      "maxDailyDose": "Per label - do not exceed",
+      "commonSideEffects": [
+        "Drowsiness",
+        "Dry mouth",
+        "Dizziness",
+        "Nausea"
+      ],
+      "seriousSideEffects": [
+        "Severe drowsiness",
+        "Hallucinations (high dose)",
+        "Urinary retention"
+      ],
+      "contraindications": [
+        "MAO inhibitors",
+        "Severe hypertension",
+        "Glaucoma",
+        "Prostate enlargement"
+      ],
+      "interactions": [
+        "Alcohol",
+        "Sedatives",
+        "Antidepressants",
+        "Other cold meds"
+      ],
+      "pregnancyWarning": "Avoid decongestants 1st trimester; consult doctor",
+      "alcoholWarning": "Avoid - increases drowsiness and liver strain"
+    },
+    {
+      "id": 77,
+      "name": "Cetirizine",
+      "category": "Allergy",
+      "uses": [
+        "Allergic cold",
+        "Sneezing",
+        "Itchy eyes",
+        "Hives"
+      ],
+      "dosage": "10mg once daily in the evening",
+      "sideEffects": [
+        "Mild drowsiness",
+        "Dry mouth",
+        "Fatigue"
+      ],
+      "alternatives": [
+        "Levocetirizine",
+        "Loratadine"
+      ],
+      "whyUsed": "Quickly calms allergy symptoms including sneezing and itching",
+      "dosageFrequency": "Once or twice daily",
+      "maxDailyDose": "Per label (typically 10mg cetirizine/loratadine)",
+      "commonSideEffects": [
+        "Drowsiness (1st gen)",
+        "Dry mouth",
+        "Headache",
+        "Fatigue"
+      ],
+      "seriousSideEffects": [
+        "Rare: heart rhythm changes",
+        "Severe allergic reaction"
+      ],
+      "contraindications": [
+        "Severe liver disease (some)",
+        "Pregnancy (varies)"
+      ],
+      "interactions": [
+        "Alcohol",
+        "Sedatives",
+        "Ketoconazole",
+        "Erythromycin"
+      ],
+      "pregnancyWarning": "Loratadine/cetirizine preferred; avoid 1st gen",
+      "alcoholWarning": "Avoid alcohol - increases drowsiness"
+    },
+    {
+      "id": 78,
+      "name": "Loratadine",
+      "category": "Allergy",
+      "uses": [
+        "Allergic rhinitis",
+        "Hives",
+        "Itchy skin",
+        "Hay fever"
+      ],
+      "dosage": "10mg once daily",
+      "sideEffects": [
+        "Headache",
+        "Dry mouth",
+        "Mild tiredness"
+      ],
+      "alternatives": [
+        "Cetirizine",
+        "Fexofenadine"
+      ],
+      "whyUsed": "Non-drowsy allergy tablet safe to take during the working day",
+      "dosageFrequency": "Once or twice daily",
+      "maxDailyDose": "Per label (typically 10mg cetirizine/loratadine)",
+      "commonSideEffects": [
+        "Drowsiness (1st gen)",
+        "Dry mouth",
+        "Headache",
+        "Fatigue"
+      ],
+      "seriousSideEffects": [
+        "Rare: heart rhythm changes",
+        "Severe allergic reaction"
+      ],
+      "contraindications": [
+        "Severe liver disease (some)",
+        "Pregnancy (varies)"
+      ],
+      "interactions": [
+        "Alcohol",
+        "Sedatives",
+        "Ketoconazole",
+        "Erythromycin"
+      ],
+      "pregnancyWarning": "Loratadine/cetirizine preferred; avoid 1st gen",
+      "alcoholWarning": "Avoid alcohol - increases drowsiness"
+    },
+    {
+      "id": 79,
+      "name": "Levocetirizine",
+      "category": "Allergy",
+      "uses": [
+        "Allergic cold",
+        "Sneezing",
+        "Itching",
+        "Watery eyes"
+      ],
+      "dosage": "5mg once daily in the evening",
+      "sideEffects": [
+        "Slight drowsiness",
+        "Dry mouth",
+        "Headache"
+      ],
+      "alternatives": [
+        "Cetirizine",
+        "Loratadine"
+      ],
+      "whyUsed": "Purified version of cetirizine with fewer side effects",
+      "dosageFrequency": "Once or twice daily",
+      "maxDailyDose": "Per label (typically 10mg cetirizine/loratadine)",
+      "commonSideEffects": [
+        "Drowsiness (1st gen)",
+        "Dry mouth",
+        "Headache",
+        "Fatigue"
+      ],
+      "seriousSideEffects": [
+        "Rare: heart rhythm changes",
+        "Severe allergic reaction"
+      ],
+      "contraindications": [
+        "Severe liver disease (some)",
+        "Pregnancy (varies)"
+      ],
+      "interactions": [
+        "Alcohol",
+        "Sedatives",
+        "Ketoconazole",
+        "Erythromycin"
+      ],
+      "pregnancyWarning": "Loratadine/cetirizine preferred; avoid 1st gen",
+      "alcoholWarning": "Avoid alcohol - increases drowsiness"
+    },
+    {
+      "id": 80,
+      "name": "Chlorpheniramine",
+      "category": "Allergy",
+      "uses": [
+        "Allergic cold",
+        "Sneezing",
+        "Runny nose",
+        "Itchy skin"
+      ],
+      "dosage": "4mg every 6-8 hours (causes sleepiness; often used in cold tablets)",
+      "sideEffects": [
+        "Drowsiness",
+        "Dry mouth",
+        "Blurred vision"
+      ],
+      "alternatives": [
+        "Cetirizine",
+        "Loratadine"
+      ],
+      "whyUsed": "Cheap, reliable antihistamine commonly added to cold tablets",
+      "dosageFrequency": "Once or twice daily",
+      "maxDailyDose": "Per label (typically 10mg cetirizine/loratadine)",
+      "commonSideEffects": [
+        "Drowsiness (1st gen)",
+        "Dry mouth",
+        "Headache",
+        "Fatigue"
+      ],
+      "seriousSideEffects": [
+        "Rare: heart rhythm changes",
+        "Severe allergic reaction"
+      ],
+      "contraindications": [
+        "Severe liver disease (some)",
+        "Pregnancy (varies)"
+      ],
+      "interactions": [
+        "Alcohol",
+        "Sedatives",
+        "Ketoconazole",
+        "Erythromycin"
+      ],
+      "pregnancyWarning": "Loratadine/cetirizine preferred; avoid 1st gen",
+      "alcoholWarning": "Avoid alcohol - increases drowsiness"
+    },
+    {
+      "id": 81,
+      "name": "Fexofenadine",
+      "category": "Allergy",
+      "uses": [
+        "Allergic rhinitis",
+        "Hives",
+        "Itchy skin"
+      ],
+      "dosage": "120-180mg once daily",
+      "sideEffects": [
+        "Headache",
+        "Dizziness",
+        "Dry mouth"
+      ],
+      "alternatives": [
+        "Loratadine",
+        "Cetirizine"
+      ],
+      "whyUsed": "Almost non-drowsy antihistamine good for long-term allergies",
+      "dosageFrequency": "Once or twice daily",
+      "maxDailyDose": "Per label (typically 10mg cetirizine/loratadine)",
+      "commonSideEffects": [
+        "Drowsiness (1st gen)",
+        "Dry mouth",
+        "Headache",
+        "Fatigue"
+      ],
+      "seriousSideEffects": [
+        "Rare: heart rhythm changes",
+        "Severe allergic reaction"
+      ],
+      "contraindications": [
+        "Severe liver disease (some)",
+        "Pregnancy (varies)"
+      ],
+      "interactions": [
+        "Alcohol",
+        "Sedatives",
+        "Ketoconazole",
+        "Erythromycin"
+      ],
+      "pregnancyWarning": "Loratadine/cetirizine preferred; avoid 1st gen",
+      "alcoholWarning": "Avoid alcohol - increases drowsiness"
+    },
+    {
+      "id": 82,
+      "name": "Montelukast",
+      "category": "Cough & Cold",
+      "uses": [
+        "Asthma",
+        "Allergic cold",
+        "Wheezing",
+        "Breathing difficulty"
+      ],
+      "dosage": "10mg once daily at bedtime (5mg for children)",
+      "sideEffects": [
+        "Headache",
+        "Stomach pain",
+        "Mood changes (rare)"
+      ],
+      "alternatives": [
+        "Salbutamol inhaler",
+        "Budesonide inhaler"
+      ],
+      "whyUsed": "Calms airway inflammation to prevent breathing problems",
+      "dosageFrequency": "Every 4-6 hours as needed",
+      "maxDailyDose": "Per label - do not exceed",
+      "commonSideEffects": [
+        "Drowsiness",
+        "Dry mouth",
+        "Dizziness",
+        "Nausea"
+      ],
+      "seriousSideEffects": [
+        "Severe drowsiness",
+        "Hallucinations (high dose)",
+        "Urinary retention"
+      ],
+      "contraindications": [
+        "MAO inhibitors",
+        "Severe hypertension",
+        "Glaucoma",
+        "Prostate enlargement"
+      ],
+      "interactions": [
+        "Alcohol",
+        "Sedatives",
+        "Antidepressants",
+        "Other cold meds"
+      ],
+      "pregnancyWarning": "Avoid decongestants 1st trimester; consult doctor",
+      "alcoholWarning": "Avoid - increases drowsiness and liver strain"
+    },
+    {
+      "id": 83,
+      "name": "Salbutamol",
+      "category": "Cough & Cold",
+      "uses": [
+        "Asthma attacks",
+        "Wheezing",
+        "Breathlessness"
+      ],
+      "dosage": "Inhaler: 1-2 puffs as needed (up to 4 hourly); tablet form rare",
+      "sideEffects": [
+        "Trembling hands",
+        "Fast heartbeat",
+        "Headache"
+      ],
+      "alternatives": [
+        "Levosalbutamol",
+        "Formoterol"
+      ],
+      "whyUsed": "Opens the airways within minutes during breathing trouble",
+      "dosageFrequency": "Every 4-6 hours as needed",
+      "maxDailyDose": "Per label - do not exceed",
+      "commonSideEffects": [
+        "Drowsiness",
+        "Dry mouth",
+        "Dizziness",
+        "Nausea"
+      ],
+      "seriousSideEffects": [
+        "Severe drowsiness",
+        "Hallucinations (high dose)",
+        "Urinary retention"
+      ],
+      "contraindications": [
+        "MAO inhibitors",
+        "Severe hypertension",
+        "Glaucoma",
+        "Prostate enlargement"
+      ],
+      "interactions": [
+        "Alcohol",
+        "Sedatives",
+        "Antidepressants",
+        "Other cold meds"
+      ],
+      "pregnancyWarning": "Avoid decongestants 1st trimester; consult doctor",
+      "alcoholWarning": "Avoid - increases drowsiness and liver strain"
+    },
+    {
+      "id": 84,
+      "name": "Budesonide",
+      "category": "Cough & Cold",
+      "uses": [
+        "Asthma control",
+        "Chronic bronchitis",
+        "Allergic rhinitis (nasal)"
+      ],
+      "dosage": "Inhaler: 200-800mcg daily in divided doses as prescribed",
+      "sideEffects": [
+        "Throat irritation",
+        "Oral thrush",
+        "Hoarse voice"
+      ],
+      "alternatives": [
+        "Beclomethasone",
+        "Fluticasone"
+      ],
+      "whyUsed": "Daily preventive inhaler that stops asthma attacks before they start",
+      "dosageFrequency": "Every 4-6 hours as needed",
+      "maxDailyDose": "Per label - do not exceed",
+      "commonSideEffects": [
+        "Drowsiness",
+        "Dry mouth",
+        "Dizziness",
+        "Nausea"
+      ],
+      "seriousSideEffects": [
+        "Severe drowsiness",
+        "Hallucinations (high dose)",
+        "Urinary retention"
+      ],
+      "contraindications": [
+        "MAO inhibitors",
+        "Severe hypertension",
+        "Glaucoma",
+        "Prostate enlargement"
+      ],
+      "interactions": [
+        "Alcohol",
+        "Sedatives",
+        "Antidepressants",
+        "Other cold meds"
+      ],
+      "pregnancyWarning": "Avoid decongestants 1st trimester; consult doctor",
+      "alcoholWarning": "Avoid - increases drowsiness and liver strain"
+    },
+    {
+      "id": 85,
+      "name": "Pseudoephedrine",
+      "category": "Cough & Cold",
+      "uses": [
+        "Blocked nose",
+        "Sinus congestion",
+        "Cold symptoms"
+      ],
+      "dosage": "30-60mg every 4-6 hours (avoid at night)",
+      "sideEffects": [
+        "Nervousness",
+        "High blood pressure",
+        "Insomnia",
+        "Palpitations"
+      ],
+      "alternatives": [
+        "Saline nasal spray",
+        "Oxymetazoline spray"
+      ],
+      "whyUsed": "Clears a stuffed nose so you can breathe and sleep",
+      "dosageFrequency": "Every 4-6 hours as needed",
+      "maxDailyDose": "Per label - do not exceed",
+      "commonSideEffects": [
+        "Drowsiness",
+        "Dry mouth",
+        "Dizziness",
+        "Nausea"
+      ],
+      "seriousSideEffects": [
+        "Severe drowsiness",
+        "Hallucinations (high dose)",
+        "Urinary retention"
+      ],
+      "contraindications": [
+        "MAO inhibitors",
+        "Severe hypertension",
+        "Glaucoma",
+        "Prostate enlargement"
+      ],
+      "interactions": [
+        "Alcohol",
+        "Sedatives",
+        "Antidepressants",
+        "Other cold meds"
+      ],
+      "pregnancyWarning": "Avoid decongestants 1st trimester; consult doctor",
+      "alcoholWarning": "Avoid - increases drowsiness and liver strain"
+    },
+    {
+      "id": 86,
+      "name": "Ambroxol",
+      "category": "Cough & Cold",
+      "uses": [
+        "Wet cough",
+        "Chest congestion",
+        "Thick mucus"
+      ],
+      "dosage": "30mg three times a day or 75mg sustained-release twice daily",
+      "sideEffects": [
+        "Nausea",
+        "Stomach upset",
+        "Rare allergic rash"
+      ],
+      "alternatives": [
+        "Guaifenesin",
+        "Bromhexine"
+      ],
+      "whyUsed": "Thins and loosens mucus so coughing clears the chest easily",
+      "dosageFrequency": "Every 4-6 hours as needed",
+      "maxDailyDose": "Per label - do not exceed",
+      "commonSideEffects": [
+        "Drowsiness",
+        "Dry mouth",
+        "Dizziness",
+        "Nausea"
+      ],
+      "seriousSideEffects": [
+        "Severe drowsiness",
+        "Hallucinations (high dose)",
+        "Urinary retention"
+      ],
+      "contraindications": [
+        "MAO inhibitors",
+        "Severe hypertension",
+        "Glaucoma",
+        "Prostate enlargement"
+      ],
+      "interactions": [
+        "Alcohol",
+        "Sedatives",
+        "Antidepressants",
+        "Other cold meds"
+      ],
+      "pregnancyWarning": "Avoid decongestants 1st trimester; consult doctor",
+      "alcoholWarning": "Avoid - increases drowsiness and liver strain"
+    },
+    {
+      "id": 87,
+      "name": "Fluoxetine",
+      "category": "Mental Health",
+      "uses": [
+        "Depression",
+        "Anxiety",
+        "OCD",
+        "Panic disorder"
+      ],
+      "dosage": "20-60mg once daily in the morning",
+      "sideEffects": [
+        "Nausea",
+        "Insomnia",
+        "Loss of appetite",
+        "Delayed sexual response"
+      ],
+      "alternatives": [
+        "Sertraline",
+        "Escitalopram"
+      ],
+      "whyUsed": "Lifts mood over weeks by restoring the brain's serotonin balance",
+      "dosageFrequency": "Once daily (usually morning)",
+      "maxDailyDose": "As prescribed - do not adjust without doctor",
+      "commonSideEffects": [
+        "Nausea",
+        "Insomnia",
+        "Sexual dysfunction",
+        "Weight changes",
+        "Dry mouth"
+      ],
+      "seriousSideEffects": [
+        "Suicidal thoughts (young adults)",
+        "Serotonin syndrome",
+        "Hyponatremia",
+        "Seizures"
+      ],
+      "contraindications": [
+        "MAO inhibitors (14-day washout)",
+        "Bipolar (without mood stabilizer)"
+      ],
+      "interactions": [
+        "MAOIs",
+        "Other SSRIs/SNRIs",
+        "NSAIDs (bleeding)",
+        "Alcohol",
+        "St. John's Wort"
+      ],
+      "pregnancyWarning": "Risk/benefit discussion with psychiatrist essential",
+      "alcoholWarning": "Avoid - worsens depression and increases side effects"
+    },
+    {
+      "id": 88,
+      "name": "Sertraline",
+      "category": "Mental Health",
+      "uses": [
+        "Depression",
+        "Anxiety",
+        "PTSD",
+        "Premenstrual disorder"
+      ],
+      "dosage": "50mg once daily (25mg start, adjusted by doctor)",
+      "sideEffects": [
+        "Nausea",
+        "Diarrhoea",
+        "Insomnia",
+        "Dry mouth"
+      ],
+      "alternatives": [
+        "Fluoxetine",
+        "Escitalopram"
+      ],
+      "whyUsed": "Gentle daily tablet widely used for depression and anxiety",
+      "dosageFrequency": "Once daily (usually morning)",
+      "maxDailyDose": "As prescribed - do not adjust without doctor",
+      "commonSideEffects": [
+        "Nausea",
+        "Insomnia",
+        "Sexual dysfunction",
+        "Weight changes",
+        "Dry mouth"
+      ],
+      "seriousSideEffects": [
+        "Suicidal thoughts (young adults)",
+        "Serotonin syndrome",
+        "Hyponatremia",
+        "Seizures"
+      ],
+      "contraindications": [
+        "MAO inhibitors (14-day washout)",
+        "Bipolar (without mood stabilizer)"
+      ],
+      "interactions": [
+        "MAOIs",
+        "Other SSRIs/SNRIs",
+        "NSAIDs (bleeding)",
+        "Alcohol",
+        "St. John's Wort"
+      ],
+      "pregnancyWarning": "Risk/benefit discussion with psychiatrist essential",
+      "alcoholWarning": "Avoid - worsens depression and increases side effects"
+    },
+    {
+      "id": 89,
+      "name": "Escitalopram",
+      "category": "Mental Health",
+      "uses": [
+        "Depression",
+        "Anxiety",
+        "Panic attacks"
+      ],
+      "dosage": "10-20mg once daily",
+      "sideEffects": [
+        "Nausea",
+        "Sleep problems",
+        "Headache",
+        "Fatigue"
+      ],
+      "alternatives": [
+        "Sertraline",
+        "Fluoxetine"
+      ],
+      "whyUsed": "Less queasy than other antidepressants with a proven calming effect",
+      "dosageFrequency": "Once daily (usually morning)",
+      "maxDailyDose": "As prescribed - do not adjust without doctor",
+      "commonSideEffects": [
+        "Nausea",
+        "Insomnia",
+        "Sexual dysfunction",
+        "Weight changes",
+        "Dry mouth"
+      ],
+      "seriousSideEffects": [
+        "Suicidal thoughts (young adults)",
+        "Serotonin syndrome",
+        "Hyponatremia",
+        "Seizures"
+      ],
+      "contraindications": [
+        "MAO inhibitors (14-day washout)",
+        "Bipolar (without mood stabilizer)"
+      ],
+      "interactions": [
+        "MAOIs",
+        "Other SSRIs/SNRIs",
+        "NSAIDs (bleeding)",
+        "Alcohol",
+        "St. John's Wort"
+      ],
+      "pregnancyWarning": "Risk/benefit discussion with psychiatrist essential",
+      "alcoholWarning": "Avoid - worsens depression and increases side effects"
+    },
+    {
+      "id": 90,
+      "name": "Amitriptyline",
+      "category": "Mental Health",
+      "uses": [
+        "Depression",
+        "Nerve pain",
+        "Migraine prevention",
+        "Trouble sleeping"
+      ],
+      "dosage": "10-25mg at bedtime (slowly increased by doctor)",
+      "sideEffects": [
+        "Drowsiness",
+        "Dry mouth",
+        "Constipation",
+        "Dizziness"
+      ],
+      "alternatives": [
+        "Gabapentin",
+        "Nortriptyline"
+      ],
+      "whyUsed": "An evening dose that eases nerve pain and helps you sleep",
+      "dosageFrequency": "Once daily (usually morning)",
+      "maxDailyDose": "As prescribed - do not adjust without doctor",
+      "commonSideEffects": [
+        "Nausea",
+        "Insomnia",
+        "Sexual dysfunction",
+        "Weight changes",
+        "Dry mouth"
+      ],
+      "seriousSideEffects": [
+        "Suicidal thoughts (young adults)",
+        "Serotonin syndrome",
+        "Hyponatremia",
+        "Seizures"
+      ],
+      "contraindications": [
+        "MAO inhibitors (14-day washout)",
+        "Bipolar (without mood stabilizer)"
+      ],
+      "interactions": [
+        "MAOIs",
+        "Other SSRIs/SNRIs",
+        "NSAIDs (bleeding)",
+        "Alcohol",
+        "St. John's Wort"
+      ],
+      "pregnancyWarning": "Risk/benefit discussion with psychiatrist essential",
+      "alcoholWarning": "Avoid - worsens depression and increases side effects"
+    },
+    {
+      "id": 91,
+      "name": "Gabapentin",
+      "category": "Mental Health",
+      "uses": [
+        "Nerve pain",
+        "Epilepsy",
+        "Restless legs",
+        "Post-shingles pain"
+      ],
+      "dosage": "300mg starting, increased gradually 3 times a day (as directed)",
+      "sideEffects": [
+        "Drowsiness",
+        "Dizziness",
+        "Swelling of legs",
+        "Weight gain"
+      ],
+      "alternatives": [
+        "Pregabalin",
+        "Amitriptyline"
+      ],
+      "whyUsed": "Specifically targets nerve-type burning and tingling pain",
+      "dosageFrequency": "Once daily (usually morning)",
+      "maxDailyDose": "As prescribed - do not adjust without doctor",
+      "commonSideEffects": [
+        "Nausea",
+        "Insomnia",
+        "Sexual dysfunction",
+        "Weight changes",
+        "Dry mouth"
+      ],
+      "seriousSideEffects": [
+        "Suicidal thoughts (young adults)",
+        "Serotonin syndrome",
+        "Hyponatremia",
+        "Seizures"
+      ],
+      "contraindications": [
+        "MAO inhibitors (14-day washout)",
+        "Bipolar (without mood stabilizer)"
+      ],
+      "interactions": [
+        "MAOIs",
+        "Other SSRIs/SNRIs",
+        "NSAIDs (bleeding)",
+        "Alcohol",
+        "St. John's Wort"
+      ],
+      "pregnancyWarning": "Risk/benefit discussion with psychiatrist essential",
+      "alcoholWarning": "Avoid - worsens depression and increases side effects"
+    },
+    {
+      "id": 92,
+      "name": "Pregabalin",
+      "category": "Mental Health",
+      "uses": [
+        "Nerve pain",
+        "Fibromyalgia",
+        "Epilepsy",
+        "Anxiety"
+      ],
+      "dosage": "75mg twice daily (start low, increase slowly, tapered on stopping)",
+      "sideEffects": [
+        "Drowsiness",
+        "Dizziness",
+        "Swelling",
+        "Weight gain"
+      ],
+      "alternatives": [
+        "Gabapentin",
+        "Amitriptyline"
+      ],
+      "whyUsed": "Powerful medicine for burning nerve pain and severe anxiety",
+      "dosageFrequency": "Once daily (usually morning)",
+      "maxDailyDose": "As prescribed - do not adjust without doctor",
+      "commonSideEffects": [
+        "Nausea",
+        "Insomnia",
+        "Sexual dysfunction",
+        "Weight changes",
+        "Dry mouth"
+      ],
+      "seriousSideEffects": [
+        "Suicidal thoughts (young adults)",
+        "Serotonin syndrome",
+        "Hyponatremia",
+        "Seizures"
+      ],
+      "contraindications": [
+        "MAO inhibitors (14-day washout)",
+        "Bipolar (without mood stabilizer)"
+      ],
+      "interactions": [
+        "MAOIs",
+        "Other SSRIs/SNRIs",
+        "NSAIDs (bleeding)",
+        "Alcohol",
+        "St. John's Wort"
+      ],
+      "pregnancyWarning": "Risk/benefit discussion with psychiatrist essential",
+      "alcoholWarning": "Avoid - worsens depression and increases side effects"
+    },
+    {
+      "id": 93,
+      "name": "Clonazepam",
+      "category": "Mental Health",
+      "uses": [
+        "Anxiety",
+        "Panic attacks",
+        "Seizures",
+        "Insomnia"
+      ],
+      "dosage": "0.25-0.5mg once or twice daily (short-term, habit-forming)",
+      "sideEffects": [
+        "Drowsiness",
+        "Memory problems",
+        "Dependence",
+        "Imbalance"
+      ],
+      "alternatives": [
+        "Sertraline",
+        "Escitalopram",
+        "Cognitive therapy"
+      ],
+      "whyUsed": "Rapid relief for sudden panic or seizures, used only short-term",
+      "dosageFrequency": "Once daily (usually morning)",
+      "maxDailyDose": "As prescribed - do not adjust without doctor",
+      "commonSideEffects": [
+        "Nausea",
+        "Insomnia",
+        "Sexual dysfunction",
+        "Weight changes",
+        "Dry mouth"
+      ],
+      "seriousSideEffects": [
+        "Suicidal thoughts (young adults)",
+        "Serotonin syndrome",
+        "Hyponatremia",
+        "Seizures"
+      ],
+      "contraindications": [
+        "MAO inhibitors (14-day washout)",
+        "Bipolar (without mood stabilizer)"
+      ],
+      "interactions": [
+        "MAOIs",
+        "Other SSRIs/SNRIs",
+        "NSAIDs (bleeding)",
+        "Alcohol",
+        "St. John's Wort"
+      ],
+      "pregnancyWarning": "Risk/benefit discussion with psychiatrist essential",
+      "alcoholWarning": "Avoid - worsens depression and increases side effects"
+    },
+    {
+      "id": 94,
+      "name": "Alprazolam",
+      "category": "Mental Health",
+      "uses": [
+        "Anxiety",
+        "Panic attacks",
+        "Severe stress"
+      ],
+      "dosage": "0.25-0.5mg when needed (short-term only, habit-forming)",
+      "sideEffects": [
+        "Drowsiness",
+        "Dizziness",
+        "Dependence",
+        "Slurred speech"
+      ],
+      "alternatives": [
+        "Buspirone",
+        "SSRIs",
+        "Relaxation techniques"
+      ],
+      "whyUsed": "Fast-acting calm for intense panic and worry episodes",
+      "dosageFrequency": "Once daily (usually morning)",
+      "maxDailyDose": "As prescribed - do not adjust without doctor",
+      "commonSideEffects": [
+        "Nausea",
+        "Insomnia",
+        "Sexual dysfunction",
+        "Weight changes",
+        "Dry mouth"
+      ],
+      "seriousSideEffects": [
+        "Suicidal thoughts (young adults)",
+        "Serotonin syndrome",
+        "Hyponatremia",
+        "Seizures"
+      ],
+      "contraindications": [
+        "MAO inhibitors (14-day washout)",
+        "Bipolar (without mood stabilizer)"
+      ],
+      "interactions": [
+        "MAOIs",
+        "Other SSRIs/SNRIs",
+        "NSAIDs (bleeding)",
+        "Alcohol",
+        "St. John's Wort"
+      ],
+      "pregnancyWarning": "Risk/benefit discussion with psychiatrist essential",
+      "alcoholWarning": "Avoid - worsens depression and increases side effects"
+    },
+    {
+      "id": 95,
+      "name": "Carbamazepine",
+      "category": "Mental Health",
+      "uses": [
+        "Epilepsy",
+        "Facial nerve pain (trigeminal)",
+        "Bipolar disorder"
+      ],
+      "dosage": "200mg twice daily adjusted by doctor; blood tests sometimes needed",
+      "sideEffects": [
+        "Dizziness",
+        "Drowsiness",
+        "Low sodium",
+        "Skin rash"
+      ],
+      "alternatives": [
+        "Valproate",
+        "Oxcarbazepine"
+      ],
+      "whyUsed": "Controls seizures and sharp facial nerve pain",
+      "dosageFrequency": "Once daily (usually morning)",
+      "maxDailyDose": "As prescribed - do not adjust without doctor",
+      "commonSideEffects": [
+        "Nausea",
+        "Insomnia",
+        "Sexual dysfunction",
+        "Weight changes",
+        "Dry mouth"
+      ],
+      "seriousSideEffects": [
+        "Suicidal thoughts (young adults)",
+        "Serotonin syndrome",
+        "Hyponatremia",
+        "Seizures"
+      ],
+      "contraindications": [
+        "MAO inhibitors (14-day washout)",
+        "Bipolar (without mood stabilizer)"
+      ],
+      "interactions": [
+        "MAOIs",
+        "Other SSRIs/SNRIs",
+        "NSAIDs (bleeding)",
+        "Alcohol",
+        "St. John's Wort"
+      ],
+      "pregnancyWarning": "Risk/benefit discussion with psychiatrist essential",
+      "alcoholWarning": "Avoid - worsens depression and increases side effects"
+    },
+    {
+      "id": 96,
+      "name": "Mupirocin",
+      "category": "Skin Care",
+      "uses": [
+        "Infected boils",
+        "Impetigo",
+        "Cuts and wounds infection"
+      ],
+      "dosage": "Apply thin layer to affected area 2-3 times a day for 7 days",
+      "sideEffects": [
+        "Local itching",
+        "Burning sensation",
+        "Dryness"
+      ],
+      "alternatives": [
+        "Neosporin (Neomycin)",
+        "Bacitracin"
+      ],
+      "whyUsed": "Antibiotic cream that clears skin infections fast",
+      "dosageFrequency": "As directed - usually once/twice daily",
+      "maxDailyDose": "Per prescription/label",
+      "commonSideEffects": [
+        "Skin irritation",
+        "Dryness",
+        "Redness",
+        "Peeling"
+      ],
+      "seriousSideEffects": [
+        "Severe allergic reaction",
+        "Skin thinning (steroids)",
+        "Photosensitivity"
+      ],
+      "contraindications": [
+        "Open wounds (some)",
+        "Rosacea (steroids)",
+        "Pregnancy (retinoids)"
+      ],
+      "interactions": [
+        "Other topical products",
+        "Oral photosensitizing drugs"
+      ],
+      "pregnancyWarning": "Avoid retinoids, high-potency steroids; consult dermatologist",
+      "alcoholWarning": "Topical: minimal; oral isotretinoin - avoid alcohol"
+    },
+    {
+      "id": 97,
+      "name": "Clotrimazole",
+      "category": "Skin Care",
+      "uses": [
+        "Fungal skin infection",
+        "Ringworm",
+        "Athlete's foot",
+        "Vaginal thrush"
+      ],
+      "dosage": "Cream: apply twice daily for 2-4 weeks; vaginal: 1 insertion at night",
+      "sideEffects": [
+        "Local irritation",
+        "Redness",
+        "Stinging"
+      ],
+      "alternatives": [
+        "Ketoconazole",
+        "Terbinafine"
+      ],
+      "whyUsed": "Simple antifungal that clears ringworm and athlete's foot",
+      "dosageFrequency": "As directed - usually once/twice daily",
+      "maxDailyDose": "Per prescription/label",
+      "commonSideEffects": [
+        "Skin irritation",
+        "Dryness",
+        "Redness",
+        "Peeling"
+      ],
+      "seriousSideEffects": [
+        "Severe allergic reaction",
+        "Skin thinning (steroids)",
+        "Photosensitivity"
+      ],
+      "contraindications": [
+        "Open wounds (some)",
+        "Rosacea (steroids)",
+        "Pregnancy (retinoids)"
+      ],
+      "interactions": [
+        "Other topical products",
+        "Oral photosensitizing drugs"
+      ],
+      "pregnancyWarning": "Avoid retinoids, high-potency steroids; consult dermatologist",
+      "alcoholWarning": "Topical: minimal; oral isotretinoin - avoid alcohol"
+    },
+    {
+      "id": 98,
+      "name": "Betamethasone",
+      "category": "Skin Care",
+      "uses": [
+        "Eczema",
+        "Skin allergy",
+        "Itchy rashes",
+        "Psoriasis"
+      ],
+      "dosage": "Thin layer on rash only, once or twice daily (short-term, not on face)",
+      "sideEffects": [
+        "Skin thinning with long use",
+        "Stretch marks",
+        "Increased hair growth"
+      ],
+      "alternatives": [
+        "Hydrocortisone cream",
+        "Mometasone"
+      ],
+      "whyUsed": "Strong steroid cream that quickly calms itchy skin rashes",
+      "dosageFrequency": "As directed - usually once/twice daily",
+      "maxDailyDose": "Per prescription/label",
+      "commonSideEffects": [
+        "Skin irritation",
+        "Dryness",
+        "Redness",
+        "Peeling"
+      ],
+      "seriousSideEffects": [
+        "Severe allergic reaction",
+        "Skin thinning (steroids)",
+        "Photosensitivity"
+      ],
+      "contraindications": [
+        "Open wounds (some)",
+        "Rosacea (steroids)",
+        "Pregnancy (retinoids)"
+      ],
+      "interactions": [
+        "Other topical products",
+        "Oral photosensitizing drugs"
+      ],
+      "pregnancyWarning": "Avoid retinoids, high-potency steroids; consult dermatologist",
+      "alcoholWarning": "Topical: minimal; oral isotretinoin - avoid alcohol"
+    },
+    {
+      "id": 99,
+      "name": "Levothyroxine",
+      "category": "Hormone",
+      "uses": [
+        "Underactive thyroid",
+        "Thyroid surgery replacement",
+        "Goitre"
+      ],
+      "dosage": "25-150mcg once daily in the morning on an empty stomach",
+      "sideEffects": [
+        "On overdose: palpitations, sweating, weight loss",
+        "Anxiety"
+      ],
+      "alternatives": [
+        "Liothyronine (rarely)"
+      ],
+      "whyUsed": "Daily lifelong replacement that restores normal thyroid function",
+      "dosageFrequency": "As prescribed - cyclic or continuous",
+      "maxDailyDose": "As prescribed",
+      "commonSideEffects": [
+        "Breast tenderness",
+        "Nausea",
+        "Headache",
+        "Mood changes",
+        "Spotting"
+      ],
+      "seriousSideEffects": [
+        "Blood clots (DVT/PE)",
+        "Stroke",
+        "Heart attack",
+        "Breast cancer risk"
+      ],
+      "contraindications": [
+        "History of clots",
+        "Liver disease",
+        "Undiagnosed vaginal bleeding",
+        "Smoking >35yo"
+      ],
+      "interactions": [
+        "Antibiotics (reduce efficacy)",
+        "Anticonvulsants",
+        "St. John's Wort",
+        "Grapefruit"
+      ],
+      "pregnancyWarning": "Contraindicated - stop if pregnancy suspected",
+      "alcoholWarning": "Moderate intake generally okay; liver metabolism affected"
+    },
+    {
+      "id": 100,
+      "name": "Allopurinol",
+      "category": "Joint & Bone",
+      "uses": [
+        "Gout",
+        "High uric acid",
+        "Kidney stones prevention"
+      ],
+      "dosage": "100-300mg once daily after food, taken for life",
+      "sideEffects": [
+        "Skin rash",
+        "Stomach upset",
+        "Loose motions"
+      ],
+      "alternatives": [
+        "Febuxostat",
+        "Colchicine"
+      ],
+      "whyUsed": "Prevents repeat gout attacks by lowering uric acid",
+      "dosageFrequency": "Weekly (bisphosphonates) or daily (calcium/vit D)",
+      "maxDailyDose": "Per prescription",
+      "commonSideEffects": [
+        "Stomach upset",
+        "Heartburn",
+        "Bone/joint pain",
+        "Nausea"
+      ],
+      "seriousSideEffects": [
+        "Osteonecrosis of jaw",
+        "Atypical femur fracture",
+        "Esophageal ulcer"
+      ],
+      "contraindications": [
+        "Hypocalcemia",
+        "Severe kidney disease",
+        "Cannot sit upright 30min"
+      ],
+      "interactions": [
+        "Calcium/antacids (separate dosing)",
+        "NSAIDs",
+        "Aspirin"
+      ],
+      "pregnancyWarning": "Bisphosphonates contraindicated; calcium/Vit D safe",
+      "alcoholWarning": "Limit - alcohol worsens bone loss"
+    }
+  ]
+}

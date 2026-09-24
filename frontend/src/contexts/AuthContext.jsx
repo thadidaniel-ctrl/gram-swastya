@@ -1,5 +1,6 @@
 import React, { createContext, useContext, useState, useEffect, useCallback } from 'react';
 import { api } from '../services/api';
+import { useToast } from '../contexts/ToastContext';
 
 const AuthContext = createContext(null);
 
@@ -8,12 +9,7 @@ export function AuthProvider({ children }) {
   const [doctor, setDoctor] = useState(null);
   const [isPatientLoading, setIsPatientLoading] = useState(true);
   const [isDoctorLoading, setIsDoctorLoading] = useState(true);
-
-  useEffect(() => {
-    api.loadTokens();
-    checkPatientAuth();
-    checkDoctorAuth();
-  }, []);
+  const { showToast } = useToast();
 
   const checkPatientAuth = useCallback(async () => {
     try {
@@ -22,31 +18,46 @@ export function AuthProvider({ children }) {
         const response = await api.getProfile();
         if (response.success) {
           setPatient(response.patient);
+        } else {
+          api.clearTokens();
         }
       }
     } catch (error) {
-      console.error('Patient auth check failed:', error);
+      showToast('Authentication check failed. Please log in again.', 'error');
       api.clearTokens();
     } finally {
       setIsPatientLoading(false);
     }
-  }, []);
+  }, [showToast]);
 
   const checkDoctorAuth = useCallback(async () => {
     try {
       const token = localStorage.getItem('doctorAccessToken');
       if (token) {
         const response = await api.getDoctorDashboard();
-        if (response.success) {
+        if (response.success && response.doctor) {
           setDoctor(response.doctor);
+        } else {
+          // Invalid/expired token - clear session
+          localStorage.removeItem('doctorAccessToken');
+          localStorage.removeItem('doctorRefreshToken');
         }
       }
     } catch (error) {
-      console.error('Doctor auth check failed:', error);
+      showToast('Doctor session expired. Please log in again.', 'error');
+      // On any error (network, 401, 500), clear invalid session
+      localStorage.removeItem('doctorAccessToken');
+      localStorage.removeItem('doctorRefreshToken');
     } finally {
       setIsDoctorLoading(false);
     }
-  }, []);
+  }, [showToast]);
+
+  useEffect(() => {
+    api.loadTokens();
+    checkPatientAuth();
+    checkDoctorAuth();
+  }, [checkPatientAuth, checkDoctorAuth]);
 
   const loginPatient = (patientData, accessToken, refreshToken) => {
     api.setTokens(accessToken, refreshToken);

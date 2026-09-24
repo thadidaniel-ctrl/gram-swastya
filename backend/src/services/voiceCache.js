@@ -189,7 +189,7 @@ function initRedis() {
   }
 }
 
-function normalizeQuery(text, language = 'en') {
+function normalizeQuery(text, _language = 'en') {
   return text
     .toLowerCase()
     .replace(/[^\w\s]/g, ' ')
@@ -197,7 +197,7 @@ function normalizeQuery(text, language = 'en') {
     .trim();
 }
 
-function detectPattern(query, patient) {
+function detectPattern(query, _patient) {
   const normalized = normalizeQuery(query);
 
   for (const [patternName, pattern] of Object.entries(COMMON_PATTERNS)) {

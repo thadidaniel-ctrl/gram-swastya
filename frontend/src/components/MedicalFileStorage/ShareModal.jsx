@@ -8,7 +8,7 @@ export default function ShareModal({
   isOpen, 
   onClose 
 }) {
-  const { t } = useTranslation('files');
+  const { t } = useTranslation();
   const [doctors, setDoctors] = useState([]);
   const [sharedWith, setSharedWith] = useState([]);
   const [loading, setLoading] = useState(false);

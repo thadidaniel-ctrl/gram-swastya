@@ -1,9 +1,10 @@
+const mongoose = require('mongoose');
+
 const { MedicalFileStorage, MedicalFolder, FileAccessLog } = require('../models');
 const {
   uploadFile,
   getPresignedDownloadUrl,
   getPresignedPreviewUrl,
-  deleteFile,
   generateS3Key,
   getFileCategoryFromMimeType,
 } = require('../services/s3Service');
@@ -22,6 +23,7 @@ const VALID_CATEGORIES = [
 ];
 const UPLOAD_RATE_LIMIT = 20;
 const UPLOAD_WINDOW_SECONDS = 900;
+const CACHE_TTL = 300; // 5 minutes
 
 class FileStorageController {
   // Helper: log file access
@@ -40,6 +42,25 @@ class FileStorageController {
     } catch (error) {
       logger.error('Failed to log file access', { error: error.message, fileId, accessType });
     }
+  }
+
+  // Helper: invalidate cache for patient
+  async invalidatePatientCache(patientId) {
+    await redis.cacheDelPattern(`files:${patientId}:*`);
+    await redis.cacheDelPattern(`folders:${patientId}:*`);
+    // stats cache key is stored as `stats:<id>` (no trailing colon)
+    await redis.cacheDel(`stats:${patientId}`);
+    await redis.cacheDelPattern(`stats:${patientId}:*`);
+  }
+
+  // Helper: generate cache key for file queries
+  generateCacheKey(req) {
+    const { page = 1, limit = 10, ...filters } = req.query;
+    const filterStr = Object.entries(filters)
+      .sort(([a], [b]) => a.localeCompare(b))
+      .map(([k, v]) => `${k}=${v}`)
+      .join('&');
+    return `files:${req.user._id}:${page}:${limit}:${filterStr}`;
   }
 
   // GET /api/file-storage - List files with pagination, filtering, search
@@ -64,7 +85,8 @@ class FileStorageController {
       } = req.query;
 
       const filter = { patientId };
-      if (includeDeleted === 'false' || includeDeleted === false) {
+      // Files are hidden by default; only shown when includeDeleted=true
+      if (includeDeleted !== 'true' && includeDeleted !== true) {
         filter.isDeleted = false;
       }
       if (folderId) filter.folderId = folderId === 'root' ? null : folderId;
@@ -93,32 +115,66 @@ class FileStorageController {
 
       const sortOptions = { [sortBy]: sortOrder === 'asc' ? 1 : -1 };
 
+      // Try cache first for simple queries (no search, no complex filters)
+      const isSimpleQuery = !search && !dateFrom && !dateTo && !sizeMin && !sizeMax && !sharedOnly;
+      const cacheKey = this.generateCacheKey(req);
+
+      if (isSimpleQuery) {
+        const cached = await redis.cacheGet(cacheKey);
+        if (cached) {
+          logger.debug('Cache hit for getFiles', { cacheKey });
+          return res.json({
+            ...cached,
+            meta: { ...cached.pagination, cached: true },
+          });
+        }
+      }
+
       const [files, total] = await Promise.all([
         MedicalFileStorage.find(filter)
           .sort(sortOptions)
           .skip((page - 1) * limit)
           .limit(limit)
-          .select('fileName category fileSize uploadedAt tags folderId sharedWith isDeleted')
+          .select(
+            'fileName category fileSize uploadedAt documentDate tags folderId sharedWith isDeleted'
+          )
+          .populate(
+            'sharedWith.doctorId',
+            'profile.firstName profile.lastName profile.specialization'
+          )
           .lean(),
         MedicalFileStorage.countDocuments(filter),
       ]);
 
-      // Add shared count
+      // Add shared count while keeping the populated sharedWith array for the Share modal
       const filesWithMetadata = files.map(f => ({
         ...f,
-        sharedWith: f.sharedWith?.length || 0,
+        sharedCount: f.sharedWith?.length || 0,
+        sharedWith: f.sharedWith || [],
       }));
 
-      res.json({
+      const totalPages = Math.ceil(total / limit);
+      const response = {
         success: true,
         files: filesWithMetadata,
         pagination: {
           total,
           page,
           limit,
-          pages: Math.ceil(total / limit),
+          pages: totalPages,
+          hasNext: page < totalPages,
+          hasPrev: page > 1,
+          nextPage: page < totalPages ? page + 1 : null,
+          prevPage: page > 1 ? page - 1 : null,
         },
-      });
+      };
+
+      // Cache simple queries
+      if (isSimpleQuery) {
+        await redis.cacheSet(cacheKey, response, CACHE_TTL);
+      }
+
+      res.json(response);
     } catch (error) {
       logger.error('Get files error:', error);
       res.status(500).json({ success: false, message: 'Failed to fetch files' });
@@ -148,7 +204,7 @@ class FileStorageController {
         });
       }
 
-      const { folderId, category, tags, description } = req.body;
+      const { folderId, category, tags, description, documentDate } = req.body;
       const tagArray = tags
         ? tags
             .split(',')
@@ -181,16 +237,16 @@ class FileStorageController {
             ? category
             : getFileCategoryFromMimeType(mimeType);
 
-        // Upload to S3
-        const s3Result = await uploadFile(file.buffer, fileKey, mimeType, {
+        // Upload file (S3 or local fallback)
+        const storageResult = await uploadFile(file.buffer, fileKey, mimeType, {
           patientId,
           originalName: file.originalname,
           category: fileCategory,
         });
 
         // Use compressed size for storage if compression occurred
-        const storedSize = s3Result.compression?.compressed
-          ? s3Result.compression.compressedSize
+        const storedSize = storageResult.compression?.compressed
+          ? storageResult.compression.compressedSize
           : file.size;
         const originalSize = file.size;
 
@@ -199,7 +255,7 @@ class FileStorageController {
           patientId,
           folderId: folderId || null,
           fileName: file.originalname,
-          fileKey: s3Result.s3Key,
+          fileKey: storageResult.storageKey,
           mimeType,
           fileSize: storedSize,
           originalSize: originalSize !== storedSize ? originalSize : undefined,
@@ -207,6 +263,7 @@ class FileStorageController {
           category: fileCategory,
           tags: tagArray,
           description: description || '',
+          documentDate: documentDate ? new Date(documentDate) : undefined,
           encrypted: true,
         });
 
@@ -220,21 +277,28 @@ class FileStorageController {
         // Log access
         await this.logAccess(medicalFile._id, patientId, patientId, 'patient', 'upload', req);
 
-        // Generate presigned URL (1 hour expiry)
-        const presignedUrl = await getPresignedDownloadUrl(s3Result.s3Key, file.originalname);
+        // Generate download/preview URL (works for both S3 and local)
+        const downloadUrl = await getPresignedDownloadUrl(
+          storageResult.storageKey,
+          file.originalname
+        );
 
         uploadedFiles.push({
           fileId: medicalFile._id,
           fileName: medicalFile.fileName,
           fileSize: medicalFile.fileSize,
           originalSize: medicalFile.originalSize,
-          compressed: s3Result.compression?.compressed || false,
-          compressionRatio: s3Result.compression?.ratio,
+          compressed: storageResult.compression?.compressed || false,
+          compressionRatio: storageResult.compression?.ratio,
           category: medicalFile.category,
           uploadedAt: medicalFile.uploadedAt,
-          storageUrl: presignedUrl,
+          storageUrl: downloadUrl,
+          storageType: storageResult.storageType,
         });
       }
+
+      // Invalidate cache so fresh stats/files are served
+      await this.invalidatePatientCache(patientId);
 
       res.status(201).json({
         success: true,
@@ -301,7 +365,7 @@ class FileStorageController {
   async updateFile(req, res) {
     try {
       const patientId = req.user._id;
-      const { fileName, description, category, tags, folderId } = req.body;
+      const { fileName, description, category, tags, folderId, documentDate } = req.body;
 
       const file = await MedicalFileStorage.findOne({
         _id: req.params.id,
@@ -322,6 +386,9 @@ class FileStorageController {
           .split(',')
           .map(t => t.trim())
           .filter(Boolean);
+      if (documentDate !== undefined) {
+        updates.documentDate = documentDate ? new Date(documentDate) : null;
+      }
 
       // Handle folder change
       const oldFolderId = file.folderId;
@@ -345,7 +412,7 @@ class FileStorageController {
         req.params.id,
         { $set: updates },
         { new: true, runValidators: true }
-      ).populate('folderId', 'name color icon');
+      ).populate('folderId', 'folderName color description');
 
       // Update folder counts
       if (folderId !== undefined && folderId !== String(oldFolderId)) {
@@ -361,7 +428,9 @@ class FileStorageController {
         }
       }
 
-      await this.logAccess(file._id, patientId, patientId, 'patient', 'upload', req);
+      await this.logAccess(file._id, patientId, patientId, 'patient', 'update', req);
+
+      await this.invalidatePatientCache(patientId);
 
       res.json({ success: true, data: updated });
     } catch (error) {
@@ -399,6 +468,8 @@ class FileStorageController {
       }
 
       await this.logAccess(file._id, patientId, patientId, 'patient', 'delete', req);
+
+      await this.invalidatePatientCache(patientId);
 
       res.json({
         success: true,
@@ -469,6 +540,8 @@ class FileStorageController {
         files.map(file => this.logAccess(file._id, patientId, patientId, 'patient', 'delete', req))
       );
 
+      await this.invalidatePatientCache(patientId);
+
       res.json({
         success: true,
         message: `${files.length} file${files.length !== 1 ? 's' : ''} moved to trash`,
@@ -480,6 +553,157 @@ class FileStorageController {
     } catch (error) {
       logger.error('Bulk delete error:', error);
       res.status(500).json({ success: false, message: 'Failed to delete files' });
+    }
+  }
+
+  // POST /api/file-storage/bulk-move - Move multiple files to a folder (or root)
+  async bulkMoveFiles(req, res) {
+    try {
+      const patientId = req.user._id.toString();
+      const { fileIds, folderId } = req.body;
+
+      if (!fileIds || !Array.isArray(fileIds) || fileIds.length === 0) {
+        return res.status(400).json({ success: false, message: 'No file IDs provided' });
+      }
+      if (folderId !== null && folderId !== undefined && folderId !== '') {
+        const folder = await MedicalFolder.findOne({
+          _id: folderId,
+          patientId,
+          isDeleted: false,
+        });
+        if (!folder) {
+          return res.status(400).json({ success: false, message: 'Invalid folder' });
+        }
+      }
+
+      const files = await MedicalFileStorage.find({
+        _id: { $in: fileIds },
+        patientId,
+        isDeleted: false,
+      });
+
+      if (files.length === 0) {
+        return res.status(404).json({ success: false, message: 'No files found to move' });
+      }
+
+      const targetFolderId = folderId ? new mongoose.Types.ObjectId(folderId) : null;
+
+      const folderUpdates = {};
+      for (const file of files) {
+        if (file.folderId) {
+          const key = file.folderId.toString();
+          folderUpdates[key] = folderUpdates[key] || { fileCount: 0, totalSize: 0 };
+          folderUpdates[key].fileCount -= 1;
+          folderUpdates[key].totalSize -= file.fileSize;
+        }
+      }
+      if (targetFolderId) {
+        const key = targetFolderId.toString();
+        folderUpdates[key] = folderUpdates[key] || { fileCount: 0, totalSize: 0 };
+        folderUpdates[key].fileCount += files.length;
+        folderUpdates[key].totalSize += files.reduce((sum, f) => sum + f.fileSize, 0);
+      }
+
+      await MedicalFileStorage.updateMany(
+        { _id: { $in: fileIds }, patientId, isDeleted: false },
+        { $set: { folderId: targetFolderId } }
+      );
+
+      for (const [folderIdStr, updates] of Object.entries(folderUpdates)) {
+        await MedicalFolder.findByIdAndUpdate(folderIdStr, {
+          $inc: { fileCount: updates.fileCount, totalSize: updates.totalSize },
+        });
+      }
+
+      await Promise.all(
+        files.map(file => this.logAccess(file._id, patientId, patientId, 'patient', 'move', req))
+      );
+
+      await this.invalidatePatientCache(patientId);
+
+      res.json({
+        success: true,
+        message: `${files.length} file${files.length !== 1 ? 's' : ''} moved`,
+        data: { movedCount: files.length, folderId: targetFolderId },
+      });
+    } catch (error) {
+      logger.error('Bulk move error:', error);
+      res.status(500).json({ success: false, message: 'Failed to move files' });
+    }
+  }
+
+  // POST /api/file-storage/bulk-share - Share multiple files with one doctor
+  async bulkShareFiles(req, res) {
+    try {
+      const patientId = req.user._id.toString();
+      const { fileIds, doctorId, expiresIn, expiresAt } = req.body;
+
+      if (!fileIds || !Array.isArray(fileIds) || fileIds.length === 0) {
+        return res.status(400).json({ success: false, message: 'No file IDs provided' });
+      }
+      if (!doctorId) {
+        return res.status(400).json({ success: false, message: 'Doctor ID required' });
+      }
+
+      const Doctor = require('../models/Doctor');
+      const doctor = await Doctor.findById(doctorId);
+      if (!doctor) {
+        return res.status(404).json({ success: false, message: 'Doctor not found' });
+      }
+      if (!doctor.isVerified) {
+        return res.status(400).json({ success: false, message: 'Doctor is not verified' });
+      }
+
+      const files = await MedicalFileStorage.find({
+        _id: { $in: fileIds },
+        patientId,
+        isDeleted: false,
+      });
+
+      if (files.length === 0) {
+        return res.status(404).json({ success: false, message: 'No files found to share' });
+      }
+
+      const sharedAt = new Date();
+      let expiresAtDate = null;
+      if (expiresIn) {
+        expiresAtDate = new Date(Date.now() + parseInt(expiresIn, 10) * 24 * 60 * 60 * 1000);
+      } else if (expiresAt) {
+        expiresAtDate = new Date(expiresAt);
+      }
+
+      const requestedLevel = req.body.permissions || req.body.accessLevel || 'view-only';
+      const accessLevel = ['view-only', 'view'].includes(requestedLevel)
+        ? 'view-only'
+        : 'view-only';
+      const shareRecord = {
+        doctorId,
+        sharedAt,
+        accessLevel,
+        expiresAt: expiresAtDate,
+      };
+
+      let sharedCount = 0;
+      for (const file of files) {
+        if (file.sharedWith.some(s => s.doctorId.toString() === doctorId)) {
+          continue; // already shared
+        }
+        file.sharedWith.push(shareRecord);
+        await file.save();
+        sharedCount += 1;
+        await this.logAccess(file._id, patientId, patientId, 'patient', 'share', req);
+      }
+
+      await this.invalidatePatientCache(patientId);
+
+      res.json({
+        success: true,
+        message: `Shared ${sharedCount} of ${files.length} files with doctor`,
+        data: { sharedCount, totalFiles: files.length, expiresAt: expiresAtDate },
+      });
+    } catch (error) {
+      logger.error('Bulk share error:', error);
+      res.status(500).json({ success: false, message: 'Failed to share files' });
     }
   }
 
@@ -519,6 +743,8 @@ class FileStorageController {
       }
 
       await this.logAccess(file._id, patientId, patientId, 'patient', 'restore', req);
+
+      await this.invalidatePatientCache(patientId);
 
       res.json({
         success: true,
@@ -575,10 +801,14 @@ class FileStorageController {
         expiresAtDate = new Date(expiresAt);
       }
 
+      const requestedLevel = req.body.permissions || req.body.accessLevel || 'view-only';
+      const accessLevel = ['view-only', 'view'].includes(requestedLevel)
+        ? 'view-only'
+        : 'view-only';
       const shareRecord = {
         doctorId,
         sharedAt,
-        accessLevel: 'view-only',
+        accessLevel,
         expiresAt: expiresAtDate,
       };
 
@@ -587,12 +817,14 @@ class FileStorageController {
 
       await this.logAccess(file._id, patientId, patientId, 'patient', 'share', req);
 
+      await this.invalidatePatientCache(patientId);
+
       // Send email to doctor
       const Patient = require('../models/Patient');
       const patient = await Patient.findById(patientId);
       if (patient && doctor.email) {
         const emailService = require('../services/emailService');
-        const viewUrl = `${process.env.REACT_APP_API_URL || 'http://localhost:5000'}/api/file-storage/${file._id}/preview`;
+        const viewUrl = `${process.env.FRONTEND_URL || 'http://localhost:5173'}/doctor/dashboard`;
         emailService
           .sendFileSharedEmail(
             doctor.email,
@@ -613,6 +845,7 @@ class FileStorageController {
         sharedAt,
         accessLevel: 'view-only',
         expiresAt: expiresAtDate,
+        doctorLoginUrl: `${process.env.FRONTEND_URL || 'http://localhost:5173'}/doctor/login`,
       });
     } catch (error) {
       logger.error('Share file error:', error);
@@ -638,6 +871,8 @@ class FileStorageController {
       await file.save();
 
       await this.logAccess(file._id, patientId, patientId, 'patient', 'share', req);
+
+      await this.invalidatePatientCache(patientId);
 
       res.json({ success: true, message: 'File unshared successfully' });
     } catch (error) {
@@ -690,7 +925,6 @@ class FileStorageController {
       file.fileSize = req.file.size;
       file.uploadedAt = new Date();
       file.version += 1;
-      file.extension = req.file.originalname.split('.').pop().toLowerCase();
 
       await file.save();
 
@@ -703,6 +937,8 @@ class FileStorageController {
         req
       );
 
+      await this.invalidatePatientCache(patientId);
+
       res.json({ success: true, message: 'New version created', data: file });
     } catch (error) {
       logger.error('Create version error:', error);
@@ -714,6 +950,13 @@ class FileStorageController {
   async getStats(req, res) {
     try {
       const patientId = req.user._id;
+      const cacheKey = `stats:${patientId}`;
+
+      // Try cache first
+      const cached = await redis.cacheGet(cacheKey);
+      if (cached) {
+        return res.json({ ...cached, meta: { cached: true } });
+      }
 
       const [totalFiles, totalSize, categoryStats, folderStats] = await Promise.all([
         MedicalFileStorage.countDocuments({ patientId, isDeleted: false }),
@@ -730,7 +973,7 @@ class FileStorageController {
           {
             $group: {
               _id: '$_id',
-              name: { $first: '$name' },
+              name: { $first: '$folderName' },
               count: { $first: '$fileCount' },
               size: { $first: '$totalSize' },
             },
@@ -740,7 +983,7 @@ class FileStorageController {
 
       const totalSizeBytes = totalSize[0]?.total || 0;
 
-      res.json({
+      const response = {
         success: true,
         data: {
           totalFiles,
@@ -749,7 +992,12 @@ class FileStorageController {
           categories: categoryStats,
           folders: folderStats,
         },
-      });
+      };
+
+      // Cache stats for 5 minutes
+      await redis.cacheSet(cacheKey, response, CACHE_TTL);
+
+      res.json(response);
     } catch (error) {
       logger.error('Get stats error:', error);
       res.status(500).json({ success: false, message: 'Failed to fetch stats' });
@@ -820,6 +1068,61 @@ class FileStorageController {
     } catch (error) {
       logger.error('Get activity error:', error);
       res.status(500).json({ success: false, message: 'Failed to fetch activity' });
+    }
+  }
+
+  // GET /api/file-storage/sync/manifest - Get sync manifest
+  async getSyncManifest(req, res) {
+    try {
+      const patientId = req.user._id.toString();
+      const { lastSync } = req.query;
+
+      const syncEngine = require('../services/syncEngine');
+      const manifest = await syncEngine.generateManifest(patientId, lastSync);
+
+      res.json({ success: true, ...manifest });
+    } catch (error) {
+      logger.error('Get sync manifest error:', error);
+      res.status(500).json({ success: false, message: 'Failed to generate sync manifest' });
+    }
+  }
+
+  // POST /api/file-storage/sync/apply - Apply client changes
+  async applySyncChanges(req, res) {
+    try {
+      const patientId = req.user._id.toString();
+      const { changes = {}, resolutionStrategy } = req.body;
+
+      if (typeof changes !== 'object' || changes === null) {
+        return res.status(400).json({ success: false, message: 'Invalid changes payload' });
+      }
+
+      const syncEngine = require('../services/syncEngine');
+      const results = await syncEngine.applyChanges(patientId, changes, resolutionStrategy);
+
+      // Invalidate cache after applying changes
+      await this.invalidatePatientCache(patientId);
+
+      res.json({ success: true, ...results });
+    } catch (error) {
+      logger.error('Apply sync changes error:', error);
+      res.status(500).json({ success: false, message: 'Failed to apply sync changes' });
+    }
+  }
+
+  // POST /api/file-storage/sync/conflict/:conflictId/resolve - Resolve conflict
+  async resolveSyncConflict(req, res) {
+    try {
+      const { conflictId } = req.params;
+      const { resolution } = req.body;
+
+      const syncEngine = require('../services/syncEngine');
+      const resolved = await syncEngine.resolveConflict(conflictId, resolution);
+
+      res.json({ success: true, message: 'Conflict resolved', ...resolved });
+    } catch (error) {
+      logger.error('Resolve conflict error:', error);
+      res.status(500).json({ success: false, message: 'Failed to resolve conflict' });
     }
   }
 }

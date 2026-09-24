@@ -1,0 +1,110 @@
+[
+  {
+    "a": "warfarin",
+    "b": "ibuprofen",
+    "level": "severe",
+    "message": "Warfarin and ibuprofen together significantly increase the risk of serious bleeding. Avoid ibuprofen while taking warfarin."
+  },
+  {
+    "a": "warfarin",
+    "b": "aspirin",
+    "level": "severe",
+    "message": "Combining warfarin with aspirin raises the risk of stomach bleeding and major bleeding events."
+  },
+  {
+    "a": "warfarin",
+    "b": "metronidazole",
+    "level": "severe",
+    "message": "Metronidazole slows warfarin breakdown, sharply increasing bleeding risk."
+  },
+  {
+    "a": "simvastatin",
+    "b": "clarithromycin",
+    "level": "severe",
+    "message": "Clarithromycin raises simvastatin levels and can cause muscle damage. Avoid the combination."
+  },
+  {
+    "a": "simvastatin",
+    "b": "itraconazole",
+    "level": "severe",
+    "message": "Itraconazole greatly increases simvastatin levels and the risk of muscle injury."
+  },
+  {
+    "a": "methotrexate",
+    "b": "ibuprofen",
+    "level": "severe",
+    "message": "Ibuprofen reduces methotrexate clearance, which can cause serious bone-marrow and kidney toxicity."
+  },
+  {
+    "a": "sildenafil",
+    "b": "nitroglycerin",
+    "level": "severe",
+    "message": "Taking sildenafil with nitroglycerin or other nitrates can cause a life-threatening drop in blood pressure."
+  },
+  {
+    "a": "clopidogrel",
+    "b": "omeprazole",
+    "level": "moderate",
+    "message": "Omeprazole can reduce clopidogrel's ability to prevent blood clots. A different heartburn medicine may be better."
+  },
+  {
+    "a": "lithium",
+    "b": "ibuprofen",
+    "level": "severe",
+    "message": "Ibuprofen can raise lithium levels to a toxic range, affecting kidneys and the nervous system."
+  },
+  {
+    "a": "tramadol",
+    "b": "sertraline",
+    "level": "severe",
+    "message": "Tramadol with sertraline may cause serotonin syndrome, a serious condition needing urgent care."
+  },
+  {
+    "a": "digoxin",
+    "b": "amiodarone",
+    "level": "severe",
+    "message": "Amiodarone increases digoxin levels and the risk of dangerous heart rhythm side effects."
+  },
+  {
+    "a": "metformin",
+    "b": "cimetidine",
+    "level": "moderate",
+    "message": "Cimetidine can increase metformin levels and the risk of lactic acidosis. Ask your doctor before combining."
+  },
+  {
+    "a": "doxycycline",
+    "b": "antacid",
+    "level": "moderate",
+    "message": "Antacids reduce doxycycline absorption. Separate doses by at least 2 hours."
+  },
+  {
+    "a": "lisinopril",
+    "b": "spironolactone",
+    "level": "severe",
+    "message": "Combining lisinopril with spironolactone can cause dangerously high potassium in the blood."
+  },
+  {
+    "a": "amlodipine",
+    "b": "simvastatin",
+    "level": "moderate",
+    "message": "Amlodipine raises simvastatin levels and adds to the risk of muscle damage. Limit the simvastatin dose."
+  },
+  {
+    "a": "fluoxetine",
+    "b": "tramadol",
+    "level": "severe",
+    "message": "Fluoxetine with tramadol increases the risk of serotonin syndrome and seizures."
+  },
+  {
+    "a": "levofloxacin",
+    "b": "antacid",
+    "level": "moderate",
+    "message": "Antacids stop levofloxacin from being absorbed well. Separate doses by at least 2 hours."
+  },
+  {
+    "a": "salbutamol",
+    "b": "propranolol",
+    "level": "moderate",
+    "message": "Propranolol can block the relief salbutamol provides during an asthma attack. Use with caution."
+  }
+]

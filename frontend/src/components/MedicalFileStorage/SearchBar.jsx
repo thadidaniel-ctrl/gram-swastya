@@ -28,7 +28,7 @@ export default function SearchBar({
   onFilterChange,
   initialFilters = {}
 }) {
-  const { t } = useTranslation('files');
+  const { t } = useTranslation();
   const [query, setQuery] = useState(initialFilters.search || '');
   const [category, setCategory] = useState(initialFilters.category || '');
   const [selectedTags, setSelectedTags] = useState(initialFilters.tags || []);

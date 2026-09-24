@@ -10,7 +10,7 @@ export default function BulkActions({
   onClearSelection,
   loading = false,
 }) {
-  const { t } = useTranslation('files');
+  const { t } = useTranslation();
   if (selectedCount === 0) return null;
 
   return (

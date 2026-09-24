@@ -4,6 +4,14 @@ const logger = require('../utils/logger');
 
 class EmailService {
   constructor() {
+    const hasCredentials = Boolean(config.email.user && config.email.password);
+
+    if (!hasCredentials) {
+      logger.warn('SMTP credentials not configured, emails will be logged only');
+      this.transporter = null;
+      return;
+    }
+
     this.transporter = nodemailer.createTransport({
       host: config.email.host,
       port: config.email.port,
@@ -46,6 +54,13 @@ class EmailService {
     const template = templates[language]?.[purpose] || templates.en[purpose];
 
     try {
+      if (!this.transporter) {
+        logger.info(
+          `[EMAIL MOCK] To: ${email} - ${template.subject}: ${template.body.replace(/<[^>]*>/g, ' ')}`
+        );
+        return true;
+      }
+
       await this.transporter.sendMail({
         from: config.email.from,
         to: email,
@@ -60,12 +75,12 @@ class EmailService {
     }
   }
 
-  async sendAppointmentConfirmation(email, appointment, language = 'en') {
+  async sendAppointmentConfirmation(email, appointment, _language = 'en') {
     // Implementation for appointment emails
     return true;
   }
 
-  async sendHealthReport(email, report, language = 'en') {
+  async sendHealthReport(email, report, _language = 'en') {
     // Implementation for health report emails
     return true;
   }
@@ -120,6 +135,11 @@ class EmailService {
     `;
 
     try {
+      if (!this.transporter) {
+        logger.info(`[EMAIL MOCK] To: ${doctorEmail} - Medical file shared: ${fileName}`);
+        return true;
+      }
+
       await this.transporter.sendMail({
         from: config.email.from,
         to: doctorEmail,

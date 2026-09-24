@@ -13,7 +13,7 @@ export function Button({
   'aria-label': ariaLabel,
   ...props 
 }) {
-  const { t } = useTranslation('common');
+  const { t } = useTranslation();
   const variantClasses = {
     primary: 'bg-brand-800 text-white hover:bg-brand-900 focus:ring-brand-800',
     secondary: 'bg-surface-secondary text-text-primary border border-border-main hover:bg-neutral-200 focus:ring-brand-800',

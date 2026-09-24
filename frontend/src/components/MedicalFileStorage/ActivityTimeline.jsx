@@ -32,7 +32,7 @@ const ACTIVITY_LABELS = {
 };
 
 export default function ActivityTimeline({ fileId }) {
-  const { t } = useTranslation('files');
+  const { t } = useTranslation();
   const [activities, setActivities] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);

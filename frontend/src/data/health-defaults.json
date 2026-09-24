@@ -1,0 +1,104 @@
+{
+  "metrics": {
+    "weight": {
+      "icon": "⚖️",
+      "label": "Weight",
+      "unit": "kg",
+      "unitOptions": ["kg", "lbs"],
+      "step": 0.1,
+      "placeholder": "Enter weight",
+      "color": "#4CAF50",
+      "normalRange": { "type": "personal", "description": "Within your goal range" },
+      "alertRange": { "type": "delta", "value": 2, "description": "±2kg from last reading" },
+      "highRange": { "type": "delta", "value": 5, "description": "±5kg from goal" }
+    },
+    "blood_pressure": {
+      "icon": "🩸",
+      "label": "Blood Pressure",
+      "unit": "mmHg",
+      "systolic": { "placeholder": "Systolic (top)", "min": 60, "max": 250 },
+      "diastolic": { "placeholder": "Diastolic (bottom)", "min": 30, "max": 150 },
+      "feelingOptions": ["fine", "dizzy", "tired", "headache", "nauseous"],
+      "color": "#2196F3",
+      "normalRange": { "systolic": { "max": 119 }, "diastolic": { "max": 79 } },
+      "alertRange": { "systolic": { "min": 120, "max": 139 }, "diastolic": { "min": 80, "max": 89 } },
+      "highRange": { "systolic": { "min": 140 }, "diastolic": { "min": 90 } }
+    },
+    "glucose": {
+      "icon": "🩹",
+      "label": "Blood Sugar",
+      "unit": "mg/dL",
+      "step": 1,
+      "placeholder": "Enter glucose level",
+      "color": "#FF9800",
+      "normalRange": { "min": 70, "max": 100, "description": "Fasting" },
+      "alertRange": { "min": 100, "max": 125, "description": "Pre-diabetes" },
+      "highRange": { "min": 126, "description": "Diabetes" }
+    },
+    "heart_rate": {
+      "icon": "❤️",
+      "label": "Heart Rate",
+      "unit": "BPM",
+      "step": 1,
+      "placeholder": "Enter heart rate",
+      "color": "#F44336",
+      "normalRange": { "min": 60, "max": 100 },
+      "alertRange": { "min": 101, "max": 120, "description": "Elevated" },
+      "highRange": { "min": 121, "description": "High" },
+      "lowRange": { "max": 59, "description": "Low" }
+    },
+    "medication": {
+      "icon": "💊",
+      "label": "Medication",
+      "unit": "doses",
+      "color": "#9C27B0",
+      "normalRange": { "min": 100, "description": "100% taken" },
+      "alertRange": { "min": 75, "max": 99, "description": "Mostly taken" },
+      "highRange": { "max": 74, "description": "Low adherence" }
+    },
+    "water": {
+      "icon": "💧",
+      "label": "Water Intake",
+      "unit": "glasses",
+      "step": 1,
+      "placeholder": "Enter glasses",
+      "color": "#00BCD4",
+      "normalRange": { "min": 8, "max": 12, "description": "8-12 glasses/day" },
+      "alertRange": { "min": 4, "max": 7, "description": "Low intake" },
+      "highRange": { "max": 3, "description": "Very low" }
+    },
+    "sleep": {
+      "icon": "😴",
+      "label": "Sleep",
+      "unit": "hours",
+      "step": 0.5,
+      "placeholder": "Enter hours",
+      "color": "#3F51B5",
+      "normalRange": { "min": 7, "max": 9 },
+      "alertRange": { "min": 5, "max": 6.5, "description": "Below optimal" },
+      "highRange": { "max": 4.5, "description": "Sleep deprived" }
+    },
+    "symptoms": {
+      "icon": "🤒",
+      "label": "Symptoms",
+      "unit": "note",
+      "color": "#795548",
+      "placeholder": "Describe symptoms...",
+      "commonSymptoms": ["fever", "cough", "headache", "fatigue", "nausea", "body ache", "sore throat", "shortness of breath", "dizziness", "rash"]
+    }
+  },
+  "goals": {
+    "weight": { "label": "Target Weight", "unit": "kg", "icon": "⚖️", "defaultTarget": 63 },
+    "blood_pressure": { "label": "Normal Blood Pressure", "unit": "mmHg", "icon": "🩸", "defaultTarget": "120/80" },
+    "glucose": { "label": "Normal Blood Sugar", "unit": "mg/dL", "icon": "🩹", "defaultTarget": "<100" },
+    "heart_rate": { "label": "Normal Heart Rate", "unit": "BPM", "icon": "❤️", "defaultTarget": "60-100" },
+    "water": { "label": "Daily Water Intake", "unit": "glasses", "icon": "💧", "defaultTarget": 8 },
+    "sleep": { "label": "Sleep Duration", "unit": "hours", "icon": "😴", "defaultTarget": 8 },
+    "medication": { "label": "Medication Adherence", "unit": "%", "icon": "💊", "defaultTarget": 100 }
+  },
+  "reminders": {
+    "frequencies": ["daily", "weekly", "monthly", "custom"],
+    "snoozeOptions": [15, 30, 60],
+    "types": ["medication", "health_check", "appointment", "water", "exercise", "measurement"]
+  }
+}

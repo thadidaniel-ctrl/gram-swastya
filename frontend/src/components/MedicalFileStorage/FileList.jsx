@@ -129,7 +129,7 @@ export default function FileList({
   emptyMessage = 'No files found',
   onUploadClick
 }) {
-  const { t } = useTranslation('files');
+  const { t } = useTranslation();
   const [sortConfig, setSortConfig] = useState({ key: 'uploadedAt', direction: 'desc' });
   const [bulkLoading, setBulkLoading] = useState(false);
 

@@ -13,7 +13,7 @@ export default function FolderManager({
   selectedFolderId = null,
   onCreateFolder,
 }) {
-  const { t } = useTranslation('files');
+  const { t } = useTranslation();
   const [showForm, setShowForm] = useState(false);
   const [formData, setFormData] = useState({
     folderName: '',

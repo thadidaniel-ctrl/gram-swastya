@@ -14,7 +14,7 @@ const EMERGENCY_TYPES = [
 ];
 
 export default function AmbulanceBooking() {
-  const { t } = useTranslation('ambulance');
+  const { t } = useTranslation();
   const { patient } = useAuth();
   const [step, setStep] = useState('type');
   const [emergencyType, setEmergencyType] = useState('');

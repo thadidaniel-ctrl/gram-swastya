@@ -17,7 +17,17 @@ const fileAccessLogSchema = new mongoose.Schema(
     // Access Information
     accessType: {
       type: String,
-      enum: ['upload', 'download', 'delete', 'share', 'restore', 'preview'],
+      enum: [
+        'upload',
+        'download',
+        'delete',
+        'share',
+        'restore',
+        'preview',
+        'update',
+        'move',
+        'cleanup',
+      ],
       required: true,
     },
     accessedBy: {
@@ -26,7 +36,7 @@ const fileAccessLogSchema = new mongoose.Schema(
     },
     userType: {
       type: String,
-      enum: ['patient', 'doctor'],
+      enum: ['patient', 'doctor', 'system'],
       required: true,
     },
 

@@ -8,7 +8,7 @@ import { EmptyState } from '../../components/Common/EmptyState';
 import { useTranslation } from 'react-i18next';
 
 export default function DoctorDashboard() {
-  const { t } = useTranslation(['doctor', 'common']);
+  const { t } = useTranslation();
   const { doctor, logoutDoctor } = useAuth();
   const { showToast } = useToast();
   const [dashboard, setDashboard] = useState(null);

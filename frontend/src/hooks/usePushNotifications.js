@@ -8,10 +8,14 @@ const firebaseConfig = {
   projectId: import.meta.env.VITE_FIREBASE_PROJECT_ID,
   messagingSenderId: import.meta.env.VITE_FIREBASE_MESSAGING_SENDER_ID,
   appId: import.meta.env.VITE_FIREBASE_APP_ID,
-  vapidKey: import.meta.env.VITE_FIREBASE_VAPID_KEY,
+  vapidKey: import.meta.env.VITE_FIREBASE_VAPID_KEY || import.meta.env.VITE_WEB_PUSH_VAPID_PUBLIC_KEY,
 };
 
 const FCM_ENABLED = !!firebaseConfig.apiKey && !!firebaseConfig.vapidKey;
+
+// Web Push (VAPID) config
+const WEB_PUSH_VAPID_KEY = import.meta.env.VITE_WEB_PUSH_VAPID_PUBLIC_KEY;
+const WEB_PUSH_ENABLED = !!WEB_PUSH_VAPID_KEY;
 
 let firebaseModules = null;
 
@@ -32,7 +36,7 @@ async function loadFirebase() {
   }
 }
 
-export function usePushNotifications({ patientId, onAcknowledge } = {}) {
+export function usePushNotifications({ onAcknowledge } = {}) {
   const [permission, setPermission] = useState(
     typeof Notification !== 'undefined' ? Notification.permission : 'unsupported'
   );
@@ -110,10 +114,13 @@ export function usePushNotifications({ patientId, onAcknowledge } = {}) {
         via = pushToken ? 'fcm' : 'webpush';
       }
 
+      if (!pushToken && WEB_PUSH_ENABLED) {
+        pushToken = await getWebPushToken(reg, WEB_PUSH_VAPID_KEY);
+      }
+
       if (!pushToken) {
-        const vapidKey = import.meta.env.VITE_FIREBASE_VAPID_KEY
-          || import.meta.env.VITE_WEB_PUSH_VAPID_PUBLIC_KEY;
-        pushToken = await getWebPushToken(reg, vapidKey);
+        setError('Push service not configured (missing VAPID key)');
+        return null;
       }
 
       setToken(pushToken);
@@ -127,7 +134,7 @@ export function usePushNotifications({ patientId, onAcknowledge } = {}) {
       setError('Failed to enable notifications');
       return null;
     }
-  }, [supportsPush]);
+  }, [supportsPush, registerTokenWithBackend]);
 
   const getFCMToken = async (registration) => {
     if (!firebaseConfig.apiKey) return null;
@@ -144,19 +151,6 @@ export function usePushNotifications({ patientId, onAcknowledge } = {}) {
 
     if (currentToken) return currentToken;
 
-    // Try to refresh
-    try {
-      await registration.pushManager.getSubscription()?.unsubscribe();
-      await registration.pushManager.subscribe({
-        userVisibleOnly: true,
-        applicationServerKey: urlBase64ToUint8Array(firebaseConfig.vapidKey),
-      });
-    } catch (e) {
-      // ignore, fallback happens in caller
-    }
-
-    setIsLoading(false);
-    setError('FCM token generation failed');
     return null;
   };
 
@@ -191,24 +185,18 @@ export function usePushNotifications({ patientId, onAcknowledge } = {}) {
     }
   };
 
-  const registerTokenWithBackend = async (pushToken, via) => {
+  const registerTokenWithBackend = useCallback(async (pushToken, via) => {
     try {
-      const body = via === 'fcm'
-        ? { fcmToken: pushToken }
-        : { webPushEndpoint: pushToken };
-
-      if (via === 'fcm' && patientId) {
-        await api.updateProfile?.({ fcmToken: pushToken });
-      } else if (via === 'webpush') {
-        await api.request('/patient/webpush-token', {
-          method: 'POST',
-          body,
-        });
+      if (via === 'fcm') {
+        await api.updateFCMToken(pushToken);
+      } else {
+        const sub = subscription;
+        await api.updateWebPushToken(pushToken, sub ? { endpoint: sub.endpoint, keys: sub.toJSON().keys } : null);
       }
     } catch (error) {
       console.error('Registering push token failed:', error);
     }
-  };
+  }, [subscription]);
 
   // Acknowledge handler (browser notification click)
   const acknowledge = useCallback(async (notificationId, status) => {

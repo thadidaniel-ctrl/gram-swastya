@@ -157,7 +157,7 @@ class FolderController {
 
       // Check duplicate name in target parent
       if (folderName !== undefined || parentFolderId !== undefined) {
-        const targetParent = updates.parentFolderId ?? folder.parentFolderId;
+        const targetParent = updates.parentFolderId;
         const existing = await MedicalFolder.findOne({
           patientId,
           parentFolderId: targetParent,
@@ -247,13 +247,113 @@ class FolderController {
     for (const child of children) {
       await this.deleteFolderRecursive(child._id, patientId);
     }
+
+    // Get files in this folder to calculate size for folder count updates
+    const filesToDelete = await MedicalFileStorage.find({
+      folderId,
+      isDeleted: false,
+    });
+
+    let totalSize = 0;
+    for (const file of filesToDelete) {
+      totalSize += file.fileSize;
+    }
+
+    // Soft delete files
     await MedicalFileStorage.updateMany(
       { folderId, isDeleted: false },
       { $set: { isDeleted: true, deletedAt: new Date() } }
     );
+
+    // Update folder count and size for this folder
     await MedicalFolder.findByIdAndUpdate(folderId, {
+      $inc: { fileCount: -filesToDelete.length, totalSize: -totalSize },
       $set: { isDeleted: true, deletedAt: new Date() },
     });
+  }
+
+  // POST /api/folders/initialize - Create default system folders for a patient
+  async initializeFolders(req, res) {
+    try {
+      const patientId = req.user._id;
+
+      const defaultFolders = [
+        {
+          folderName: 'Lab Reports',
+          color: '#4287F5',
+          description: 'All lab test reports',
+          isSystem: true,
+        },
+        {
+          folderName: 'Prescriptions',
+          color: '#E5A33F',
+          description: 'Doctor prescriptions',
+          isSystem: true,
+        },
+        {
+          folderName: 'Medical Images',
+          color: '#7C3AED',
+          description: 'X-rays, scans and imaging',
+          isSystem: true,
+        },
+        {
+          folderName: 'Vaccination Records',
+          color: '#EC4899',
+          description: 'Immunization certificates',
+          isSystem: true,
+        },
+        {
+          folderName: 'Hospital Records',
+          color: '#14B8A6',
+          description: 'Discharge summaries and records',
+          isSystem: true,
+        },
+        {
+          folderName: 'Insurance',
+          color: '#10B981',
+          description: 'Insurance policies and claims',
+          isSystem: true,
+        },
+        {
+          folderName: 'Other',
+          color: '#6B7280',
+          description: 'Miscellaneous documents',
+          isSystem: true,
+        },
+      ];
+
+      const created = [];
+      for (const folderData of defaultFolders) {
+        const existing = await MedicalFolder.findOne({
+          patientId,
+          parentFolderId: null,
+          folderName: folderData.folderName,
+          isDeleted: false,
+        });
+        if (!existing) {
+          const folder = await MedicalFolder.create({
+            patientId,
+            parentFolderId: null,
+            ...folderData,
+          });
+          created.push(folder);
+        }
+      }
+
+      const folders = await MedicalFolder.find({ patientId, isDeleted: false })
+        .sort({ folderName: 1 })
+        .lean();
+
+      res.json({
+        success: true,
+        message: 'Folders initialized',
+        data: folders,
+        created: created.length,
+      });
+    } catch (error) {
+      logger.error('Initialize folders error:', error);
+      res.status(500).json({ success: false, message: 'Failed to initialize folders' });
+    }
   }
 
   // GET /api/folders/:id/files - Get files in folder

@@ -50,7 +50,6 @@ const voiceConversationSchema = new mongoose.Schema(
 );
 
 voiceConversationSchema.index({ patient: 1, startedAt: -1 });
-voiceConversationSchema.index({ sessionId: 1 });
 
 voiceConversationSchema.methods.addMessage = function (message) {
   this.messages.push(message);

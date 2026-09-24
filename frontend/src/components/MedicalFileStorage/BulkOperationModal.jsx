@@ -23,7 +23,7 @@ export default function BulkOperationModal({
   onClose,
   onConfirm,
 }) {
-  const { t } = useTranslation('files');
+  const { t } = useTranslation();
   const [folderId, setFolderId] = useState('');
   const [doctors, setDoctors] = useState([]);
   const [doctorId, setDoctorId] = useState('');

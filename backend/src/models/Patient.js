@@ -40,8 +40,9 @@ const reminderPreferencesSchema = new mongoose.Schema(
 
 const patientSchema = new mongoose.Schema(
   {
-    phone: { type: String, required: true, unique: true, index: true },
+    phone: { type: String, required: true, unique: true },
     email: { type: String, unique: true, sparse: true },
+    passwordHash: { type: String, select: false },
     name: { type: String, required: true },
     age: { type: Number, required: true },
     gender: {
@@ -88,7 +89,14 @@ patientSchema.set('toJSON', {
   },
 });
 
-patientSchema.index({ phone: 1 });
-patientSchema.index({ email: 1 });
+patientSchema.methods.comparePassword = async function (candidatePassword) {
+  return bcrypt.compare(candidatePassword, this.passwordHash);
+};
+
+patientSchema.pre('save', async function (next) {
+  if (!this.isModified('passwordHash')) return next();
+  this.passwordHash = await bcrypt.hash(this.passwordHash, 12);
+  next();
+});
 
 module.exports = mongoose.model('Patient', patientSchema);

@@ -207,7 +207,7 @@ function emptyForm() {
 }
 
 export default function Medicines() {
-  const { t } = useTranslation('medicines');
+  const { t } = useTranslation();
   const { medicines, addMedicine, updateMedicine, deleteMedicine, logDose } = useMedicines();
   const [showForm, setShowForm] = useState(false);
   const [editingId, setEditingId] = useState(null);

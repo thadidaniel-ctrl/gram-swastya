@@ -11,7 +11,7 @@ const facilitySchema = new mongoose.Schema(
 
     address: {
       village: String,
-      district: { type: String, required: true, index: true },
+      district: { type: String, required: true },
       state: { type: String, required: true },
       pincode: String,
       coordinates: {

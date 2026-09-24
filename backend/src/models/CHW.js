@@ -4,7 +4,7 @@ const bcrypt = require('bcryptjs');
 const chwSchema = new mongoose.Schema(
   {
     employeeId: { type: String, required: true, unique: true, index: true },
-    phone: { type: String, required: true, unique: true, index: true },
+    phone: { type: String, required: true, unique: true },
     email: { type: String, sparse: true, unique: true },
     passwordHash: { type: String, select: false },
 

@@ -30,7 +30,7 @@ const METRIC_TYPES = [
 ];
 
 export default function HealthTracker() {
-  const { t } = useTranslation('healthTracker');
+  const { t } = useTranslation();
   const tracker = useHealthTrackerData();
   const {
     data,

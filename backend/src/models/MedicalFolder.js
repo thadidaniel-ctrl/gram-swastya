@@ -27,6 +27,9 @@ const medicalFolderSchema = new mongoose.Schema(
 
     // Metadata
     fileCount: { type: Number, default: 0 },
+    totalSize: { type: Number, default: 0 },
+    sortOrder: { type: Number, default: 0 },
+    isSystem: { type: Boolean, default: false },
   },
   {
     timestamps: true,

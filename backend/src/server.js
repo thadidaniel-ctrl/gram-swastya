@@ -18,9 +18,13 @@ const webPushService = require('./services/webPushService');
 const medicineReminder = require('./services/medicineReminder');
 const fileCleanupService = require('./services/fileCleanupService');
 const redis = require('./config/redis');
+const emergencySocketService = require('./services/emergencySocketService');
 const { observability, getMetrics } = require('./middleware/observability');
 
 const app = express();
+
+// Trust proxy hops so rate limiting and req.ip work correctly behind LB/WAF
+app.set('trust proxy', config.nodeEnv === 'production' ? 1 : 0);
 
 app.use(
   helmet({
@@ -75,15 +79,6 @@ app.use(observability);
 
 app.use('/api', routes);
 
-app.get('/api/health', (req, res) => {
-  res.json({
-    status: 'ok',
-    timestamp: new Date().toISOString(),
-    uptime: process.uptime(),
-    memory: process.memoryUsage(),
-  });
-});
-
 app.get('/api/metrics', (req, res) => {
   res.json({ success: true, metrics: getMetrics() });
 });
@@ -126,12 +121,16 @@ const startServer = async () => {
 
     const server = app.listen(config.port, () => {
       logger.info(`Server running on port ${config.port} in ${config.nodeEnv} mode`);
+      emergencySocketService.initializeSocket(server);
     });
 
     const gracefulShutdown = async signal => {
       logger.info(`${signal} received. Starting graceful shutdown...`);
       medicineReminder.stopMedicineReminderCron();
       fileCleanupService.stopCleanupScheduler();
+      if (emergencySocketService.getIO()) {
+        emergencySocketService.getIO().close();
+      }
       server.close(async () => {
         await mongoose.connection.close();
         await redis.closeRedis();

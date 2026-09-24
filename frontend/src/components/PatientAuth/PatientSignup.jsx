@@ -5,7 +5,7 @@ import { useAuth } from '../../contexts/AuthContext';
 import { useTranslation } from 'react-i18next';
 
 export default function PatientSignup() {
-  const { t } = useTranslation(['auth', 'common']);
+  const { t } = useTranslation();
   const navigate = useNavigate();
   const { register, isLoading, error, clearError } = usePatientAuth();
   const { loginPatient } = useAuth();

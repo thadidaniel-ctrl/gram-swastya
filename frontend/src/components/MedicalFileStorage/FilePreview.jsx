@@ -9,7 +9,7 @@ export default function FilePreview({
   onClose,
   onDownload 
 }) {
-  const { t } = useTranslation('files');
+  const { t } = useTranslation();
   const [previewUrl, setPreviewUrl] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);

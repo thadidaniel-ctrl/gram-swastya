@@ -32,7 +32,12 @@ class OTPService {
       });
 
       logger.info(`OTP generated for ${phone || email} (${purpose})`);
-      return { otpId: otpSession._id, code, tempToken, expiresAt };
+
+      const result = { otpId: otpSession._id, tempToken, expiresAt };
+      if (config.nodeEnv !== 'production') {
+        result.code = code; // Return code in dev for testing
+      }
+      return result;
     } catch (error) {
       logger.error('OTP generation failed:', error);
       throw new Error('Failed to generate OTP');
@@ -91,7 +96,9 @@ class OTPService {
   }
 
   generateNumericOTP(length = 6) {
-    return Math.floor(10 ** (length - 1) + Math.random() * 9 * 10 ** (length - 1)).toString();
+    const min = 10 ** (length - 1);
+    const max = 10 ** length;
+    return crypto.randomInt(min, max).toString();
   }
 
   async cleanupExpiredOTPs() {

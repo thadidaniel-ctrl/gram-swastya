@@ -2,11 +2,17 @@ const express = require('express');
 const router = express.Router();
 const fileStorageController = require('../controllers/fileStorageController');
 const { authenticate, authorize } = require('../middleware/auth');
-const { uploadMultiple, handleMulterError } = require('../middleware/fileUpload');
-const { validate } = require('../middleware/validate');
+const {
+  uploadSingle,
+  uploadMultiple,
+  handleMulterError,
+  verifyFileContent,
+} = require('../middleware/fileUpload');
+const { validate, sanitize } = require('../middleware/validate');
 const { body, param, query } = require('express-validator');
 
 router.use(authenticate, authorize('patient'));
+router.use(sanitize);
 
 // Validation
 const uploadValidation = [
@@ -29,6 +35,10 @@ const uploadValidation = [
     .isString()
     .isLength({ max: 1000 })
     .withMessage('Description too long'),
+  body('documentDate')
+    .optional({ values: 'falsy' })
+    .isISO8601()
+    .withMessage('Invalid document date (YYYY-MM-DD)'),
 ];
 
 const shareValidation = [
@@ -37,7 +47,10 @@ const shareValidation = [
     .optional()
     .isInt({ min: 1, max: 365 })
     .withMessage('expiresIn must be 1-365 days'),
-  body('expiresAt').optional().isISO8601().withMessage('Invalid expiry date (ISO 8601)'),
+  body('expiresAt')
+    .optional({ values: 'falsy' })
+    .isISO8601()
+    .withMessage('Invalid expiry date (ISO 8601)'),
   body('message')
     .optional()
     .isString()
@@ -69,13 +82,20 @@ const updateValidation = [
     ])
     .withMessage('Invalid category'),
   body('tags').optional().isString().withMessage('Tags must be comma-separated string'),
-  body('folderId').optional().isMongoId().withMessage('Invalid folder ID'),
+  body('folderId').optional({ values: 'falsy' }).isMongoId().withMessage('Invalid folder ID'),
+  body('documentDate')
+    .optional({ values: 'falsy' })
+    .isISO8601()
+    .withMessage('Invalid document date (YYYY-MM-DD)'),
 ];
 
 const listValidation = [
   query('page').optional().isInt({ min: 1 }).withMessage('Invalid page'),
   query('limit').optional().isInt({ min: 1, max: 50 }).withMessage('Invalid limit (max 50)'),
-  query('folderId').optional().isMongoId().withMessage('Invalid folder ID'),
+  query('folderId')
+    .optional()
+    .custom(value => value === 'root' || /^[0-9a-fA-F]{24}$/.test(value))
+    .withMessage('Invalid folder ID'),
   query('category')
     .optional()
     .isIn([
@@ -103,8 +123,28 @@ const idParam = [param('id').isMongoId().withMessage('Invalid file ID')];
 const doctorIdParam = [param('doctorId').isMongoId().withMessage('Invalid doctor ID')];
 
 const bulkDeleteValidation = [
-  body('fileIds').isArray({ min: 1 }).withMessage('fileIds must be a non-empty array'),
-  body('fileIds.*').isMongoId().withMessage('Each fileId must be a valid MongoDB ID'),
+  body('fileIds').isArray({ min: 1, max: 100 }).withMessage('fileIds must be a non-empty array'),
+  body('fileIds.*').isMongoId().withMessage('Invalid file ID'),
+];
+
+const bulkMoveValidation = [
+  body('fileIds').isArray({ min: 1, max: 100 }).withMessage('fileIds must be a non-empty array'),
+  body('fileIds.*').isMongoId().withMessage('Invalid file ID'),
+  body('folderId').optional({ values: 'falsy' }).isMongoId().withMessage('Invalid folder ID'),
+];
+
+const bulkShareValidation = [
+  body('fileIds').isArray({ min: 1, max: 100 }).withMessage('fileIds must be a non-empty array'),
+  body('fileIds.*').isMongoId().withMessage('Invalid file ID'),
+  body('doctorId').isMongoId().withMessage('Valid doctor ID required'),
+  body('expiresIn')
+    .optional({ values: 'falsy' })
+    .isInt({ min: 1, max: 365 })
+    .withMessage('expiresIn must be 1-365 days'),
+  body('expiresAt')
+    .optional({ values: 'falsy' })
+    .isISO8601()
+    .withMessage('Invalid expiry date (ISO 8601)'),
 ];
 
 // File Storage Routes
@@ -120,6 +160,7 @@ router.post(
   '/upload',
   uploadMultiple,
   handleMulterError,
+  verifyFileContent,
   uploadValidation,
   validate,
   fileStorageController.uploadFiles
@@ -142,6 +183,12 @@ router.post('/:id/restore', idParam, validate, fileStorageController.restoreFile
 
 // POST /api/file-storage/bulk-delete - Bulk delete files
 router.post('/bulk-delete', bulkDeleteValidation, validate, fileStorageController.bulkDeleteFiles);
+
+// POST /api/file-storage/bulk-move - Move multiple files to a folder
+router.post('/bulk-move', bulkMoveValidation, validate, fileStorageController.bulkMoveFiles);
+
+// POST /api/file-storage/bulk-share - Share multiple files with one doctor
+router.post('/bulk-share', bulkShareValidation, validate, fileStorageController.bulkShareFiles);
 
 // GET /api/file-storage/activity - Activity timeline
 router.get('/activity', fileStorageController.getActivity);
@@ -170,9 +217,19 @@ router.post(
   '/:id/version',
   idParam,
   validate,
-  uploadMultiple,
+  uploadSingle,
   handleMulterError,
+  verifyFileContent,
   fileStorageController.createVersion
 );
+
+// GET /api/file-storage/sync/manifest - Get sync manifest
+router.get('/sync/manifest', fileStorageController.getSyncManifest);
+
+// POST /api/file-storage/sync/apply - Apply client changes
+router.post('/sync/apply', fileStorageController.applySyncChanges);
+
+// POST /api/file-storage/sync/conflict/:conflictId/resolve - Resolve conflict
+router.post('/sync/conflict/:conflictId/resolve', fileStorageController.resolveSyncConflict);
 
 module.exports = router;

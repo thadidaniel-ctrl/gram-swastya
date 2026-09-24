@@ -9,7 +9,18 @@
     "healthTracker": "स्वास्थ्य ट्रैकर",
     "ambulance": "एम्बुलेंस",
     "symptomChecker": "लक्षण जाँच",
-    "voiceAssistant": "वॉइस असिस्टेंट"
+    "voiceAssistant": "वॉइस असिस्टेंट",
+    "records": "स्वास्थ्य रिकॉर्ड",
+    "tablets": "दवा की जानकारी",
+    "patients": "मरीज़",
+    "skipToContent": "मुख्य सामग्री पर जाएँ",
+    "openMenu": "मेनू खोलें",
+    "closeMenu": "मेनू बंद करें",
+    "mainNavigation": "मुख्य नेविगेशन",
+    "mobileNavigation": "मोबाइल नेविगेशन",
+    "doctorLabel": "डॉ.",
+    "patientDashboard": "मरीज़ डैशबोर्ड",
+    "doctorDashboard": "डॉक्टर डैशबोर्ड"
   },
   "doctor": {
     "patients": "मेरे रोगी",
@@ -286,5 +297,9 @@
     "medicalConditions": "चिकित्सा स्थितियाँ",
     "saveChanges": "परिवर्तन सहेजें",
     "changesSaved": "परिवर्तन सफलतापूर्वक सहेजे गए"
+  },
+  "notFound": {
+    "message": "आप जिस पेज की तलाश कर रहे हैं वह मौजूद नहीं है।",
+    "backHome": "होम पर वापस जाएँ"
   }
 }

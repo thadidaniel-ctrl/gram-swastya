@@ -191,12 +191,12 @@ async function sendMedicineReminder(medicine, now) {
   return { notification, pushResult, medicine };
 }
 
-// Check refill needs for low-stock medicines
+// Check refill needs for low-stock medicines (needsRefill is a virtual, query real fields)
 async function sendRefillReminder() {
   const medicines = await Medicine.find({
     isActive: true,
     enableReminders: true,
-    needsRefill: true,
+    $expr: { $lte: ['$remainingQuantity', '$lowStockThreshold'] },
   }).populate('patient', 'fcmToken preferredLanguage name');
 
   for (const medicine of medicines) {
@@ -254,12 +254,20 @@ async function markUnacknowledgedDosesAsMissed() {
     if (item.medicine) {
       const medicine = await Medicine.findById(item.medicine);
       if (medicine) {
-        const doseLog = medicine.doseLogs.find(
-          d => d.status === 'missed' && d.scheduledTime >= new Date(Date.now() - 2 * 60 * 60 * 1000)
+        const scheduledTime = item.createdAt || new Date();
+        const lookupWindow = 15 * 60 * 1000;
+        let doseLog = medicine.doseLogs.find(
+          d => Math.abs(new Date(d.scheduledTime) - new Date(scheduledTime)) < lookupWindow
         );
-        if (doseLog) {
+
+        if (!doseLog) {
+          doseLog = { scheduledTime, status: 'missed' };
+          medicine.doseLogs.push(doseLog);
+        } else if (doseLog.status !== 'taken') {
           doseLog.status = 'missed';
+          doseLog.notes = doseLog.notes || 'Missed (unacknowledged reminder)';
         }
+        await medicine.save();
       }
     }
   }
@@ -315,32 +323,44 @@ function startMedicineReminderCron() {
     return;
   }
 
-  // Run reminder check every hour at minute 0 (05:00 - 22:00)
-  reminderJob = cron.schedule('* 5-22 * * *', async () => {
-    try {
-      await runReminderCheck();
-    } catch (error) {
-      logger.error('Cron job title: medicine reminder failed:', error);
-    }
-  });
+  // Run reminder check every hour at minute 0 (05:00 - 22:00 IST)
+  reminderJob = cron.schedule(
+    '0 5-22 * * *',
+    async () => {
+      try {
+        await runReminderCheck();
+      } catch (error) {
+        logger.error('Cron job title: medicine reminder failed:', error);
+      }
+    },
+    { timezone: 'Asia/Kolkata' }
+  );
 
-  // Refill check once daily at 1 AM
-  cron.schedule('0 1 * * *', async () => {
-    try {
-      await sendRefillReminder();
-    } catch (error) {
-      logger.error('Cron job: refill reminder failed:', error);
-    }
-  });
+  // Refill check once daily at 1 AM IST
+  cron.schedule(
+    '0 1 * * *',
+    async () => {
+      try {
+        await sendRefillReminder();
+      } catch (error) {
+        logger.error('Cron job: refill reminder failed:', error);
+      }
+    },
+    { timezone: 'Asia/Kolkata' }
+  );
 
   // Mark unacknowledged doses missed every 30 min
-  cron.schedule('*/30 * * * *', async () => {
-    try {
-      await markUnacknowledgedDosesAsMissed();
-    } catch (error) {
-      logger.error('Cron job: mark missed doses failed:', error);
-    }
-  });
+  cron.schedule(
+    '*/30 * * * *',
+    async () => {
+      try {
+        await markUnacknowledgedDosesAsMissed();
+      } catch (error) {
+        logger.error('Cron job: mark missed doses failed:', error);
+      }
+    },
+    { timezone: 'Asia/Kolkata' }
+  );
 
   logger.info(
     'Medicine reminder cron jobs started (hourly reminders, daily refill, 30min missed check)'

@@ -44,7 +44,7 @@ Analyzes symptoms using Google Gemini AI and returns possible conditions with ri
 ```
 
 ### 2. Emergency Ambulance Booking
-**POST** `/api/ambulance/book-emergency`
+**POST** `/api/emergency/call`
 
 Finds nearest available ambulance and assigns it to the emergency.
 
@@ -188,16 +188,20 @@ WORKDIR /app
 COPY package*.json ./
 RUN npm ci --only=production
 COPY . .
-EXPOSE 3000
-CMD ["node", "server.js"]
+EXPOSE 5000
+CMD ["node", "src/server.js"]
 ```
 
 ### Environment Variables for Production
-- Use a proper database (PostgreSQL/MongoDB)
-- Add Redis for caching
-- Configure SSL/TLS
-- Set up monitoring (PM2, logging)
-- Use a load balancer
+- `NODE_ENV=production`, `PORT=5000`
+- `MONGODB_URI` — connection string (MongoDB Atlas/self-hosted)
+- `REDIS_URL` — optional; app falls back to an in-memory mock if Redis is unavailable
+- `JWT_SECRET`, `JWT_ACCESS_EXPIRY`, `JWT_REFRESH_EXPIRY`
+- Twilio (`TWILIO_SID`, `TWILIO_AUTH_TOKEN`, `TWILIO_PHONE_NUMBER`) for OTP SMS
+- Gemini (`GEMINI_API_KEY`) for symptom/voice analysis
+- AWS S3 (`AWS_ACCESS_KEY_ID`, `AWS_SECRET_ACCESS_KEY`, `AWS_REGION`, `S3_BUCKET`) for file storage
+- `STRIPE_SECRET_KEY` + `PAYMENT_GATEWAY=stripe` for real payments (defaults to a mock adapter)
+- `MEETING_BASE_URL` for video-consultation meeting links
 
 ## Gemini AI Prompt Engineering
 
@@ -210,9 +214,16 @@ The symptom analysis uses a carefully crafted prompt that includes:
 
 ## Security Considerations
 
-- Add JWT authentication middleware
-- Rate limiting on all endpoints
-- Input validation and sanitization
-- Audit logging for medical data
-- HIPAA/GDPR compliance for health data
-- Encrypt data at rest and in transit
+Implemented:
+- JWT authentication (7-day access / 30-day refresh) with token refresh on all protected routes
+- Global + auth-specific rate limiting (express-rate-limit), `trust proxy` for LB/WAF deployments
+- Helmet security headers, CORS allowlist, Mongo-sanitization (`express-mongo-sanitize`) and XSS-clean middleware
+- Request body size limits, structured error handling with request IDs
+- OTP generation uses `crypto.randomInt` (not `Math.random`)
+- File-upload validation: MIME + extension + magic-byte verification
+- Graceful shutdown with forced-exit timeout
+
+Recommended:
+- HIPAA/GDPR compliance review for health data at rest and in transit (TLS)
+- Log aggregation on structured (JSON) production logs
+- Regular dependency audits (`npm audit`) and secret rotation

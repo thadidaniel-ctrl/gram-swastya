@@ -7,7 +7,7 @@ const languages = [
 ];
 
 export function LanguageSwitcher() {
-  const { i18n } = useTranslation('settings');
+  const { i18n } = useTranslation();
   const [open, setOpen] = useState(false);
   const rootRef = useRef(null);
 

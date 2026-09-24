@@ -5,8 +5,8 @@ const patientOTPSessionSchema = new mongoose.Schema(
     phone: { type: String, default: '' },
     email: { type: String, default: '' },
     otpHash: { type: String, required: true },
-    tempToken: { type: String, required: true, unique: true, index: true },
-    expiresAt: { type: Date, required: true, index: { expireAfterSeconds: 0 } },
+    tempToken: { type: String, required: true, unique: true },
+    expiresAt: { type: Date, required: true },
     attempts: { type: Number, default: 0 },
     purpose: {
       type: String,
@@ -19,7 +19,6 @@ const patientOTPSessionSchema = new mongoose.Schema(
   }
 );
 
-patientOTPSessionSchema.index({ tempToken: 1 });
 patientOTPSessionSchema.index({ phone: 1, email: 1 });
 patientOTPSessionSchema.index({ expiresAt: 1 }, { expireAfterSeconds: 0 });
 

@@ -14,7 +14,7 @@ const TABS = [
 ];
 
 export default function HealthRecords() {
-  const { t } = useTranslation('common');
+  const { t } = useTranslation();
   const { patient } = useAuth();
   const [activeTab, setActiveTab] = useState('overview');
   const [healthData, setHealthData] = useState(null);

@@ -8,7 +8,10 @@ const responseTimes = [];
 function observability(req, res, next) {
   requestCount++;
   const start = performance.now();
+  let finished = false;
   const done = () => {
+    if (finished) return;
+    finished = true;
     const elapsed = performance.now() - start;
     totalResponseTime += elapsed;
     responseTimes.push(elapsed);
@@ -23,10 +26,10 @@ function observability(req, res, next) {
 
 function getMetrics() {
   const avgResponseTime = requestCount > 0 ? totalResponseTime / requestCount : 0;
+  const sorted = [...responseTimes].sort((a, b) => a - b);
   const p95ResponseTime =
-    responseTimes.length > 0
-      ? responseTimes.slice(-Math.ceil(responseTimes.length * 0.05)).reduce((a, b) => a + b, 0) /
-        Math.max(1, Math.ceil(responseTimes.length * 0.05))
+    sorted.length > 0
+      ? sorted[Math.min(sorted.length - 1, Math.ceil(sorted.length * 0.95) - 1)]
       : 0;
   const errorRate = requestCount > 0 ? (errorCount / requestCount) * 100 : 0;
   return {

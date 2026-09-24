@@ -24,7 +24,7 @@ function flattenFolders(folders, depth = 0, acc = []) {
 }
 
 export default function EditFileModal({ file, folders = [], isOpen, onClose, onSave }) {
-  const { t } = useTranslation('files');
+  const { t } = useTranslation();
   const [fileName, setFileName] = useState('');
   const [category, setCategory] = useState('Other');
   const [folderId, setFolderId] = useState('');

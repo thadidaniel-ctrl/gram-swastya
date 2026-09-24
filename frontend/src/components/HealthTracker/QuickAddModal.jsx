@@ -12,7 +12,7 @@ export default function QuickAddModal({
   updateMedication,
   onClose
 }) {
-  const { t } = useTranslation('healthTracker');
+  const { t } = useTranslation();
   const [formData, setFormData] = useState(() => getInitialFormData(metricType, isMedicationChecklist));
   const [error, setError] = useState(null);
   const [showMedForm, setShowMedForm] = useState(false);

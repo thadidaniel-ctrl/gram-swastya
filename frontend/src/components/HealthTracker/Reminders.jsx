@@ -20,7 +20,7 @@ const EMPTY_FORM = {
 };
 
 export default function Reminders({ reminders, addReminder, markTaken, snooze, isReminderComplete }) {
-  const { t } = useTranslation('healthTracker');
+  const { t } = useTranslation();
   const [showAddForm, setShowAddForm] = useState(false);
   const [formData, setFormData] = useState(EMPTY_FORM);
 

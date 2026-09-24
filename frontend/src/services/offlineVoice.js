@@ -40,7 +40,7 @@ function openDB() {
         syncStore.createIndex('timestamp', 'timestamp', { unique: false });
       }
     };
-  }
+  });
 }
 
 function generateQueryHash(query, language) {
@@ -87,6 +87,18 @@ export async function getConversations(limit = 50) {
         resolve(results);
       }
     };
+    request.onerror = () => reject(request.error);
+  });
+}
+
+export async function getUnsyncedConversations(limit = 50) {
+  await openDB();
+  return new Promise((resolve, reject) => {
+    const tx = db.transaction(STORE_CONVERSATIONS, 'readonly');
+    const store = tx.objectStore(STORE_CONVERSATIONS);
+    const index = store.index('synced');
+    const request = index.getAll(IDBKeyRange.only(false), limit);
+    request.onsuccess = () => resolve(request.result || []);
     request.onerror = () => reject(request.error);
   });
 }
@@ -374,7 +386,7 @@ export const OFFLINE_PATTERNS = {
   }
 };
 
-function detectOfflinePattern(query, patientData) {
+function detectOfflinePattern(query, _patientData) {
   const normalized = query.toLowerCase()
     .replace(/[^\w\s]/g, ' ')
     .replace(/\s+/g, ' ')

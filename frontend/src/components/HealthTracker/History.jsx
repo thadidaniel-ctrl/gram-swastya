@@ -12,7 +12,7 @@ const DATE_RANGES = [
 ];
 
 export default function History({ metrics, updateMetric, deleteMetric }) {
-  const { t } = useTranslation('healthTracker');
+  const { t } = useTranslation();
   const [selectedMetric, setSelectedMetric] = useState('weight');
   const [dateRange, setDateRange] = useState('week');
   const [editingId, setEditingId] = useState(null);

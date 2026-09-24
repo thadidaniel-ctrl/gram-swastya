@@ -19,4 +19,8 @@ router.delete('/allergies/:allergen', patientProfileController.removeAllergy);
 
 router.put('/fcm-token', patientProfileController.updateFCMToken);
 
+router.put('/webpush-token', patientProfileController.updateWebPushToken);
+
+router.get('/doctors/directory', patientProfileController.getDoctorsDirectory);
+
 module.exports = router;

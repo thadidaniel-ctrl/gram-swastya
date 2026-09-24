@@ -6,6 +6,27 @@ const smsService = require('../services/smsService');
 const emailService = require('../services/emailService');
 const logger = require('../utils/logger');
 
+const sanitizePatient = patient => {
+  return {
+    id: patient._id,
+    phone: patient.phone,
+    email: patient.email,
+    name: patient.name,
+    age: patient.age,
+    gender: patient.gender,
+    address: patient.address,
+    bloodType: patient.bloodType,
+    emergencyContact: patient.emergencyContact,
+    allergies: patient.allergies,
+    currentMedications: patient.currentMedications,
+    medicalHistory: patient.medicalHistory,
+    preferredLanguage: patient.preferredLanguage,
+    isActive: patient.isActive,
+    createdAt: patient.createdAt,
+    updatedAt: patient.updatedAt,
+  };
+};
+
 class PatientAuthController {
   async sendOTP(req, res) {
     try {
@@ -18,12 +39,9 @@ class PatientAuthController {
         });
       }
 
-      const { otpId, code, tempToken, expiresAt } = await otpService.generateOTP(
-        phone,
-        email,
-        purpose,
-        'patient'
-      );
+      const otpResult = await otpService.generateOTP(phone, email, purpose, 'patient');
+
+      const { code } = otpResult;
 
       if (phone) {
         await smsService.sendOTPSMS(phone, code, purpose, req.body.language || 'en');
@@ -34,12 +52,15 @@ class PatientAuthController {
 
       logger.info(`OTP sent to ${phone || email} for ${purpose}`);
 
-      res.json({
+      const response = {
         success: true,
         message: `OTP sent via ${phone ? 'SMS' : 'Email'}`,
-        tempToken,
-        expiresIn: config.otp.patientExpiry,
-      });
+        ...otpResult,
+      };
+      if (config.nodeEnv !== 'production' && otpResult.code) {
+        response.code = otpResult.code;
+      }
+      res.json(response);
     } catch (error) {
       logger.error('Send OTP error:', error);
       res.status(500).json({
@@ -86,6 +107,16 @@ class PatientAuthController {
             message: 'User not found. Please register first.',
           });
         }
+        return res.json({
+          success: true,
+          message: 'OTP verified successfully',
+          accessToken: null,
+          refreshToken: null,
+          patient: null,
+          requiresRegistration: true,
+          phone,
+          email,
+        });
       }
 
       if (user) {
@@ -100,13 +131,13 @@ class PatientAuthController {
       }
 
       const accessToken = jwt.sign(
-        { id: user?._id, userType: 'patient', phone: user?.phone, email: user?.email },
+        { id: user._id, userType: 'patient', phone: user.phone, email: user.email },
         config.jwt.secret,
         { expiresIn: config.jwt.expiresIn }
       );
 
       const refreshToken = jwt.sign(
-        { id: user?._id, userType: 'patient', type: 'refresh' },
+        { id: user._id, userType: 'patient', type: 'refresh' },
         config.jwt.secret,
         { expiresIn: config.jwt.refreshExpiresIn }
       );
@@ -118,8 +149,8 @@ class PatientAuthController {
         message: 'OTP verified successfully',
         accessToken,
         refreshToken,
-        patient: user ? this.sanitizePatient(user) : null,
-        requiresRegistration: !user && purpose === 'registration',
+        patient: sanitizePatient(user),
+        requiresRegistration: false,
       });
     } catch (error) {
       logger.error('Verify OTP error:', error);
@@ -135,7 +166,6 @@ class PatientAuthController {
       const {
         phone,
         email,
-        password,
         name,
         age,
         gender,
@@ -152,20 +182,22 @@ class PatientAuthController {
         });
       }
 
-      const existingPatient = await Patient.findOne({
-        $or: [{ phone: phone || null }, { email: email || null }],
-      });
-
-      if (existingPatient) {
-        return res.status(409).json({
-          success: false,
-          message: 'Phone or email already registered',
-        });
+      const orConditions = [];
+      if (phone) orConditions.push({ phone });
+      if (email) orConditions.push({ email: email.toLowerCase() });
+      if (orConditions.length) {
+        const existingPatient = await Patient.findOne({ $or: orConditions });
+        if (existingPatient) {
+          return res.status(409).json({
+            success: false,
+            message: 'Phone or email already registered',
+          });
+        }
       }
 
       const patient = await Patient.create({
-        phone: phone || '',
-        email: email?.toLowerCase() || '',
+        phone: phone || `NO_PHONE_${Date.now()}_${Math.random().toString(36).slice(2, 8)}`,
+        email: email?.toLowerCase() || undefined,
         name,
         age,
         gender,
@@ -194,7 +226,7 @@ class PatientAuthController {
         message: 'Registration successful',
         accessToken,
         refreshToken,
-        patient: this.sanitizePatient(patient),
+        patient: sanitizePatient(patient),
       });
     } catch (error) {
       logger.error('Patient registration error:', error);

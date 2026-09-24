@@ -1,0 +1,40 @@
+module.exports = {
+  root: true,
+  env: {
+    es2022: true,
+    browser: true,
+    node: true,
+  },
+  extends: ['eslint:recommended', 'plugin:react/recommended', 'plugin:react-hooks/recommended', 'plugin:storybook/recommended'],
+  parserOptions: {
+    ecmaVersion: 'latest',
+    sourceType: 'module',
+    ecmaFeatures: { jsx: true },
+  },
+  settings: {
+    react: { version: 'detect' },
+  },
+  plugins: ['react', 'react-hooks'],
+  rules: {
+    'react/react-in-jsx-scope': 'off',
+    'react/prop-types': 'off',
+    'react/no-unescaped-entities': 'off',
+    'no-unused-vars': ['warn', { argsIgnorePattern: '^_' }],
+    'eqeqeq': ['error', 'always', { null: 'ignore' }],
+    'no-var': 'error',
+    'prefer-const': 'error',
+    'no-duplicate-imports': 'error',
+  },
+  globals: {
+    describe: 'readonly',
+    it: 'readonly',
+    test: 'readonly',
+    expect: 'readonly',
+    vi: 'readonly',
+    beforeEach: 'readonly',
+    afterEach: 'readonly',
+    beforeAll: 'readonly',
+    afterAll: 'readonly',
+  },
+  ignorePatterns: ['dist/', 'node_modules/'],
+};

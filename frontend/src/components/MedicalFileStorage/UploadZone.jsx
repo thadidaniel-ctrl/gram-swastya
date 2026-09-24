@@ -32,7 +32,7 @@ export default function UploadZone({
   isOpen = true,
   onClose 
 }) {
-  const { t } = useTranslation('files');
+  const { t } = useTranslation();
   const [isDragging, setIsDragging] = useState(false);
   const [uploading, setUploading] = useState(false);
   const [, setProgress] = useState({});
