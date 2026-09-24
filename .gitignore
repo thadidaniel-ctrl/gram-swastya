@@ -32,8 +32,8 @@ coverage/
 storybook-static
 
 # Test artifacts
-cypress/screenshots/
-cypress/videos/
+**/cypress/screenshots/
+**/cypress/videos/
 
 # Runtime storage
 backend/uploads/
