@@ -4,6 +4,7 @@ const os = require('os');
 const mongoose = require('mongoose');
 const config = require('../config');
 const voiceCache = require('../services/voiceCache');
+const redisStore = require('../config/redis');
 const { buildDependencyChecks } = require('../utils/dependencyChecker');
 
 const patientAuthRoutes = require('./patientAuthRoutes');
@@ -74,7 +75,7 @@ router.get('/health', (req, res) => {
 router.get('/ready', (req, res) => {
   const { checks, allHealthy } = buildDependencyChecks({
     mongooseReadyState: mongoose.connection.readyState,
-    isRedisAvailable: voiceCache.isRedisAvailable(),
+    isRedisAvailable: voiceCache.isRedisAvailable() && redisStore.isRedisAvailable(),
     uploadDir: config.upload.localPath,
   });
 

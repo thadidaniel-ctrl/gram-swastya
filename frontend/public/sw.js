@@ -1,19 +1,20 @@
 // Service Worker for Gram Swasthya Offline Support
-const CACHE_NAME = 'gram-swasthya-v2';
-const STATIC_CACHE = 'static-v2';
-const DYNAMIC_CACHE = 'dynamic-v2';
-const API_CACHE = 'api-v2';
+const CACHE_NAME = 'gram-swasthya-v3';
+const STATIC_CACHE = 'static-v3';
+const DYNAMIC_CACHE = 'dynamic-v3';
+const API_CACHE = 'api-v3';
 
 const STATIC_ASSETS = [
   '/',
   '/index.html',
+  '/offline.html',
   '/manifest.json',
   '/favicon.svg',
 ];
 
 const CACHE_STRATEGIES = {
   // Cache first for static assets
-  static: ['/index.html', '/manifest.json', '/favicon.svg'],
+  static: ['/index.html', '/offline.html', '/manifest.json', '/favicon.svg'],
   // Network first for API calls, fallback to cache
   api: ['/api/'],
   // Stale while revalidate for other assets
@@ -82,6 +83,8 @@ async function cacheFirstStrategy(request, cacheName) {
   } catch (error) {
     // Return offline page for navigation requests
     if (request.mode === 'navigate') {
+      const offlinePage = await cache.match('/offline.html');
+      if (offlinePage) return offlinePage;
       return cache.match('/index.html');
     }
     throw error;
@@ -113,6 +116,8 @@ async function networkFirstStrategy(request, cacheName) {
     
     // Return offline page for navigation
     if (request.mode === 'navigate') {
+      const offlinePage = await cache.match('/offline.html');
+      if (offlinePage) return offlinePage;
       const offlineResponse = await cache.match('/index.html');
       if (offlineResponse) return offlineResponse;
     }

@@ -57,6 +57,7 @@ const patientSchema = new mongoose.Schema(
     allergies: { type: [String], default: [] },
     currentMedications: { type: [String], default: [] },
     isActive: { type: Boolean, default: true },
+    refreshTokenHash: { type: String, default: '' },
     fcmToken: String,
     webPushSubscription: {
       endpoint: String,

@@ -66,7 +66,7 @@ const TRANSLATIONS = {
   },
 };
 
-let reminderJob = null;
+let reminderJobs = [];
 
 function formatTime(hour, minute) {
   const h = hour % 24;
@@ -318,48 +318,54 @@ async function runReminderCheck() {
 
 // Export the runReminderCheck for the refill job
 function startMedicineReminderCron() {
-  if (reminderJob) {
+  if (reminderJobs.length > 0) {
     logger.warn('Medicine reminder cron already running');
     return;
   }
 
   // Run reminder check every hour at minute 0 (05:00 - 22:00 IST)
-  reminderJob = cron.schedule(
-    '0 5-22 * * *',
-    async () => {
-      try {
-        await runReminderCheck();
-      } catch (error) {
-        logger.error('Cron job title: medicine reminder failed:', error);
-      }
-    },
-    { timezone: 'Asia/Kolkata' }
+  reminderJobs.push(
+    cron.schedule(
+      '0 5-22 * * *',
+      async () => {
+        try {
+          await runReminderCheck();
+        } catch (error) {
+          logger.error('Cron job title: medicine reminder failed:', error);
+        }
+      },
+      { timezone: 'Asia/Kolkata' }
+    )
   );
 
   // Refill check once daily at 1 AM IST
-  cron.schedule(
-    '0 1 * * *',
-    async () => {
-      try {
-        await sendRefillReminder();
-      } catch (error) {
-        logger.error('Cron job: refill reminder failed:', error);
-      }
-    },
-    { timezone: 'Asia/Kolkata' }
+  reminderJobs.push(
+    cron.schedule(
+      '0 1 * * *',
+      async () => {
+        try {
+          await sendRefillReminder();
+        } catch (error) {
+          logger.error('Cron job: refill reminder failed:', error);
+        }
+      },
+      { timezone: 'Asia/Kolkata' }
+    )
   );
 
   // Mark unacknowledged doses missed every 30 min
-  cron.schedule(
-    '*/30 * * * *',
-    async () => {
-      try {
-        await markUnacknowledgedDosesAsMissed();
-      } catch (error) {
-        logger.error('Cron job: mark missed doses failed:', error);
-      }
-    },
-    { timezone: 'Asia/Kolkata' }
+  reminderJobs.push(
+    cron.schedule(
+      '*/30 * * * *',
+      async () => {
+        try {
+          await markUnacknowledgedDosesAsMissed();
+        } catch (error) {
+          logger.error('Cron job: mark missed doses failed:', error);
+        }
+      },
+      { timezone: 'Asia/Kolkata' }
+    )
   );
 
   logger.info(
@@ -368,9 +374,15 @@ function startMedicineReminderCron() {
 }
 
 function stopMedicineReminderCron() {
-  if (reminderJob) {
-    reminderJob.stop();
-    reminderJob = null;
+  reminderJobs.forEach(job => {
+    try {
+      job.stop();
+    } catch (error) {
+      logger.error('Failed to stop medicine reminder cron:', error.message);
+    }
+  });
+  if (reminderJobs.length > 0) {
+    reminderJobs = [];
     logger.info('Medicine reminder cron stopped');
   }
 }

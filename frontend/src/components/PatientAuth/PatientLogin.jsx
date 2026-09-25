@@ -86,8 +86,8 @@ export default function PatientLogin() {
     <div className="auth-container">
       <div className="auth-card">
         <div className="auth-header">
-          <h1>Welcome Back</h1>
-          <p>Sign in to access your health dashboard</p>
+          <h1>{t('auth.welcomeBack')}</h1>
+          <p>{t('auth.welcomeBackSubtitle')}</p>
         </div>
 
         {error && <div className="alert alert-error">{error}</div>}
@@ -118,22 +118,22 @@ export default function PatientLogin() {
                   type="tel"
                   value={phone}
                   onChange={(e) => setPhone(formatPhone(e.target.value))}
-                  placeholder="+91 98765 43210"
+                  placeholder={t('auth.phonePlaceholder')}
                   required
                   disabled={isLoading}
                 />
-                <small>Enter 10-digit mobile number</small>
+                <small>{t('auth.phoneHint')}</small>
               </div>
             )}
 
             {method === 'email' && (
               <div className="form-group">
-                <label>Email Address</label>
+                <label>{t('common.email')}</label>
                 <input
                   type="email"
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
-                  placeholder="you@example.com"
+                  placeholder={t('auth.emailPlaceholder')}
                   required
                   disabled={isLoading}
                 />
@@ -141,7 +141,7 @@ export default function PatientLogin() {
             )}
 
             <button type="submit" className="btn btn-primary btn-full" disabled={isLoading}>
-              {isLoading ? 'Sending...' : t('auth.sendOtp')}
+              {isLoading ? t('common.sending') : t('auth.sendOtp')}
             </button>
           </form>
         )}
@@ -180,7 +180,7 @@ export default function PatientLogin() {
 
             <div className="otp-timer">
               {countdown > 0 ? (
-                <>Resend in {countdown}s</>
+                <>{t('auth.resendIn', { seconds: countdown })}</>
               ) : (
                 <button type="button" className="btn-link" onClick={() => setStep('contact')}>
                   {t('auth.resendOtp')}
@@ -189,14 +189,14 @@ export default function PatientLogin() {
             </div>
 
             <button type="submit" className="btn btn-primary btn-full" disabled={isLoading || otp.length !== 6}>
-              {isLoading ? 'Verifying...' : 'Verify & Login'}
+              {isLoading ? t('common.verifying') : t('auth.verifyAndLogin')}
             </button>
           </form>
         )}
 
         <div className="auth-footer">
-          <p>Don't have an account? <Link to="/signup">Sign up</Link></p>
-          <p><Link to="/doctor/login">Doctor Login</Link></p>
+          <p>{t('auth.noAccount')} <Link to="/signup">{t('auth.signUp')}</Link></p>
+          <p><Link to="/doctor/login">{t('auth.doctorLogin')}</Link></p>
         </div>
       </div>
     </div>

@@ -7,6 +7,7 @@ const {
   registerValidation,
 } = require('../validators/patientValidator');
 const { validate } = require('../middleware/validate');
+const { authenticate } = require('../middleware/auth');
 
 router.post('/send-otp', sendOTPValidation, validate, patientAuthController.sendOTP);
 
@@ -16,6 +17,6 @@ router.post('/register', registerValidation, validate, patientAuthController.reg
 
 router.post('/refresh-token', patientAuthController.refreshToken);
 
-router.post('/logout', patientAuthController.logout);
+router.post('/logout', authenticate, patientAuthController.logout);
 
 module.exports = router;

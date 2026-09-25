@@ -1,5 +1,4 @@
 import React from 'react';
-import { useTranslation } from 'react-i18next';
 import { useNavigate } from 'react-router-dom';
 
 export function EmptyState({ 
@@ -9,7 +8,6 @@ export function EmptyState({
   action = null,
   className = '' 
 }) {
-  const { t } = useTranslation();
   const navigate = useNavigate();
 
   const handleAction = () => {

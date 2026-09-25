@@ -1,8 +1,10 @@
 import React, { createContext, useContext, useState, useCallback } from 'react';
+import { useTranslation } from 'react-i18next';
 
 const ToastContext = createContext(null);
 
 export function ToastProvider({ children }) {
+  const { t } = useTranslation();
   const [toasts, setToasts] = useState([]);
 
   const showToast = useCallback((message, kind = 'info') => {
@@ -20,7 +22,7 @@ export function ToastProvider({ children }) {
   return (
     <ToastContext.Provider value={{ toasts, showToast, dismissToast }}>
       {children}
-      <div className="toast-container" role="region" aria-live="polite" aria-atomic="true" aria-label="Notifications">
+      <div className="toast-container" role="region" aria-live="polite" aria-atomic="true" aria-label={t('toast.notifications')}>
         {toasts.map(t => (
           <div
             key={t.id}
@@ -32,7 +34,7 @@ export function ToastProvider({ children }) {
               type="button"
               className="toast-close"
               onClick={() => dismissToast(t.id)}
-              aria-label="Dismiss"
+              aria-label={t('toast.dismiss')}
             >
               ✕
             </button>

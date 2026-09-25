@@ -41,6 +41,8 @@
   },
   "common": {
     "loading": "Loading...",
+    "sending": "Sending...",
+    "verifying": "Verifying...",
     "error": "Something went wrong",
     "success": "Success",
     "cancel": "Cancel",
@@ -301,5 +303,34 @@
   "notFound": {
     "message": "The page you are looking for does not exist.",
     "backHome": "Back to Home"
+  },
+  "auth": {
+    "welcomeBack": "Welcome Back",
+    "welcomeBackSubtitle": "Sign in to access your health dashboard",
+    "phonePlaceholder": "+91 98765 43210",
+    "phoneHint": "Enter 10-digit mobile number",
+    "emailPlaceholder": "you@example.com",
+    "verifyAndLogin": "Verify & Login",
+    "resendIn": "Resend in {{seconds}}s",
+    "noAccount": "Don't have an account?",
+    "signUp": "Sign up",
+    "doctorLogin": "Doctor Login",
+    "doctorPortal": "Doctor Portal",
+    "doctorSubtitle": "Sign in to access your practice",
+    "registeredPhone": "Registered Phone Number",
+    "registeredEmail": "Registered Email",
+    "doctorEmailPlaceholder": "doctor@hospital.com",
+    "backToContact": "Back to contact"
+  },
+  "toast": {
+    "notifications": "Notifications",
+    "dismiss": "Dismiss"
+  },
+  "errorBoundary": {
+    "title": "Something went wrong",
+    "message": "We're sorry, but something went wrong. Our team has been notified.",
+    "reload": "Reload Page",
+    "goHome": "Go Home",
+    "expandDetails": "Error Details (Development)"
   }
 }

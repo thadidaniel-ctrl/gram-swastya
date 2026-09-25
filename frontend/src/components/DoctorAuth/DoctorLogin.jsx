@@ -65,8 +65,8 @@ export default function DoctorLogin() {
       <div className="auth-card doctor">
         <div className="auth-header">
           <div className="logo-doctor">👨‍⚕️</div>
-          <h1>Doctor Portal</h1>
-          <p>Sign in to access your practice</p>
+          <h1>{t('auth.doctorPortal')}</h1>
+          <p>{t('auth.doctorSubtitle')}</p>
         </div>
 
         {error && <div className="alert alert-error">{error}</div>}
@@ -92,12 +92,12 @@ export default function DoctorLogin() {
 
             {method === 'phone' && (
               <div className="form-group">
-                <label>Registered Phone Number</label>
+                <label>{t('auth.registeredPhone')}</label>
                 <input
                   type="tel"
                   value={phone}
                   onChange={(e) => setPhone(formatPhone(e.target.value))}
-                  placeholder="+91 98765 43210"
+                  placeholder={t('auth.phonePlaceholder')}
                   required
                   disabled={isLoading}
                 />
@@ -106,12 +106,12 @@ export default function DoctorLogin() {
 
             {method === 'email' && (
               <div className="form-group">
-                <label>Registered Email</label>
+                <label>{t('auth.registeredEmail')}</label>
                 <input
                   type="email"
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
-                  placeholder="doctor@hospital.com"
+                  placeholder={t('auth.doctorEmailPlaceholder')}
                   required
                   disabled={isLoading}
                 />
@@ -119,7 +119,7 @@ export default function DoctorLogin() {
             )}
 
             <button type="submit" className="btn btn-primary btn-full" disabled={isLoading}>
-              {isLoading ? 'Sending...' : t('auth.sendOtp')}
+              {isLoading ? t('common.sending') : t('auth.sendOtp')}
             </button>
           </form>
         )}
@@ -157,14 +157,14 @@ export default function DoctorLogin() {
             </div>
 
             <button type="submit" className="btn btn-primary btn-full" disabled={isLoading || otp.length !== 6}>
-              {isLoading ? 'Verifying...' : 'Verify & Login'}
+              {isLoading ? t('common.verifying') : t('auth.verifyAndLogin')}
             </button>
           </form>
         )}
 
         <div className="auth-footer">
           <button type="button" className="btn-link" onClick={() => setStep('contact')}>
-            Back to contact
+            {t('auth.backToContact')}
           </button>
         </div>
       </div>

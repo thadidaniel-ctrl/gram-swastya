@@ -26,21 +26,20 @@
     "express-mongo-sanitize": "^2.2.0",
     "express-rate-limit": "^7.4.0",
     "express-validator": "^7.2.0",
-    "firebase-admin": "^12.3.1",
+    "firebase-admin": "^14.5.0",
     "googleapis": "^181.0.0",
     "helmet": "^7.1.0",
     "jsonwebtoken": "^9.0.2",
     "mongoose": "^8.5.1",
     "morgan": "^1.10.0",
     "multer": "^1.4.5-lts.2",
-    "node-cron": "^3.0.3",
-    "nodemailer": "^6.9.14",
+    "node-cron": "^4.6.0",
+    "nodemailer": "^9.1.1",
     "otplib": "^12.0.1",
     "redis": "^4.6.12",
     "sharp": "^0.35.4",
     "socket.io": "^4.8.3",
     "twilio": "^5.2.2",
-    "uuid": "^10.0.0",
     "web-push": "^3.6.7",
     "winston": "^3.13.0",
     "xss-clean": "^0.1.4"
@@ -60,6 +59,9 @@
   },
   "engines": {
     "node": ">=20.0.0"
+  },
+  "overrides": {
+    "uuid": "^14.0.2"
   },
   "lint-staged": {
     "src/**/*.js": [

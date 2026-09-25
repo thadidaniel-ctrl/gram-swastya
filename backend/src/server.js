@@ -70,6 +70,16 @@ app.use('/api/patient/auth', authLimiter);
 app.use('/api/doctor/auth', authLimiter);
 app.use('/api/notify', authLimiter);
 
+// Cost-sensitive AI/LLM and emergency endpoints: tighter budget
+const aiLimiter = rateLimit({
+  windowMs: 15 * 60 * 1000,
+  max: 120,
+  message: { success: false, message: 'Too many requests, please try again later' },
+  standardHeaders: true,
+  legacyHeaders: false,
+});
+app.use(['/api/symptom-checker', '/api/voice-assistant', '/api/emergency'], aiLimiter);
+
 app.use((req, res, next) => {
   req.requestId = require('crypto').randomUUID();
   next();

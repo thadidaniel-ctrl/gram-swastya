@@ -1,7 +1,6 @@
-const jwt = require('jsonwebtoken');
-const config = require('../config');
 const { Patient, Doctor, CHW } = require('../models');
 const logger = require('../utils/logger');
+const { verifyAccessToken } = require('../utils/tokenUtils');
 
 const authenticate = async (req, res, next) => {
   try {
@@ -16,7 +15,7 @@ const authenticate = async (req, res, next) => {
 
     const token = authHeader.split(' ')[1];
 
-    const decoded = jwt.verify(token, config.jwt.secret);
+    const decoded = verifyAccessToken(token);
 
     let user;
     if (decoded.userType === 'patient') {
@@ -81,7 +80,7 @@ const optionalAuth = async (req, res, next) => {
     }
 
     const token = authHeader.split(' ')[1];
-    const decoded = jwt.verify(token, config.jwt.secret);
+    const decoded = verifyAccessToken(token);
 
     let user;
     if (decoded.userType === 'patient') {

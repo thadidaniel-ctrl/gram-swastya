@@ -7,7 +7,6 @@ import styles from './HealthTracker.module.css';
 const GOAL_TYPES = Object.keys(healthDefaults.goals);
 
 export default function Goals({ goals, metrics, addGoal, updateGoal, deleteGoal }) {
-  const { t } = useTranslation();
   const [showAddForm, setShowAddForm] = useState(false);
   const [editingGoal, setEditingGoal] = useState(null);
   const [formData, setFormData] = useState({

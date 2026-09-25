@@ -41,6 +41,8 @@
   },
   "common": {
     "loading": "लोड हो रहा है...",
+    "sending": "भेजा जा रहा है...",
+    "verifying": "सत्यापित किया जा रहा है...",
     "error": "कुछ गलत हुआ",
     "success": "सफल",
     "cancel": "रद्द करें",
@@ -301,5 +303,34 @@
   "notFound": {
     "message": "आप जिस पेज की तलाश कर रहे हैं वह मौजूद नहीं है।",
     "backHome": "होम पर वापस जाएँ"
+  },
+  "auth": {
+    "welcomeBack": "वापसी पर स्वागत है",
+    "welcomeBackSubtitle": "अपने हेल्थ डैशबोर्ड तक पहुँचने के लिए साइन इन करें",
+    "phonePlaceholder": "+91 98765 43210",
+    "phoneHint": "10 अंकों का मोबाइल नंबर दर्ज करें",
+    "emailPlaceholder": "you@example.com",
+    "verifyAndLogin": "सत्यापित करें और लॉगिन करें",
+    "resendIn": "{{seconds}}s में पुनः भेजें",
+    "noAccount": "खाता नहीं है?",
+    "signUp": "साइन अप करें",
+    "doctorLogin": "डॉक्टर लॉगिन",
+    "doctorPortal": "डॉक्टर पोर्टल",
+    "doctorSubtitle": "अपना अभ्यास एक्सेस करने के लिए साइन इन करें",
+    "registeredPhone": "पंजीकृत फ़ोन नंबर",
+    "registeredEmail": "पंजीकृत ईमेल",
+    "doctorEmailPlaceholder": "doctor@hospital.com",
+    "backToContact": "संपर्क पर वापस जाएँ"
+  },
+  "toast": {
+    "notifications": "सूचनाएँ",
+    "dismiss": "बंद करें"
+  },
+  "errorBoundary": {
+    "title": "कुछ गलत हो गया",
+    "message": "हमें खेद है, कुछ गलत हो गया। हमारी टीम को सूचित किया जा चुका है।",
+    "reload": "पेज रीलोड करें",
+    "goHome": "होम पर जाएँ",
+    "expandDetails": "त्रुटि विवरण (डेवलपमेंट)"
   }
 }

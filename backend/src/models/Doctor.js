@@ -64,6 +64,7 @@ const doctorSchema = new mongoose.Schema(
 
     isPhoneVerified: { type: Boolean, default: false },
     isActive: { type: Boolean, default: true },
+    refreshTokenHash: { type: String, default: '' },
     lastLogin: Date,
 
     fcmToken: String,

@@ -11,7 +11,6 @@ export default function Pagination({
   maxVisiblePages = 5,
   className = '',
 }) {
-  const { t } = useTranslation();
   const pages = React.useMemo(() => {
     const result = [];
     const half = Math.floor(maxVisiblePages / 2);

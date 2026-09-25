@@ -1,4 +1,5 @@
 const { validationResult } = require('express-validator');
+const logger = require('../utils/logger');
 
 const validate = (req, res, next) => {
   const errors = validationResult(req);
@@ -13,7 +14,7 @@ const validate = (req, res, next) => {
 
     // Log validation failures for debugging
     const requestId = req.requestId || 'unknown';
-    console.warn(`[${requestId}] Validation failed:`, JSON.stringify(formattedErrors));
+    logger.warn(`[${requestId}] Validation failed`, { errors: formattedErrors });
 
     return res.status(400).json({
       success: false,

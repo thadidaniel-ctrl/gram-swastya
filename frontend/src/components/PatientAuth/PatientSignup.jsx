@@ -34,6 +34,7 @@ export default function PatientSignup() {
 
   const [showPassword, setShowPassword] = useState(false);
   const [step, setStep] = useState(1);
+  const [emailValid, setEmailValid] = useState(true);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -46,11 +47,17 @@ export default function PatientSignup() {
     } else {
       setFormData(prev => ({ ...prev, [name]: value }));
     }
+    // Validate email on change
+    if (name === 'email') {
+      const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+      const isValid = emailRegex.test(value) || value === '';
+      setEmailValid(isValid);
+    }
   };
 
   const validateStep = () => {
     if (step === 1) {
-      return formData.name && formData.phone && formData.age && formData.gender;
+      return formData.name && formData.phone && formData.age && formData.gender && emailValid;
     }
     if (step === 2) {
       return formData.password && formData.password === formData.confirmPassword && formData.password.length >= 8;
@@ -72,7 +79,7 @@ export default function PatientSignup() {
     try {
       const response = await register({
         phone: formData.phone,
-        email: formData.email || undefined,
+        email: formData.email ? formData.email.toLowerCase() : undefined,
         password: formData.password,
         name: formData.name,
         age: parseInt(formData.age),

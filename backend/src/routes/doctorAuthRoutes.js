@@ -3,6 +3,7 @@ const router = express.Router();
 const doctorAuthController = require('../controllers/doctorAuthController');
 const { body } = require('express-validator');
 const { validate } = require('../middleware/validate');
+const { authenticate } = require('../middleware/auth');
 
 const sendOTPValidation = [
   body('phone')
@@ -28,6 +29,6 @@ router.post('/verify-otp', verifyOTPValidation, validate, doctorAuthController.v
 
 router.post('/refresh-token', doctorAuthController.refreshToken);
 
-router.post('/logout', doctorAuthController.logout);
+router.post('/logout', authenticate, doctorAuthController.logout);
 
 module.exports = router;

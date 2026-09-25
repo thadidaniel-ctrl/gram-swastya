@@ -195,8 +195,9 @@ CMD ["node", "src/server.js"]
 ### Environment Variables for Production
 - `NODE_ENV=production`, `PORT=5000`
 - `MONGODB_URI` — connection string (MongoDB Atlas/self-hosted)
-- `REDIS_URL` — optional; app falls back to an in-memory mock if Redis is unavailable
-- `JWT_SECRET`, `JWT_ACCESS_EXPIRY`, `JWT_REFRESH_EXPIRY`
+- `REDIS_URL` — optional; app falls back to an in-memory mock if Redis is unavailable (reconnects automatically)
+- `JWT_SECRET` — required (min 32 chars); `JWT_REFRESH_SECRET` — optional, set a DIFFERENT value for refresh tokens (falls back to `JWT_SECRET`)
+- `CORS_ORIGINS` — comma-separated browser origins allowed to call the API (e.g. `https://app.gramswasthya.in`)
 - Twilio (`TWILIO_SID`, `TWILIO_AUTH_TOKEN`, `TWILIO_PHONE_NUMBER`) for OTP SMS
 - Gemini (`GEMINI_API_KEY`) for symptom/voice analysis
 - AWS S3 (`AWS_ACCESS_KEY_ID`, `AWS_SECRET_ACCESS_KEY`, `AWS_REGION`, `S3_BUCKET`) for file storage
@@ -215,8 +216,8 @@ The symptom analysis uses a carefully crafted prompt that includes:
 ## Security Considerations
 
 Implemented:
-- JWT authentication (7-day access / 30-day refresh) with token refresh on all protected routes
-- Global + auth-specific rate limiting (express-rate-limit), `trust proxy` for LB/WAF deployments
+- JWT authentication (7-day access / 30-day refresh), refresh-token ROTATION with per-session `jti` revocation, separate refresh secret, issuer + audience claims
+- Global + auth/AI-endpoint rate limiting (`express-rate-limit`), `trust proxy` for LB/WAF deployments
 - Helmet security headers, CORS allowlist, Mongo-sanitization (`express-mongo-sanitize`) and XSS-clean middleware
 - Request body size limits, structured error handling with request IDs
 - OTP generation uses `crypto.randomInt` (not `Math.random`)

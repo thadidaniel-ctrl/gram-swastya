@@ -1,5 +1,5 @@
 import React from 'react';
-import { useTranslation } from 'react-i18next';
+import { withTranslation } from 'react-i18next';
 
 export class ErrorBoundary extends React.Component {
   constructor(props) {
@@ -16,7 +16,13 @@ export class ErrorBoundary extends React.Component {
     console.error('Error caught by ErrorBoundary:', error, errorInfo);
   }
 
+  handleReload = () => {
+    window.location.reload();
+  };
+
   render() {
+    const { t } = this.props;
+
     if (this.state.hasError) {
       if (this.props.fallback) {
         return this.props.fallback;
@@ -27,31 +33,31 @@ export class ErrorBoundary extends React.Component {
           <div className="max-w-md mx-auto text-center">
             <div className="text-6xl mb-4" aria-hidden="true">⚠️</div>
             <h2 className="text-xl font-semibold text-primary mb-2">
-              Something went wrong
+              {t('errorBoundary.title')}
             </h2>
             <p className="text-secondary mb-6">
-              We're sorry, but something went wrong. Our team has been notified.
+              {t('errorBoundary.message')}
             </p>
             <div className="flex gap-3 justify-center">
               <button
                 type="button"
-                onClick={() => window.location.reload()}
+                onClick={this.handleReload}
                 className="btn btn-primary"
               >
-                Reload Page
+                {t('errorBoundary.reload')}
               </button>
               <button
                 type="button"
                 onClick={() => { window.location.href = '/'; }}
                 className="btn btn-secondary"
               >
-                Go Home
+                {t('errorBoundary.goHome')}
               </button>
             </div>
             {process.env.NODE_ENV === 'development' && (
               <details className="mt-6 text-left max-w-md mx-auto text-sm">
                 <summary className="cursor-pointer text-secondary mb-2">
-                  Error Details (Development)
+                  {t('errorBoundary.expandDetails')}
                 </summary>
                 <pre className="bg-neutral-100 p-3 rounded text-xs overflow-auto text-left text-error">
                   {this.state.error?.message}
@@ -68,4 +74,19 @@ export class ErrorBoundary extends React.Component {
   }
 }
 
-export default ErrorBoundary;
+/**
+ * Higher-order component that wraps a component with an ErrorBoundary.
+ */
+export function withErrorBoundary(WrappedComponent, errorBoundaryProps = {}) {
+  function WithErrorBoundary(props) {
+    return (
+      <ErrorBoundary {...errorBoundaryProps}>
+        <WrappedComponent {...props} />
+      </ErrorBoundary>
+    );
+  }
+  WithErrorBoundary.displayName = `withErrorBoundary(${WrappedComponent.displayName || WrappedComponent.name || 'Component'})`;
+  return WithErrorBoundary;
+}
+
+export default withTranslation()(ErrorBoundary);

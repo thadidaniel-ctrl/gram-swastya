@@ -1,10 +1,23 @@
-const jwt = require('jsonwebtoken');
 const config = require('../config');
 const { Doctor } = require('../models');
 const otpService = require('../services/otpService');
 const smsService = require('../services/smsService');
 const emailService = require('../services/emailService');
 const logger = require('../utils/logger');
+const {
+  signAccessToken,
+  signRefreshToken,
+  verifyRefreshToken,
+  hashRefreshJti,
+} = require('../utils/tokenUtils');
+
+const issueSession = async (user, userType) => {
+  const accessToken = signAccessToken(user, userType);
+  const refresh = signRefreshToken(user, userType);
+  user.refreshTokenHash = hashRefreshJti(refresh.jti);
+  await user.save();
+  return { accessToken, refreshToken: refresh.token };
+};
 
 class DoctorAuthController {
   async sendOTP(req, res) {
@@ -93,27 +106,16 @@ class DoctorAuthController {
       if (phone && !doctor.isPhoneVerified) {
         doctor.isPhoneVerified = true;
       }
-      await doctor.save();
 
-      const accessToken = jwt.sign(
-        { id: doctor._id, userType: 'doctor', phone: doctor.phone, email: doctor.email },
-        config.jwt.secret,
-        { expiresIn: config.jwt.expiresIn }
-      );
-
-      const refreshToken = jwt.sign(
-        { id: doctor._id, userType: 'doctor', type: 'refresh' },
-        config.jwt.secret,
-        { expiresIn: config.jwt.refreshExpiresIn }
-      );
+      const session = await issueSession(doctor, 'doctor');
 
       logger.info(`OTP verified for ${phone || email}, doctor`);
 
       res.json({
         success: true,
         message: 'OTP verified successfully',
-        accessToken,
-        refreshToken,
+        accessToken: session.accessToken,
+        refreshToken: session.refreshToken,
         doctor: this.sanitizeDoctor(doctor),
         requiresRegistration: false,
       });
@@ -139,7 +141,7 @@ class DoctorAuthController {
 
       let decoded;
       try {
-        decoded = jwt.verify(refreshToken, config.jwt.secret);
+        decoded = verifyRefreshToken(refreshToken);
       } catch (error) {
         return res.status(401).json({
           success: false,
@@ -147,7 +149,7 @@ class DoctorAuthController {
         });
       }
 
-      if (decoded.type !== 'refresh') {
+      if (decoded.type !== 'refresh' || !decoded.jti) {
         return res.status(401).json({
           success: false,
           message: 'Invalid token type',
@@ -163,22 +165,24 @@ class DoctorAuthController {
         });
       }
 
-      const newAccessToken = jwt.sign(
-        { id: doctor._id, userType: 'doctor', phone: doctor.phone, email: doctor.email },
-        config.jwt.secret,
-        { expiresIn: config.jwt.expiresIn }
-      );
+      const expectedHash = hashRefreshJti(decoded.jti);
+      if (!doctor.refreshTokenHash || doctor.refreshTokenHash !== expectedHash) {
+        doctor.refreshTokenHash = '';
+        await doctor.save();
+        logger.warn(`Refresh token reuse detected, session revoked for doctor ${decoded.id}`);
+        return res.status(401).json({
+          success: false,
+          message: 'Session expired, please sign in again',
+          code: 'TOKEN_REUSE',
+        });
+      }
 
-      const newRefreshToken = jwt.sign(
-        { id: doctor._id, userType: 'doctor', type: 'refresh' },
-        config.jwt.secret,
-        { expiresIn: config.jwt.refreshExpiresIn }
-      );
+      const session = await issueSession(doctor, 'doctor');
 
       res.json({
         success: true,
-        accessToken: newAccessToken,
-        refreshToken: newRefreshToken,
+        accessToken: session.accessToken,
+        refreshToken: session.refreshToken,
       });
     } catch (error) {
       logger.error('Doctor token refresh error:', error);
@@ -190,10 +194,25 @@ class DoctorAuthController {
   }
 
   async logout(req, res) {
-    res.json({
-      success: true,
-      message: 'Logged out successfully',
-    });
+    try {
+      if (req.user) {
+        const user = await Doctor.findById(req.user.id);
+        if (user) {
+          user.refreshTokenHash = '';
+          await user.save();
+        }
+      }
+      res.json({
+        success: true,
+        message: 'Logged out successfully',
+      });
+    } catch (error) {
+      logger.error('Doctor logout error:', error);
+      res.status(500).json({
+        success: false,
+        message: 'Logout failed',
+      });
+    }
   }
 
   sanitizeDoctor(doctor) {

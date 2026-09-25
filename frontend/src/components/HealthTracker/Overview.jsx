@@ -14,7 +14,6 @@ const METRIC_ORDER = [
 ];
 
 export default function Overview({ metrics, onQuickAdd }) {
-  const { t } = useTranslation();
   const data = useMemo(() => metrics || {}, [metrics]);
 
   const todayMetrics = useMemo(() => {

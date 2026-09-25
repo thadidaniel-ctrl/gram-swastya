@@ -11,7 +11,16 @@ const PLACEHOLDER_SECRETS = [
   'example',
 ];
 
-function assertSecureConfig() {
+const corsAllowList = (
+  process.env.CORS_ORIGINS
+    ? process.env.CORS_ORIGINS
+    : process.env.REACT_APP_API_URL?.replace('/api', '') || 'http://localhost:3000'
+)
+  .split(',')
+  .map(origin => origin.trim())
+  .filter(Boolean);
+
+function assertSecureConfig(warn = console.warn) {
   const secret = process.env.JWT_SECRET || '';
   const isMissing = !secret;
   const isPlaceholder = PLACEHOLDER_SECRETS.some(p => secret.toLowerCase().includes(p));
@@ -28,11 +37,9 @@ function assertSecureConfig() {
     if (process.env.NODE_ENV === 'production') {
       throw new Error(`[config] Fatal: ${message}`);
     }
-    console.warn(`[config] WARNING: ${message}`);
+    warn(`[config] WARNING: ${message}`);
   }
 }
-
-assertSecureConfig();
 
 module.exports = {
   assertSecureConfig,
@@ -52,8 +59,11 @@ module.exports = {
 
   jwt: {
     secret: process.env.JWT_SECRET,
+    refreshSecret: process.env.JWT_REFRESH_SECRET || process.env.JWT_SECRET,
     expiresIn: '7d',
     refreshExpiresIn: '30d',
+    issuer: 'gram-swasthya-api',
+    audience: 'gram-swasthya-clients',
   },
 
   otp: {
@@ -105,8 +115,18 @@ module.exports = {
   },
 
   cors: {
-    origin: process.env.REACT_APP_API_URL?.replace('/api', '') || 'http://localhost:3000',
     credentials: true,
+    origin(origin, callback) {
+      // Non-browser clients (curl, mobile, tests) send no Origin header.
+      if (!origin) return callback(null, true);
+      const wildcard = corsAllowList.includes('*');
+      const isDev = process.env.NODE_ENV !== 'production';
+      if ((wildcard && isDev) || corsAllowList.includes(origin)) {
+        return callback(null, true);
+      }
+      // Denied origin: omit CORS headers (no 500 noise) so the browser blocks it.
+      return callback(null, false);
+    },
   },
 
   upload: {
@@ -146,3 +166,12 @@ module.exports = {
     baseUrl: process.env.MEETING_BASE_URL,
   },
 };
+
+assertSecureConfig(msg => {
+  try {
+    const logger = require('./utils/logger');
+    logger.warn(msg);
+  } catch (_) {
+    console.warn(msg);
+  }
+});

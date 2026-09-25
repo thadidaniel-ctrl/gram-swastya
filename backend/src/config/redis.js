@@ -3,35 +3,117 @@ const config = require('./index');
 const logger = require('../utils/logger');
 
 let redisClient = null;
+let redisReal = false;
+let reconnectTimer = null;
+
+const CONNECT_TIMEOUT_MS = 3000;
+const RECONNECT_INTERVAL_MS = 30000;
+
+function attachHandlers(client) {
+  client.on('error', err => {
+    logger.error('Redis Client Error', err.message);
+  });
+  client.on('connect', () => {
+    logger.info('Redis connected');
+  });
+  client.on('end', () => {
+    logger.warn('Redis connection ended');
+  });
+}
+
+function tryConnectReal() {
+  const candidate = createClient({
+    url: config.redis.url,
+    socket: {
+      // Bounded backoff so a real client self-heals without hanging boot.
+      reconnectStrategy: retries => Math.min(retries * 250, RECONNECT_INTERVAL_MS),
+    },
+  });
+
+  let errorsLogged = 0;
+  const quietError = err => {
+    errorsLogged += 1;
+    if (errorsLogged === 1) {
+      logger.warn('Redis unreachable, retrying in background', err.message);
+    }
+  };
+  candidate.on('error', quietError);
+
+  return new Promise(resolve => {
+    const timeout = setTimeout(() => {
+      candidate.disconnect();
+      resolve(null);
+    }, CONNECT_TIMEOUT_MS);
+
+    candidate
+      .connect()
+      .then(() => {
+        clearTimeout(timeout);
+        candidate.off('error', quietError);
+        attachHandlers(candidate);
+        resolve(candidate);
+      })
+      .catch(() => {
+        clearTimeout(timeout);
+        candidate.disconnect();
+        resolve(null);
+      });
+  });
+}
+
+function swapInRealClient(candidate) {
+  const previous = redisClient;
+  redisClient = candidate;
+  redisReal = true;
+  if (previous && previous !== candidate && previous.quit) {
+    previous.quit().catch(() => {});
+  }
+}
+
+function scheduleReconnect() {
+  if (reconnectTimer) return;
+  reconnectTimer = setInterval(async () => {
+    if (redisReal) {
+      clearInterval(reconnectTimer);
+      reconnectTimer = null;
+      return;
+    }
+    const candidate = await tryConnectReal();
+    if (candidate) {
+      swapInRealClient(candidate);
+      logger.info('Redis reconnection established; mock client swapped for real Redis');
+      clearInterval(reconnectTimer);
+      reconnectTimer = null;
+    }
+  }, RECONNECT_INTERVAL_MS);
+  reconnectTimer.unref();
+}
 
 async function initRedis() {
-  if (redisClient) return redisClient;
+  if (redisClient && redisReal) return redisClient;
 
-  try {
-    redisClient = createClient({
-      url: config.redis.url,
-      socket: {
-        reconnectStrategy: false,
-      },
-    });
-
-    redisClient.on('error', err => {
-      logger.error('Redis Client Error', err);
-    });
-
-    redisClient.on('connect', () => {
-      logger.info('Redis connected');
-    });
-
-    await redisClient.connect();
+  const candidate = await tryConnectReal();
+  if (candidate) {
+    swapInRealClient(candidate);
     logger.info('Redis initialized successfully');
     return redisClient;
-  } catch (error) {
-    logger.error('Redis initialization failed:', error.message);
-    // Return a mock client for development without Redis
-    redisClient = createMockRedisClient();
-    return redisClient;
   }
+
+  logger.error('Redis initialization failed, using in-memory fallback', {
+    message: config.redis.url,
+  });
+  redisClient = createMockRedisClient();
+  redisReal = false;
+  scheduleReconnect();
+  return redisClient;
+}
+
+function isRedisAvailable() {
+  return redisReal;
+}
+
+function isMockClient() {
+  return redisClient ? !redisReal : true;
 }
 
 function createMockRedisClient() {
@@ -197,9 +279,14 @@ async function expire(key, seconds) {
 }
 
 async function closeRedis() {
+  if (reconnectTimer) {
+    clearInterval(reconnectTimer);
+    reconnectTimer = null;
+  }
   if (redisClient) {
     await redisClient.quit();
     redisClient = null;
+    redisReal = false;
   }
 }
 
@@ -208,6 +295,8 @@ module.exports = {
   getRedisClient,
   closeRedis,
   redisClient: () => redisClient,
+  isRedisAvailable,
+  isMockClient,
   cacheGet,
   cacheSet,
   cacheDel,

@@ -13,7 +13,12 @@ i18n
       hi: { translation: hiTranslation }
     },
     fallbackLng: 'en',
-    interpolation: { escapeValue: false }
+    interpolation: { escapeValue: false },
+    missingKeyHandler: (lng, ns, key) => {
+      if (import.meta.env.MODE !== 'production') {
+        console.warn(`[i18n] Missing translation key "${key}" for language "${lng}" (ns=${ns})`);
+      }
+    },
   });
 
 export default i18n;

@@ -2,7 +2,6 @@ import React from 'react';
 import styles from './HealthTracker.module.css';
 
 export default function HealthDisclaimer({ variant = 'banner', className = '' }) {
-  const { t } = useTranslation();
   const isModal = variant === 'modal';
   const isCompact = variant === 'compact';
 

@@ -6,22 +6,8 @@
 @import './designSystem/variables.css';
 @import './designSystem/utilities.css';
 
-/* ---- Font Faces (Self-hosted for offline/low-bandwidth) ---- */
-@font-face {
-  font-family: 'Inter';
-  font-style: normal;
-  font-weight: 400 700;
-  font-display: swap;
-  src: local('Inter'), url('/fonts/Inter-Variable.woff2') format('woff2');
-}
-
-@font-face {
-  font-family: 'Noto Sans Devanagari';
-  font-style: normal;
-  font-weight: 400 700;
-  font-display: swap;
-  src: local('Noto Sans Devanagari'), url('/fonts/NotoSansDevanagari-Variable.woff2') format('woff2');
-}
+/* ---- Font Families: system fonts only (self-hosted woff2 files are not shipped) ---- */
+/* 'Inter' and 'Noto Sans Devanagari' resolve via the fallback stacks in variables.css */
 
 /* ---- CSS Reset / Normalize ---- */
 *, *::before, *::after {

@@ -1,10 +1,15 @@
-const jwt = require('jsonwebtoken');
 const config = require('../config');
 const { Patient } = require('../models');
 const otpService = require('../services/otpService');
 const smsService = require('../services/smsService');
 const emailService = require('../services/emailService');
 const logger = require('../utils/logger');
+const {
+  signAccessToken,
+  signRefreshToken,
+  verifyRefreshToken,
+  hashRefreshJti,
+} = require('../utils/tokenUtils');
 
 const sanitizePatient = patient => {
   return {
@@ -25,6 +30,14 @@ const sanitizePatient = patient => {
     createdAt: patient.createdAt,
     updatedAt: patient.updatedAt,
   };
+};
+
+const issueSession = async (user, userType) => {
+  const accessToken = signAccessToken(user, userType);
+  const refresh = signRefreshToken(user, userType);
+  user.refreshTokenHash = hashRefreshJti(refresh.jti);
+  await user.save();
+  return { accessToken, refreshToken: refresh.token };
 };
 
 class PatientAuthController {
@@ -127,28 +140,17 @@ class PatientAuthController {
         if (email && !user.isEmailVerified) {
           user.isEmailVerified = true;
         }
-        await user.save();
       }
 
-      const accessToken = jwt.sign(
-        { id: user._id, userType: 'patient', phone: user.phone, email: user.email },
-        config.jwt.secret,
-        { expiresIn: config.jwt.expiresIn }
-      );
-
-      const refreshToken = jwt.sign(
-        { id: user._id, userType: 'patient', type: 'refresh' },
-        config.jwt.secret,
-        { expiresIn: config.jwt.refreshExpiresIn }
-      );
+      const session = await issueSession(user, 'patient');
 
       logger.info(`OTP verified for ${phone || email}, patient`);
 
       res.json({
         success: true,
         message: 'OTP verified successfully',
-        accessToken,
-        refreshToken,
+        accessToken: session.accessToken,
+        refreshToken: session.refreshToken,
         patient: sanitizePatient(user),
         requiresRegistration: false,
       });
@@ -207,25 +209,15 @@ class PatientAuthController {
         preferredLanguage: preferredLanguage || 'en',
       });
 
-      const accessToken = jwt.sign(
-        { id: patient._id, userType: 'patient', phone: patient.phone, email: patient.email },
-        config.jwt.secret,
-        { expiresIn: config.jwt.expiresIn }
-      );
-
-      const refreshToken = jwt.sign(
-        { id: patient._id, userType: 'patient', type: 'refresh' },
-        config.jwt.secret,
-        { expiresIn: config.jwt.refreshExpiresIn }
-      );
+      const session = await issueSession(patient, 'patient');
 
       logger.info(`New patient registered: ${patient.phone || patient.email}`);
 
       res.status(201).json({
         success: true,
         message: 'Registration successful',
-        accessToken,
-        refreshToken,
+        accessToken: session.accessToken,
+        refreshToken: session.refreshToken,
         patient: sanitizePatient(patient),
       });
     } catch (error) {
@@ -256,7 +248,7 @@ class PatientAuthController {
 
       let decoded;
       try {
-        decoded = jwt.verify(refreshToken, config.jwt.secret);
+        decoded = verifyRefreshToken(refreshToken);
       } catch (error) {
         return res.status(401).json({
           success: false,
@@ -264,7 +256,7 @@ class PatientAuthController {
         });
       }
 
-      if (decoded.type !== 'refresh') {
+      if (decoded.type !== 'refresh' || !decoded.jti) {
         return res.status(401).json({
           success: false,
           message: 'Invalid token type',
@@ -280,22 +272,24 @@ class PatientAuthController {
         });
       }
 
-      const newAccessToken = jwt.sign(
-        { id: patient._id, userType: 'patient', phone: patient.phone, email: patient.email },
-        config.jwt.secret,
-        { expiresIn: config.jwt.expiresIn }
-      );
+      const expectedHash = hashRefreshJti(decoded.jti);
+      if (!patient.refreshTokenHash || patient.refreshTokenHash !== expectedHash) {
+        patient.refreshTokenHash = '';
+        await patient.save();
+        logger.warn(`Refresh token reuse detected, session revoked for patient ${decoded.id}`);
+        return res.status(401).json({
+          success: false,
+          message: 'Session expired, please sign in again',
+          code: 'TOKEN_REUSE',
+        });
+      }
 
-      const newRefreshToken = jwt.sign(
-        { id: patient._id, userType: 'patient', type: 'refresh' },
-        config.jwt.secret,
-        { expiresIn: config.jwt.refreshExpiresIn }
-      );
+      const session = await issueSession(patient, 'patient');
 
       res.json({
         success: true,
-        accessToken: newAccessToken,
-        refreshToken: newRefreshToken,
+        accessToken: session.accessToken,
+        refreshToken: session.refreshToken,
       });
     } catch (error) {
       logger.error('Token refresh error:', error);
@@ -307,10 +301,25 @@ class PatientAuthController {
   }
 
   async logout(req, res) {
-    res.json({
-      success: true,
-      message: 'Logged out successfully',
-    });
+    try {
+      if (req.user) {
+        const user = await Patient.findById(req.user.id);
+        if (user) {
+          user.refreshTokenHash = '';
+          await user.save();
+        }
+      }
+      res.json({
+        success: true,
+        message: 'Logged out successfully',
+      });
+    } catch (error) {
+      logger.error('Patient logout error:', error);
+      res.status(500).json({
+        success: false,
+        message: 'Logout failed',
+      });
+    }
   }
 
   sanitizePatient(patient) {
